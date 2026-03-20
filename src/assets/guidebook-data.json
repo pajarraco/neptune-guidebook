@@ -1,0 +1,194 @@
+{
+  "propertyInfo": {
+    "name": "Sunset View Apartment",
+    "address": "123 Main Street, Unit 5B, City, State 12345",
+    "wifi": {
+      "network": "SunsetView_5G",
+      "password": "Welcome2024!"
+    },
+    "checkIn": "After 3:00 PM",
+    "checkOut": "Before 11:00 AM"
+  },
+  "checkInOut": {
+    "checkIn": {
+      "title": "🔑 Check-in Process",
+      "steps": [
+        "Arrive at the building entrance on Main Street",
+        "Use the access code <strong>1234#</strong> to enter the building",
+        "Take the elevator to the 5th floor",
+        "Your apartment is Unit 5B - the key is in the lockbox by the door",
+        "Lockbox code: <strong>5678</strong>"
+      ]
+    },
+    "checkOut": {
+      "title": "🚪 Check-out Process",
+      "steps": [
+        "Please leave the apartment by 11:00 AM",
+        "Ensure all windows and doors are closed and locked",
+        "Turn off all lights and appliances",
+        "Place the key back in the lockbox and scramble the code",
+        "Take all trash to the disposal area on the ground floor"
+      ]
+    },
+    "tip": "💡 Tip: If you need early check-in or late check-out, please contact us at least 24 hours in advance."
+  },
+  "houseRules": {
+    "rules": [
+      {
+        "icon": "🚭",
+        "title": "No Smoking",
+        "description": "Smoking is strictly prohibited inside the apartment"
+      },
+      {
+        "icon": "🐾",
+        "title": "Pets Policy",
+        "description": "Small pets welcome with prior approval and deposit"
+      },
+      {
+        "icon": "🔇",
+        "title": "Quiet Hours",
+        "description": "Please keep noise to a minimum between 10 PM - 8 AM"
+      },
+      {
+        "icon": "👥",
+        "title": "Guest Limit",
+        "description": "Maximum occupancy: 4 guests"
+      },
+      {
+        "icon": "🎉",
+        "title": "No Parties",
+        "description": "Events and parties are not permitted"
+      },
+      {
+        "icon": "♻️",
+        "title": "Recycling",
+        "description": "Please separate recyclables - bins are under the sink"
+      }
+    ],
+    "importantNote": {
+      "title": "⚠️ Important",
+      "message": "Violation of house rules may result in immediate termination of your stay without refund."
+    }
+  },
+  "amenities": [
+    {
+      "name": "Kitchen",
+      "description": "Fully equipped with dishwasher, microwave, oven, and refrigerator",
+      "instructions": "Coffee maker uses standard filters. Dishwasher pods are under the sink."
+    },
+    {
+      "name": "Washer & Dryer",
+      "description": "In-unit laundry facilities",
+      "instructions": "Detergent provided. Use cold water for colors, warm for whites."
+    },
+    {
+      "name": "Smart TV",
+      "description": "55\" 4K TV with Netflix, Hulu, and Disney+",
+      "instructions": "Remote is on the coffee table. Press \"Home\" to access apps."
+    },
+    {
+      "name": "Air Conditioning",
+      "description": "Central AC with thermostat control",
+      "instructions": "Thermostat is in the hallway. Please keep between 68-76°F."
+    },
+    {
+      "name": "Heating",
+      "description": "Central heating system",
+      "instructions": "Use the same thermostat. Heat mode activates automatically."
+    },
+    {
+      "name": "Parking",
+      "description": "One dedicated parking spot in the garage",
+      "instructions": "Spot #5B on Level 2. Use your building access code for garage entry."
+    }
+  ],
+  "localGuide": {
+    "recommendations": [
+      {
+        "category": "Restaurants",
+        "name": "The Garden Bistro",
+        "description": "Farm-to-table dining with seasonal menu",
+        "address": "123 Main St",
+        "distance": "5 min walk"
+      },
+      {
+        "category": "Restaurants",
+        "name": "Pasta Paradise",
+        "description": "Authentic Italian cuisine",
+        "address": "456 Oak Ave",
+        "distance": "10 min walk"
+      },
+      {
+        "category": "Coffee",
+        "name": "Brew & Bean",
+        "description": "Artisan coffee and fresh pastries",
+        "address": "789 Elm St",
+        "distance": "3 min walk"
+      },
+      {
+        "category": "Grocery",
+        "name": "Fresh Market",
+        "description": "Full-service supermarket",
+        "address": "321 Pine Rd",
+        "distance": "7 min walk"
+      },
+      {
+        "category": "Activities",
+        "name": "City Park",
+        "description": "Beautiful park with walking trails and lake",
+        "distance": "15 min walk"
+      },
+      {
+        "category": "Activities",
+        "name": "Downtown Museum",
+        "description": "Art and history exhibits",
+        "address": "555 Culture Blvd",
+        "distance": "20 min walk"
+      }
+    ],
+    "tip": "🗺️ Getting Around: The subway station is 2 blocks away. Uber and Lyft are readily available."
+  },
+  "emergency": {
+    "alert": {
+      "title": "🚨 In Case of Emergency",
+      "message": "For life-threatening emergencies, always call <strong>911</strong> first."
+    },
+    "contacts": [
+      {
+        "type": "Emergency Services",
+        "name": "Police/Fire/Ambulance",
+        "phone": "911"
+      },
+      {
+        "type": "Property Manager",
+        "name": "Sarah Johnson",
+        "phone": "(555) 123-4567"
+      },
+      {
+        "type": "Building Maintenance",
+        "name": "24/7 Hotline",
+        "phone": "(555) 987-6543"
+      },
+      {
+        "type": "Non-Emergency Police",
+        "name": "Local Precinct",
+        "phone": "(555) 311-0000"
+      },
+      {
+        "type": "Hospital",
+        "name": "City General Hospital",
+        "phone": "(555) 246-8000"
+      }
+    ],
+    "safetyInfo": {
+      "title": "🔥 Safety Equipment",
+      "items": [
+        "Fire extinguisher: Under the kitchen sink",
+        "First aid kit: Bathroom cabinet",
+        "Emergency exits: Fire escape on the balcony, main door",
+        "Smoke detectors: Installed in each room (test monthly)"
+      ]
+    },
+    "addressNote": "📍 Address for Emergency Services: 123 Main Street, Unit 5B, City, State 12345"
+  }
+}
