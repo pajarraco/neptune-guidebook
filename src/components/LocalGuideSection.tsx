@@ -45,9 +45,11 @@ export default function LocalGuideSection() {
         </div>
       )}
 
-      <div className="tip-box">
-        <strong>{localGuide.tip}</strong>
-      </div>
+      {localGuide.tip && (
+        <div className="tip-box">
+          <p><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>info</span>{localGuide.tip}</p>
+        </div>
+      )}
     </div>
   );
 }

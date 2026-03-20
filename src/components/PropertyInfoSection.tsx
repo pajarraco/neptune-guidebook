@@ -25,23 +25,23 @@ export default function PropertyInfoSection({ info }: PropertyInfoSectionProps) 
   return (
     <div className="section-content">
       <div className="welcome-header">
-        <h1>{info.name}</h1>
+        <h1>Address</h1>
         <p className="address">{fullAddress}</p>
       </div>
 
       <div className="info-grid">
         <div className="info-card">
-          <h3>📍 Check-in</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>schedule</span>Check-in</h3>
           <p className="highlight">{info.checkIn}</p>
         </div>
         <div className="info-card">
-          <h3>📍 Check-out</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>schedule</span>Check-out</h3>
           <p className="highlight">{info.checkOut}</p>
         </div>
       </div>
 
       <div className="wifi-section">
-        <h3>📶 WiFi Information</h3>
+        <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>wifi</span>WiFi Information</h3>
         <div className="wifi-details">
           <div className="wifi-item">
             <span className="label">Network:</span>

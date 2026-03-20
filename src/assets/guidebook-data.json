@@ -11,7 +11,7 @@
   },
   "checkInOut": {
     "checkIn": {
-      "title": "🔑 Check-in Process",
+      "title": "Check-in Process",
       "steps": [
         "Arrive at the building entrance - parking is available in the secure basement",
         "Use the access code <strong>{{CODE}}</strong> to enter the building foyer",
@@ -21,7 +21,7 @@
       ]
     },
     "checkOut": {
-      "title": "🚪 Check-out Process",
+      "title": "Check-out Process",
       "steps": [
         "Please vacate the apartment by 10:00 AM",
         "Ensure all windows, doors and balcony are secured",
@@ -30,25 +30,25 @@
         "Dispose of rubbish in the chute on your floor"
       ]
     },
-    "tip": "💡 Tip: Early check-in or late check-out may be available - please enquire at least 48 hours in advance. Additional fees may apply."
+    "tip": "Tip: Early check-in or late check-out may be available - please enquire at least 48 hours in advance. Additional fees may apply."
   },
   "transport": {
     "parking": {
-      "title": "🅿️ Parking",
+      "title": "Parking",
       "description": "One secure basement car space included with your stay. Space number will be provided on check-in. Remote control located in apartment. Height clearance 2.1m. No parking in visitor bays - strictly enforced by body corporate."
     },
     "rideshare": {
-      "title": "🚕 Uber & Taxis",
+      "title": "Uber & Taxis",
       "description": "Uber and DiDi are readily available throughout the Gold Coast. Local taxi service: 131 008."
     },
     "publicTransport": {
-      "title": "🚊 G:link Light Rail",
+      "title": "G:link Light Rail",
       "description": "The G:link light rail stops at Broadbeach South station, just a 3-minute walk from the apartment. The tram connects Broadbeach to Surfers Paradise, Southport, and Helensvale (with train connections to Brisbane).",
       "info": "Trams run approximately every 7-15 minutes during peak times. For timetables and real-time updates, visit the TransLink website or download the MyTransLink app.",
       "fares": "Go Card is the easiest way to pay. Adult fares start from $3.31 for a single journey. Paper tickets also available from station machines."
     },
     "airportTransfers": {
-      "title": "✈️ Gold Coast Airport Transfers",
+      "title": "Gold Coast Airport Transfers",
       "description": "Gold Coast Airport (Coolangatta) is approximately 25km south of Broadbeach.",
       "options": [
         {
@@ -64,7 +64,7 @@
       "note": "Allow 30-40 minutes travel time depending on traffic."
     },
     "carRental": {
-      "title": "🚗 Car Rental",
+      "title": "Car Rental",
       "description": "While Broadbeach is very walkable with excellent public transport, a car is useful for exploring the wider Gold Coast region, hinterland, and theme parks.",
       "note": "Major rental companies have desks at Gold Coast Airport and in Surfers Paradise. Book in advance for better rates."
     }
@@ -72,48 +72,48 @@
   "houseRules": {
     "rules": [
       {
-        "icon": "🚭",
+        "icon": "smoke_free",
         "title": "No Smoking",
         "description": "Smoking is strictly prohibited inside the apartment and on balconies. $500 cleaning fee applies if violated."
       },
       {
-        "icon": "🐾",
+        "icon": "pets",
         "title": "No Pets",
         "description": "Pets are not permitted as per body corporate by-laws"
       },
       {
-        "icon": "🔇",
+        "icon": "volume_off",
         "title": "Quiet Hours",
         "description": "Please respect neighbours - quiet time 10 PM - 7 AM on weekdays, 11 PM - 8 AM weekends"
       },
       {
-        "icon": "👥",
+        "icon": "group",
         "title": "Guest Limit",
         "description": "Maximum occupancy as per booking. No unregistered guests permitted."
       },
       {
-        "icon": "🎉",
+        "icon": "celebration",
         "title": "No Parties",
         "description": "Parties and events strictly prohibited. Body corporate security will remove violators."
       },
       {
-        "icon": "♻️",
+        "icon": "recycling",
         "title": "Recycling",
         "description": "Yellow bin for recycling, red bin for general waste. Bins located in kitchen."
       },
       {
-        "icon": "🏊",
+        "icon": "pool",
         "title": "Pool & Facilities",
         "description": "Pool hours 6am-10pm. Children must be supervised. No glass in pool area."
       },
       {
-        "icon": "🅿️",
+        "icon": "local_parking",
         "title": "Parking",
         "description": "One car space only. No parking in visitor bays. Strictly enforced by body corporate."
       }
     ],
     "importantNote": {
-      "title": "⚠️ Important - Body Corporate Rules",
+      "title": "Important - Body Corporate Rules",
       "message": "This apartment is subject to body corporate by-laws. Violations may result in fines, immediate eviction without refund, and loss of security bond. Please respect all residents and building rules."
     }
   },
@@ -276,11 +276,11 @@
         "distance": "35 min drive"
       }
     ],
-    "tip": "🗺️ Getting Around: G:link light rail stops at Broadbeach South (3 min walk) - connects to Surfers Paradise and Southport. Uber and DiDi readily available. Free parking at Pacific Fair for 3 hours."
+    "tip": "Getting Around: G:link light rail stops at Broadbeach South (3 min walk) - connects to Surfers Paradise and Southport. Uber and DiDi readily available. Free parking at Pacific Fair for 3 hours."
   },
   "emergency": {
     "alert": {
-      "title": "🚨 In Case of Emergency",
+      "title": "In Case of Emergency",
       "message": "For life-threatening emergencies, always call <strong>000</strong> (Triple Zero) for Police, Fire or Ambulance."
     },
     "contacts": [
@@ -321,7 +321,7 @@
       }
     ],
     "safetyInfo": {
-      "title": "🔥 Safety Equipment",
+      "title": "Safety Equipment",
       "items": [
         "Fire extinguisher: Located in kitchen cupboard",
         "First aid kit: Bathroom vanity drawer",
@@ -330,6 +330,6 @@
         "Fire evacuation plan: Posted on back of main door"
       ]
     },
-    "addressNote": "📍 Address for Emergency Services: Broadbeach, Gold Coast, Queensland 4218 (provide specific unit number when calling)"
+    "addressNote": "Address for Emergency Services: Broadbeach, Gold Coast, Queensland 4218 (provide specific unit number when calling)"
   }
 }

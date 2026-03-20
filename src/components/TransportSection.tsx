@@ -9,7 +9,7 @@ export default function TransportSection() {
       
       {transport.carRental && (
         <div className="instruction-block">
-          <h3>{transport.carRental.title}</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>directions_car</span>{transport.carRental.title}</h3>
           <p>{transport.carRental.description}</p>
           {transport.carRental.note && (
             <p style={{ marginTop: '0.5rem', fontStyle: 'italic' }}>{transport.carRental.note}</p>
@@ -19,14 +19,14 @@ export default function TransportSection() {
 
       {transport.rideshare && (
         <div className="instruction-block">
-          <h3>{transport.rideshare.title}</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>local_taxi</span>{transport.rideshare.title}</h3>
           <p>{transport.rideshare.description}</p>
         </div>
       )}
 
       {transport.airportTransfers && (
         <div className="instruction-block">
-          <h3>{transport.airportTransfers.title}</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>flight</span>{transport.airportTransfers.title}</h3>
           {transport.airportTransfers.description && (
             <p>{transport.airportTransfers.description}</p>
           )}
@@ -36,7 +36,7 @@ export default function TransportSection() {
                 <div className="contact-name">{option.name}</div>
                 {option.phone && (
                   <a href={`tel:${option.phone.replace(/\s/g, '')}`} className="contact-phone">
-                    📞 {option.phone}
+                    <span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.25rem' }}>phone</span>{option.phone}
                   </a>
                 )}
                 <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{option.type}</div>
@@ -51,7 +51,7 @@ export default function TransportSection() {
 
       {transport.publicTransport && (
         <div className="instruction-block">
-          <h3>{transport.publicTransport.title}</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>tram</span>{transport.publicTransport.title}</h3>
           <p>{transport.publicTransport.description}</p>
           <p style={{ marginTop: '0.5rem' }}>{transport.publicTransport.info}</p>
           <p style={{ marginTop: '0.5rem' }}><strong>Fares:</strong> {transport.publicTransport.fares}</p>
@@ -66,7 +66,7 @@ export default function TransportSection() {
 
       {transport.parking && (
         <div className="instruction-block">
-          <h3>{transport.parking.title}</h3>
+          <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>local_parking</span>{transport.parking.title}</h3>
           <p>{transport.parking.description}</p>
         </div>
       )}

@@ -10,7 +10,7 @@ export default function HouseRulesSection() {
       <div className="rules-grid">
         {houseRules.rules.map((rule, index) => (
           <div key={index} className="rule-card">
-            <span className="rule-icon">{rule.icon}</span>
+            <span className="material-symbols-outlined rule-icon">{rule.icon}</span>
             <h4>{rule.title}</h4>
             <p>{rule.description}</p>
           </div>

@@ -37,7 +37,7 @@ export default function AmenitiesSection() {
       </div>
 
       <div className="tip-box">
-        <strong>💡 Need help?</strong> If you experience any issues with appliances or amenities, don't hesitate to get in touch.
+        <strong><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.25rem' }}>lightbulb</span>Need help?</strong> If you experience any issues with appliances or amenities, don't hesitate to get in touch.
       </div>
     </div>
   );

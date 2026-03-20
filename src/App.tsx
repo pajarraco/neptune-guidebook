@@ -20,43 +20,43 @@ function App() {
     {
       id: 'property-info',
       title: 'Property Info',
-      icon: '🏠',
+      icon: 'home',
       content: <PropertyInfoSection info={propertyInfo} />
     },
     {
       id: 'check-in-out',
       title: 'Check In/Out',
-      icon: '🔑',
+      icon: 'key',
       content: <CheckInOutSection />
     },
     {
       id: 'transport',
       title: 'Transport',
-      icon: '🚗',
+      icon: 'directions_car',
       content: <TransportSection />
     },
     {
       id: 'house-rules',
       title: 'House Rules',
-      icon: '📋',
+      icon: 'rule',
       content: <HouseRulesSection />
     },
     {
       id: 'amenities',
       title: 'Amenities',
-      icon: '✨',
+      icon: 'stars',
       content: <AmenitiesSection />
     },
     {
       id: 'local-guide',
       title: 'Local Guide',
-      icon: '🗺️',
+      icon: 'map',
       content: <LocalGuideSection />
     },
     {
       id: 'emergency',
       title: 'Emergency',
-      icon: '🚨',
+      icon: 'emergency',
       content: <EmergencySection />
     }
   ]
@@ -67,7 +67,7 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <h1 className="app-title">Guest Guidebook</h1>
+          <h1 className="app-title">{propertyInfo.name}</h1>
           <p className="app-subtitle">Everything you need for a great stay</p>
         </div>
       </header>

@@ -16,7 +16,7 @@ export default function Navigation({ sections, activeSection, onSectionChange }:
             className={`nav-item ${activeSection === section.id ? 'active' : ''}`}
             onClick={() => onSectionChange(section.id)}
           >
-            <span className="nav-icon">{section.icon}</span>
+            <span className="material-symbols-outlined nav-icon">{section.icon}</span>
             <span className="nav-title">{section.title}</span>
           </button>
         ))}
