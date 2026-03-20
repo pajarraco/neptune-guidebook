@@ -1,10 +1,10 @@
 {
   "propertyInfo": {
-    "name": "Broadbeach Luxury Apartment",
-    "address": "Broadbeach, Gold Coast, Queensland 4218",
+    "name": "Cozie Homes - Tropical Retreat",
+    "address": "3 Cedrela Close, Cairns, Queensland",
     "wifi": {
-      "network": "",
-      "password": ""
+      "network": "Cozie Homes",
+      "password": "lifeinthetropics"
     },
     "checkIn": "After 3:00 PM",
     "checkOut": "Before 10:00 AM"
@@ -14,7 +14,7 @@
       "title": "🔑 Check-in Process",
       "steps": [
         "Arrive at the building entrance - parking is available in the secure basement",
-        "Use the access code <strong>{{CODE}}</strong> to enter the building foyer",
+        "Use the access code <strong>*2468#</strong> to enter the building foyer",
         "Take the lift to your designated floor",
         "Key card will be left in the lockbox by the apartment door",
         "Lockbox code will be sent via SMS 24 hours before arrival"
@@ -31,43 +31,6 @@
       ]
     },
     "tip": "💡 Tip: Early check-in or late check-out may be available - please enquire at least 48 hours in advance. Additional fees may apply."
-  },
-  "transport": {
-    "parking": {
-      "title": "🅿️ Parking",
-      "description": "One secure basement car space included with your stay. Space number will be provided on check-in. Remote control located in apartment. Height clearance 2.1m. No parking in visitor bays - strictly enforced by body corporate."
-    },
-    "rideshare": {
-      "title": "🚕 Uber & Taxis",
-      "description": "Uber and DiDi are readily available throughout the Gold Coast. Local taxi service: 131 008."
-    },
-    "publicTransport": {
-      "title": "🚊 G:link Light Rail",
-      "description": "The G:link light rail stops at Broadbeach South station, just a 3-minute walk from the apartment. The tram connects Broadbeach to Surfers Paradise, Southport, and Helensvale (with train connections to Brisbane).",
-      "info": "Trams run approximately every 7-15 minutes during peak times. For timetables and real-time updates, visit the TransLink website or download the MyTransLink app.",
-      "fares": "Go Card is the easiest way to pay. Adult fares start from $3.31 for a single journey. Paper tickets also available from station machines."
-    },
-    "airportTransfers": {
-      "title": "✈️ Gold Coast Airport Transfers",
-      "description": "Gold Coast Airport (Coolangatta) is approximately 25km south of Broadbeach.",
-      "options": [
-        {
-          "name": "Con-X-ion Airport Shuttle",
-          "phone": "1300 266 946",
-          "type": "Shared shuttle service"
-        },
-        {
-          "name": "Uber/DiDi",
-          "type": "Approximately $40-50 to Broadbeach"
-        }
-      ],
-      "note": "Allow 30-40 minutes travel time depending on traffic."
-    },
-    "carRental": {
-      "title": "🚗 Car Rental",
-      "description": "While Broadbeach is very walkable with excellent public transport, a car is useful for exploring the wider Gold Coast region, hinterland, and theme parks.",
-      "note": "Major rental companies have desks at Gold Coast Airport and in Surfers Paradise. Book in advance for better rates."
-    }
   },
   "houseRules": {
     "rules": [

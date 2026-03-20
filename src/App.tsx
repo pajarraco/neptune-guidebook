@@ -3,6 +3,7 @@ import type { GuideSection } from './types'
 import Navigation from './components/Navigation'
 import PropertyInfoSection from './components/PropertyInfoSection'
 import CheckInOutSection from './components/CheckInOutSection'
+import TransportSection from './components/TransportSection'
 import HouseRulesSection from './components/HouseRulesSection'
 import AmenitiesSection from './components/AmenitiesSection'
 import LocalGuideSection from './components/LocalGuideSection'
@@ -27,6 +28,12 @@ function App() {
       title: 'Check In/Out',
       icon: '🔑',
       content: <CheckInOutSection />
+    },
+    {
+      id: 'transport',
+      title: 'Transport',
+      icon: '🚗',
+      content: <TransportSection />
     },
     {
       id: 'house-rules',
