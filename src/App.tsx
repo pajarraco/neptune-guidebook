@@ -8,7 +8,10 @@ import HouseRulesSection from './components/HouseRulesSection'
 import AmenitiesSection from './components/AmenitiesSection'
 import LocalGuideSection from './components/LocalGuideSection'
 import EmergencySection from './components/EmergencySection'
-import guidebookData from './assets/guidebook-data.json'
+import guidebookDataRaw from './assets/guidebook-data.json'
+import type { GuidebookData } from './types'
+
+const guidebookData = guidebookDataRaw as GuidebookData
 import './App.css'
 
 function App() {

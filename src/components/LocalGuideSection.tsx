@@ -1,4 +1,7 @@
-import guidebookData from '../assets/guidebook-data.json';
+import guidebookDataRaw from '../assets/guidebook-data.json';
+import type { GuidebookData } from '../types';
+
+const guidebookData = guidebookDataRaw as GuidebookData;
 
 export default function LocalGuideSection() {
   const { localGuide } = guidebookData;
@@ -36,7 +39,7 @@ export default function LocalGuideSection() {
           <h3>🎒 {localGuide.packingList.title}</h3>
           <p style={{ marginBottom: '1rem' }}>We've got you covered with the basics, but here are a few essentials you might want to bring:</p>
           <div className="recommendations-grid">
-            {localGuide.packingList.items.map((item, index) => (
+            {localGuide.packingList.items.map((item: string, index: number) => (
               <div key={index} style={{ padding: '0.5rem', backgroundColor: 'var(--background)', borderRadius: '6px' }}>
                 ✓ {item}
               </div>

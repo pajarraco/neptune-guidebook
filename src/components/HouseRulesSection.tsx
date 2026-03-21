@@ -1,4 +1,7 @@
-import guidebookData from '../assets/guidebook-data.json';
+import guidebookDataRaw from '../assets/guidebook-data.json';
+import type { GuidebookData } from '../types';
+
+const guidebookData = guidebookDataRaw as GuidebookData;
 
 export default function HouseRulesSection() {
   const { houseRules } = guidebookData;
