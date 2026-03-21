@@ -13,13 +13,15 @@ interface PropertyInfoSectionProps {
   info: PropertyInfo;
 }
 
-export default function PropertyInfoSection({ info }: PropertyInfoSectionProps) {
-  const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || '';
+export default function PropertyInfoSection({
+  info,
+}: PropertyInfoSectionProps) {
+  const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
   const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || info.wifi.network;
   const wifiPassword = import.meta.env.VITE_WIFI_PASSWORD || info.wifi.password;
-  
-  const fullAddress = apartmentNumber 
-    ? `${info.address.replace(', Queensland 4218', '')}, Unit ${apartmentNumber}, Queensland 4218`
+
+  const fullAddress = apartmentNumber
+    ? `${info.address.replace(", Queensland 4218", "")}, Unit ${apartmentNumber}, Queensland 4218`
     : info.address;
 
   return (
@@ -31,17 +33,53 @@ export default function PropertyInfoSection({ info }: PropertyInfoSectionProps) 
 
       <div className="info-grid">
         <div className="info-card">
-          <h3><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>schedule</span>Check-in</h3>
+          <h3>
+            <span
+              className="material-symbols-outlined"
+              style={{
+                fontSize: "1rem",
+                verticalAlign: "middle",
+                marginRight: "0.5rem",
+              }}
+            >
+              schedule
+            </span>
+            Check-in
+          </h3>
           <p className="highlight">{info.checkIn}</p>
         </div>
         <div className="info-card">
-          <h3><span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>schedule</span>Check-out</h3>
+          <h3>
+            <span
+              className="material-symbols-outlined"
+              style={{
+                fontSize: "1rem",
+                verticalAlign: "middle",
+                marginRight: "0.5rem",
+              }}
+            >
+              schedule
+            </span>
+            Check-out
+          </h3>
           <p className="highlight">{info.checkOut}</p>
         </div>
       </div>
 
       <div className="wifi-section">
-        <h3><span className="material-symbols-outlined" style={{ fontSize: '1.25rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>wifi</span>WiFi Information</h3>
+        <h3>
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.25rem",
+              verticalAlign: "middle",
+              marginRight: "0.5rem",
+            }}
+          >
+            wifi
+          </span>
+          WiFi Information
+        </h3>
         <div className="wifi-details">
           <div className="wifi-item">
             <span className="label">Network:</span>

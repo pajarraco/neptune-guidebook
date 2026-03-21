@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import guidebookDataRaw from "../assets/guidebook-data.json";
-import type { GuidebookData } from '../types';
+import type { GuidebookData } from "../types";
 
 const guidebookData = guidebookDataRaw as GuidebookData;
-const STORAGE_KEY = 'checkout-checklist-state';
+const STORAGE_KEY = "checkout-checklist-state";
 
 export default function CheckInOutSection() {
   const { checkInOut } = guidebookData;
-  
+
   // Initialize state from localStorage
   const [checkedItems, setCheckedItems] = useState<Set<number>>(() => {
     try {
@@ -17,7 +17,7 @@ export default function CheckInOutSection() {
         return new Set(parsed);
       }
     } catch (error) {
-      console.error('Error loading checkout state from localStorage:', error);
+      console.error("Error loading checkout state from localStorage:", error);
     }
     return new Set();
   });
@@ -28,12 +28,12 @@ export default function CheckInOutSection() {
       const itemsArray = Array.from(checkedItems);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(itemsArray));
     } catch (error) {
-      console.error('Error saving checkout state to localStorage:', error);
+      console.error("Error saving checkout state to localStorage:", error);
     }
   }, [checkedItems]);
 
   const toggleCheckItem = (index: number) => {
-    setCheckedItems(prev => {
+    setCheckedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
         newSet.delete(index);
@@ -166,14 +166,16 @@ export default function CheckInOutSection() {
         <h4 style={{ marginTop: "1.5rem" }}>Please assist us by:</h4>
         <ul className="instruction-list checkout-list">
           {checkInOut.checkOut.steps.map((step, index) => (
-            <li 
+            <li
               key={index}
               onClick={() => toggleCheckItem(index)}
-              className={checkedItems.has(index) ? 'checked' : 'unchecked'}
-              style={{ cursor: 'pointer' }}
+              className={checkedItems.has(index) ? "checked" : "unchecked"}
+              style={{ cursor: "pointer" }}
             >
               <span className="material-symbols-outlined check-icon">
-                {checkedItems.has(index) ? 'check_circle' : 'radio_button_unchecked'}
+                {checkedItems.has(index)
+                  ? "check_circle"
+                  : "radio_button_unchecked"}
               </span>
               {step}
             </li>

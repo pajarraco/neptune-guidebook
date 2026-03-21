@@ -1,5 +1,5 @@
-import guidebookDataRaw from '../assets/guidebook-data.json';
-import type { GuidebookData } from '../types';
+import guidebookDataRaw from "../assets/guidebook-data.json";
+import type { GuidebookData } from "../types";
 
 const guidebookData = guidebookDataRaw as GuidebookData;
 
@@ -9,11 +9,13 @@ export default function HouseRulesSection() {
   return (
     <div className="section-content">
       <h2>House Rules</h2>
-      
+
       <div className="rules-grid">
         {houseRules.rules.map((rule, index) => (
           <div key={index} className="rule-card">
-            <span className="material-symbols-outlined rule-icon">{rule.icon}</span>
+            <span className="material-symbols-outlined rule-icon">
+              {rule.icon}
+            </span>
             <h4>{rule.title}</h4>
             <p>{rule.description}</p>
           </div>

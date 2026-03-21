@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import type { GuideSection } from './types'
-import Navigation from './components/Navigation'
-import PropertyInfoSection from './components/PropertyInfoSection'
-import CheckInOutSection from './components/CheckInOutSection'
-import TransportSection from './components/TransportSection'
-import HouseRulesSection from './components/HouseRulesSection'
-import AmenitiesSection from './components/AmenitiesSection'
-import LocalGuideSection from './components/LocalGuideSection'
-import EmergencySection from './components/EmergencySection'
-import CodeEntryModal from './components/CodeEntryModal'
-import guidebookDataRaw from './assets/guidebook-data.json'
-import type { GuidebookData } from './types'
+import { useState } from "react";
+import type { GuideSection } from "./types";
+import Navigation from "./components/Navigation";
+import PropertyInfoSection from "./components/PropertyInfoSection";
+import CheckInOutSection from "./components/CheckInOutSection";
+import TransportSection from "./components/TransportSection";
+import HouseRulesSection from "./components/HouseRulesSection";
+import AmenitiesSection from "./components/AmenitiesSection";
+import LocalGuideSection from "./components/LocalGuideSection";
+import EmergencySection from "./components/EmergencySection";
+import CodeEntryModal from "./components/CodeEntryModal";
+import guidebookDataRaw from "./assets/guidebook-data.json";
+import type { GuidebookData } from "./types";
 
-const guidebookData = guidebookDataRaw as GuidebookData
-import './App.css'
+const guidebookData = guidebookDataRaw as GuidebookData;
+import "./App.css";
 
-const REQUIRED_CODE = import.meta.env.VITE_CODE || '';
-const STORAGE_KEY = 'guidebook-access-code';
+const REQUIRED_CODE = import.meta.env.VITE_CODE || "";
+const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
-  const [activeSection, setActiveSection] = useState('property-info')
-  
+  const [activeSection, setActiveSection] = useState("property-info");
+
   // Initialize code verification state from localStorage
   const [isCodeVerified, setIsCodeVerified] = useState(() => {
     const savedCode = localStorage.getItem(STORAGE_KEY);
@@ -31,58 +31,63 @@ function App() {
     setIsCodeVerified(true);
   };
 
-  const { propertyInfo } = guidebookData
+  const { propertyInfo } = guidebookData;
 
   const sections: GuideSection[] = [
     {
-      id: 'property-info',
-      title: 'Property Info',
-      icon: 'home',
-      content: <PropertyInfoSection info={propertyInfo} />
+      id: "property-info",
+      title: "Property Info",
+      icon: "home",
+      content: <PropertyInfoSection info={propertyInfo} />,
     },
     {
-      id: 'check-in-out',
-      title: 'Check In/Out',
-      icon: 'key',
-      content: <CheckInOutSection />
+      id: "check-in-out",
+      title: "Check In/Out",
+      icon: "key",
+      content: <CheckInOutSection />,
     },
     {
-      id: 'transport',
-      title: 'Transport',
-      icon: 'directions_car',
-      content: <TransportSection />
+      id: "transport",
+      title: "Transport",
+      icon: "directions_car",
+      content: <TransportSection />,
     },
     {
-      id: 'house-rules',
-      title: 'House Rules',
-      icon: 'rule',
-      content: <HouseRulesSection />
+      id: "house-rules",
+      title: "House Rules",
+      icon: "rule",
+      content: <HouseRulesSection />,
     },
     {
-      id: 'amenities',
-      title: 'Amenities',
-      icon: 'stars',
-      content: <AmenitiesSection />
+      id: "amenities",
+      title: "Amenities",
+      icon: "stars",
+      content: <AmenitiesSection />,
     },
     {
-      id: 'local-guide',
-      title: 'Local Guide',
-      icon: 'map',
-      content: <LocalGuideSection />
+      id: "local-guide",
+      title: "Local Guide",
+      icon: "map",
+      content: <LocalGuideSection />,
     },
     {
-      id: 'emergency',
-      title: 'Emergency',
-      icon: 'emergency',
-      content: <EmergencySection />
-    }
-  ]
+      id: "emergency",
+      title: "Emergency",
+      icon: "emergency",
+      content: <EmergencySection />,
+    },
+  ];
 
-  const currentSection = sections.find(s => s.id === activeSection)
+  const currentSection = sections.find((s) => s.id === activeSection);
 
   // Show code entry modal if not verified
   if (!isCodeVerified) {
-    return <CodeEntryModal onCodeVerified={handleCodeVerified} requiredCode={REQUIRED_CODE} />;
+    return (
+      <CodeEntryModal
+        onCodeVerified={handleCodeVerified}
+        requiredCode={REQUIRED_CODE}
+      />
+    );
   }
 
   return (
@@ -94,23 +99,24 @@ function App() {
         </div>
       </header>
 
-      <Navigation 
+      <Navigation
         sections={sections}
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />
 
       <main className="app-main">
-        <div className="content-wrapper">
-          {currentSection?.content}
-        </div>
+        <div className="content-wrapper">{currentSection?.content}</div>
       </main>
 
       <footer className="app-footer">
-        <p>Have questions? Contact us anytime at <a href="mailto:host@example.com">host@example.com</a></p>
+        <p>
+          Have questions? Contact us anytime at{" "}
+          <a href="mailto:host@example.com">host@example.com</a>
+        </p>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
