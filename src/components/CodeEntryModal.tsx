@@ -1,4 +1,5 @@
 import { useState } from "react";
+import backgroundImage from "../assets/image2.webp";
 
 interface CodeEntryModalProps {
   onCodeVerified: () => void;
@@ -26,6 +27,15 @@ export default function CodeEntryModal({
 
   return (
     <div className="modal-overlay">
+      <div
+        className="modal-background"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
       <div className="modal-content">
         <div className="modal-header">
           <span
