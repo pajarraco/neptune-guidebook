@@ -21,10 +21,29 @@ export default function LocalGuideSection() {
                 <div key={index} className="recommendation-card">
                   <h4>{rec.name}</h4>
                   <p className="rec-description">{rec.description}</p>
-                  {rec.address && <p className="rec-address">📍 {rec.address}</p>}
-                  {rec.distance && <p className="rec-distance">🚶 {rec.distance}</p>}
+                  {rec.address && <p className="rec-address"><span className="material-symbols-outlined" style={{ fontSize: '0.9rem', verticalAlign: 'middle', marginRight: '0.25rem' }}>location_on</span>{rec.address}</p>}
+                  {rec.distance && <p className="rec-distance"><span className="material-symbols-outlined" style={{ fontSize: '0.9rem', verticalAlign: 'middle', marginRight: '0.25rem' }}>directions_walk</span>{rec.distance}</p>}
+                  {rec.link && (
+                    <a 
+                      href={rec.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{ 
+                        display: 'inline-flex', 
+                        alignItems: 'center', 
+                        marginTop: '0.75rem', 
+                        color: 'var(--primary-color)', 
+                        textDecoration: 'none',
+                        fontSize: '0.9rem',
+                        fontWeight: 500
+                      }}
+                    >
+                      <span className="material-symbols-outlined" style={{ fontSize: '1.1rem', marginRight: '0.25rem' }}>map</span>
+                      View on Google Maps
+                    </a>
+                  )}
                   {rec.note && (
-                    <p style={{ fontSize: '0.85rem', marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)' }}>
+                    <p style={{ marginTop: '0.5rem', fontStyle: 'italic', fontSize: '0.9rem' }}>
                       {rec.note}
                     </p>
                   )}

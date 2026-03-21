@@ -8,14 +8,28 @@ import HouseRulesSection from './components/HouseRulesSection'
 import AmenitiesSection from './components/AmenitiesSection'
 import LocalGuideSection from './components/LocalGuideSection'
 import EmergencySection from './components/EmergencySection'
+import CodeEntryModal from './components/CodeEntryModal'
 import guidebookDataRaw from './assets/guidebook-data.json'
 import type { GuidebookData } from './types'
 
 const guidebookData = guidebookDataRaw as GuidebookData
 import './App.css'
 
+const REQUIRED_CODE = import.meta.env.VITE_CODE || '';
+const STORAGE_KEY = 'guidebook-access-code';
+
 function App() {
   const [activeSection, setActiveSection] = useState('property-info')
+  
+  // Initialize code verification state from localStorage
+  const [isCodeVerified, setIsCodeVerified] = useState(() => {
+    const savedCode = localStorage.getItem(STORAGE_KEY);
+    return savedCode === REQUIRED_CODE;
+  });
+
+  const handleCodeVerified = () => {
+    setIsCodeVerified(true);
+  };
 
   const { propertyInfo } = guidebookData
 
@@ -65,6 +79,11 @@ function App() {
   ]
 
   const currentSection = sections.find(s => s.id === activeSection)
+
+  // Show code entry modal if not verified
+  if (!isCodeVerified) {
+    return <CodeEntryModal onCodeVerified={handleCodeVerified} requiredCode={REQUIRED_CODE} />;
+  }
 
   return (
     <div className="app">

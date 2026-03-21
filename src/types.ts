@@ -31,6 +31,7 @@ export interface LocalRecommendation {
   address?: string;
   distance?: string;
   note?: string;
+  link?: string;
 }
 
 export interface EmergencyContact {

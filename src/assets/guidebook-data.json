@@ -161,119 +161,136 @@
         "name": "Broadbeach",
         "description": "Patrolled beach perfect for swimming and surfing",
         "address": "Broadbeach Esplanade",
-        "distance": "5 min walk"
+        "distance": "5 min walk",
+        "link": "https://maps.google.com/?q=Broadbeach+Beach+Gold+Coast"
       },
       {
         "category": "Beaches",
         "name": "Surfers Paradise Beach",
         "description": "Iconic Gold Coast beach with golden sand",
         "address": "Surfers Paradise",
-        "distance": "10 min drive"
+        "distance": "10 min drive",
+        "link": "https://maps.google.com/?q=Surfers+Paradise+Beach"
       },
       {
         "category": "Shopping",
         "name": "Pacific Fair Shopping Centre",
         "description": "Major shopping centre with 400+ stores, dining and cinema",
         "address": "Hooker Blvd, Broadbeach",
-        "distance": "5 min walk"
+        "distance": "5 min walk",
+        "link": "https://maps.google.com/?q=Pacific+Fair+Shopping+Centre+Broadbeach"
       },
       {
         "category": "Shopping",
         "name": "Oasis Shopping Centre",
         "description": "Boutique shopping with cafes and restaurants",
         "address": "Victoria Avenue, Broadbeach",
-        "distance": "3 min walk"
+        "distance": "3 min walk",
+        "link": "https://maps.google.com/?q=Oasis+Shopping+Centre+Broadbeach"
       },
       {
         "category": "Restaurants",
         "name": "The Star Gold Coast",
         "description": "Casino complex with multiple restaurants, bars and entertainment",
         "address": "1 Casino Drive, Broadbeach",
-        "distance": "8 min walk"
+        "distance": "8 min walk",
+        "link": "https://maps.google.com/?q=The+Star+Gold+Coast"
       },
       {
         "category": "Restaurants",
         "name": "Kiyomi",
         "description": "Modern Japanese restaurant at The Star",
         "address": "The Star Gold Coast",
-        "distance": "8 min walk"
+        "distance": "8 min walk",
+        "link": "https://maps.google.com/?q=Kiyomi+The+Star+Gold+Coast"
       },
       {
         "category": "Restaurants",
         "name": "Mamasan",
         "description": "Contemporary Asian fusion dining",
         "address": "Broadbeach",
-        "distance": "5 min walk"
+        "distance": "5 min walk",
+        "link": "https://maps.google.com/?q=Mamasan+Broadbeach"
       },
       {
         "category": "Coffee & Cafes",
         "name": "Bam Bam Bakehouse",
         "description": "Artisan bakery and cafe with excellent coffee",
         "address": "Surf Parade, Broadbeach",
-        "distance": "4 min walk"
+        "distance": "4 min walk",
+        "link": "https://maps.google.com/?q=Bam+Bam+Bakehouse+Broadbeach"
       },
       {
         "category": "Coffee & Cafes",
         "name": "Elk Espresso",
         "description": "Popular breakfast spot and specialty coffee",
         "address": "Broadbeach",
-        "distance": "6 min walk"
+        "distance": "6 min walk",
+        "link": "https://maps.google.com/?q=Elk+Espresso+Broadbeach"
       },
       {
         "category": "Grocery",
         "name": "Coles Pacific Fair",
         "description": "Full-service supermarket",
         "address": "Pacific Fair Shopping Centre",
-        "distance": "5 min walk"
+        "distance": "5 min walk",
+        "link": "https://maps.google.com/?q=Coles+Pacific+Fair+Broadbeach"
       },
       {
         "category": "Grocery",
         "name": "Woolworths Oasis",
         "description": "Supermarket with extended hours",
         "address": "Oasis Shopping Centre",
-        "distance": "3 min walk"
+        "distance": "3 min walk",
+        "link": "https://maps.google.com/?q=Woolworths+Oasis+Broadbeach"
       },
       {
         "category": "Activities",
         "name": "Kurrawa Beach & Park",
         "description": "Beach with playground, BBQ facilities and surf club",
         "address": "Broadbeach",
-        "distance": "10 min walk"
+        "distance": "10 min walk",
+        "link": "https://maps.google.com/?q=Kurrawa+Beach+Broadbeach"
       },
       {
         "category": "Activities",
         "name": "HOTA (Home of the Arts)",
         "description": "Gallery, theatre and outdoor cinema",
         "address": "Surfers Paradise",
-        "distance": "5 min drive"
+        "distance": "5 min drive",
+        "link": "https://maps.google.com/?q=HOTA+Home+of+the+Arts+Gold+Coast"
       },
       {
         "category": "Activities",
         "name": "Infinity Attraction",
         "description": "Interactive light and mirror maze experience",
         "address": "Surfers Paradise",
-        "distance": "10 min drive"
+        "distance": "10 min drive",
+        "link": "https://maps.google.com/?q=Infinity+Attraction+Surfers+Paradise"
       },
       {
         "category": "Theme Parks",
         "name": "Movie World",
         "description": "Hollywood-themed amusement park",
         "address": "Oxenford",
-        "distance": "30 min drive"
+        "distance": "30 min drive",
+        "link": "https://maps.google.com/?q=Warner+Bros+Movie+World+Gold+Coast"
       },
       {
         "category": "Theme Parks",
         "name": "Sea World",
         "description": "Marine park with rides and animal exhibits",
         "address": "Main Beach",
-        "distance": "20 min drive"
+        "distance": "20 min drive",
+        "link": "https://maps.google.com/?q=Sea+World+Gold+Coast"
       },
       {
         "category": "Theme Parks",
         "name": "Dreamworld",
         "description": "Australia's largest theme park",
         "address": "Coomera",
-        "distance": "35 min drive"
+        "distance": "35 min drive",
+        "link": "https://maps.google.com/?q=Dreamworld+Gold+Coast"
       }
     ],
     "tip": "Getting Around: G:link light rail stops at Broadbeach South (3 min walk) - connects to Surfers Paradise and Southport. Uber and DiDi readily available. Free parking at Pacific Fair for 3 hours."
