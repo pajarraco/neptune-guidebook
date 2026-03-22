@@ -107,7 +107,7 @@ li {
       rgba(22, 41, 60, 0.75) 100%
     ),
     url("./assets/image2.webp") center/cover no-repeat;
-  color: #fff;
+  color: var(--surface);
   padding: 3rem 1.5rem;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -127,11 +127,11 @@ li {
 
 .app-title {
   font-size: 2.25rem;
-  font-weight: 600;
+  font-weight: 900;
   margin-bottom: 0.75rem;
   letter-spacing: -0.025em;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: var(--surface);
 }
 
 .app-subtitle {
@@ -139,7 +139,7 @@ li {
   opacity: 0.9;
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: #fff;
+  color: var(--surface);
 }
 
 .navigation {
@@ -698,7 +698,7 @@ ol.instruction-list li {
 
 .submit-button {
   background: var(--primary-color);
-  color: white;
+  color: var(--surface);
   border: none;
   padding: 1rem 2rem;
   font-size: 1.1rem;
@@ -750,7 +750,7 @@ ol.instruction-list li {
 
 @media (max-width: 768px) {
   .app-title {
-    font-size: 2rem;
+    font-size: 2.7rem;
   }
 
   .app-subtitle {
