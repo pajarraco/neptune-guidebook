@@ -11,12 +11,6 @@ A modern, interactive digital guidebook for vacation rental properties built wit
 - 🔄 Dynamic content from Google Sheets
 - 🚀 Automated deployment to GitHub Pages
 
-## Google Sheets Integration
-
-This project fetches guidebook data from a private Google Sheet during the build process. This allows you to update property information, local guides, and other content without rebuilding the app.
-
-**See [GOOGLE_SHEETS_SETUP.md](./GOOGLE_SHEETS_SETUP.md) for complete setup instructions.**
-
 ## Development
 
 ```bash
