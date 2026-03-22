@@ -15,7 +15,7 @@ import type { GuidebookData } from "./types";
 const guidebookData = guidebookDataRaw as GuidebookData;
 import "./App.css";
 
-const REQUIRED_CODE = import.meta.env.VITE_CODE || "";
+const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
 const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
   // Initialize code verification state from localStorage
   const [isCodeVerified, setIsCodeVerified] = useState(() => {
     const savedCode = localStorage.getItem(STORAGE_KEY);
-    return savedCode === REQUIRED_CODE && REQUIRED_CODE !== "";
+    return savedCode !== null && savedCode === REQUIRED_CODE;
   });
 
   const handleCodeVerified = () => {
