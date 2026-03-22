@@ -1,7 +1,7 @@
 {
   "propertyInfo": {
-    "name": "Broadbeach Luxury Apartment",
-    "address": "Broadbeach, Gold Coast, Queensland 4218",
+    "name": "Coastal Haven in Broadbeach-Gold Coast",
+    "address": "Unit {{APARTMENT_NUMBER}}, 30-34 Surf Parade, Broadbeach, Qld 4218",
     "wifi": {
       "network": "",
       "password": ""
@@ -14,7 +14,7 @@
       "title": "Check-in Process",
       "steps": [
         "Arrive at the building entrance - parking is available in the secure basement",
-        "Use the access code <strong>{{CODE}}</strong> to enter the building foyer",
+        "Use the access code <strong>{{CODE}}</strong># to enter the building foyer",
         "Take the lift to your designated floor",
         "Key card will be left in the lockbox by the apartment door",
         "Lockbox code will be sent via SMS 24 hours before arrival"

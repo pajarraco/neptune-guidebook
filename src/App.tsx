@@ -31,6 +31,11 @@ function App() {
     setIsCodeVerified(true);
   };
 
+  const handleSectionChange = (sectionId: string) => {
+    setActiveSection(sectionId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const { propertyInfo } = guidebookData;
 
   const sections: GuideSection[] = [
@@ -102,7 +107,7 @@ function App() {
       <Navigation
         sections={sections}
         activeSection={activeSection}
-        onSectionChange={setActiveSection}
+        onSectionChange={handleSectionChange}
       />
 
       <main className="app-main">
