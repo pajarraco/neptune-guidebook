@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "prettier --write . && eslint . && tsc -b && vite build",
+    "fetch-data": "node scripts/fetch-sheet-data.js",
+    "build": "npm run fetch-data && prettier --write . && eslint . && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "googleapis": "^144.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

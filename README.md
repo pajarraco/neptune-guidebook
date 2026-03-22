@@ -1,17 +1,59 @@
-# React + TypeScript + Vite
+# Neptune Guidebook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, interactive digital guidebook for vacation rental properties built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 🔐 Secure access code entry
+- 📱 Mobile-friendly responsive design
+- 🏠 Property information and amenities
+- 🗺️ Local area guide
+- 🔄 Dynamic content from Google Sheets
+- 🚀 Automated deployment to GitHub Pages
 
-## React Compiler
+## Google Sheets Integration
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+This project fetches guidebook data from a private Google Sheet during the build process. This allows you to update property information, local guides, and other content without rebuilding the app.
 
-Note: This will impact Vite dev & build performances.
+**See [GOOGLE_SHEETS_SETUP.md](./GOOGLE_SHEETS_SETUP.md) for complete setup instructions.**
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Environment Variables
+
+The app uses GitHub Variables and Secrets for configuration:
+
+**GitHub Variables:**
+- `VITE_CODE` - Access code for the guidebook
+- `VITE_APARTMENT_NUMBER` - Unit/apartment number
+- `VITE_WIFI_NETWORK` - WiFi network name
+- `VITE_WIFI_PASSWORD` - WiFi password
+- `GOOGLE_SHEET_ID` - Google Sheet ID for data fetching
+
+**GitHub Secrets:**
+- `GOOGLE_SERVICE_ACCOUNT_KEY` - Service account credentials JSON
+
+## Tech Stack
+
+- React 19 with TypeScript
+- Vite 8
+- Google Sheets API
+- GitHub Actions for CI/CD
+- GitHub Pages for hosting
 
 ## Expanding the ESLint configuration
 

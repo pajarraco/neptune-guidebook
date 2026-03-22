@@ -1,0 +1,6 @@
+stepNumber,stepDescription
+1,Arrive at the building entrance - parking is available in the secure basement
+2,Use the access code <strong>{{CODE}}</strong># to enter the building foyer
+3,Take the lift to your designated floor
+4,Key card will be left in the lockbox by the apartment door
+5,Lockbox code will be sent via SMS 24 hours before arrival
