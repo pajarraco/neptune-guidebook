@@ -20,6 +20,9 @@ dist-ssr
 # Google service account credentials
 google-service-account.json
 
+# Guidebook data (generated from Google Sheets)
+src/assets/guidebook-data.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
