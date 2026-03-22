@@ -32,6 +32,11 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          VITE_CODE: ${{ vars.VITE_CODE }}
+          VITE_APARTMENT_NUMBER: ${{ vars.VITE_APARTMENT_NUMBER }}
+          VITE_WIFI_NETWORK: ${{ vars.VITE_WIFI_NETWORK }}
+          VITE_WIFI_PASSWORD: ${{ vars.VITE_WIFI_PASSWORD }}
         run: npm run build
 
       - name: Setup Pages

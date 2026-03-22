@@ -24,7 +24,7 @@ function App() {
   // Initialize code verification state from localStorage
   const [isCodeVerified, setIsCodeVerified] = useState(() => {
     const savedCode = localStorage.getItem(STORAGE_KEY);
-    return savedCode === REQUIRED_CODE;
+    return savedCode === REQUIRED_CODE && REQUIRED_CODE !== "";
   });
 
   const handleCodeVerified = () => {
