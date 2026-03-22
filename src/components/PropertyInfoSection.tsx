@@ -20,7 +20,10 @@ export default function PropertyInfoSection({
   const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || info.wifi.network;
   const wifiPassword = import.meta.env.VITE_WIFI_PASSWORD || info.wifi.password;
 
-  const fullAddress = info.address.replace("{{APARTMENT_NUMBER}}", apartmentNumber);
+  const fullAddress = info.address.replace(
+    "{{APARTMENT_NUMBER}}",
+    apartmentNumber,
+  );
 
   return (
     <div className="section-content">
