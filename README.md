@@ -38,6 +38,7 @@ npm run preview
 The app uses GitHub Variables and Secrets for configuration:
 
 **GitHub Variables:**
+
 - `VITE_CODE` - Access code for the guidebook
 - `VITE_APARTMENT_NUMBER` - Unit/apartment number
 - `VITE_WIFI_NETWORK` - WiFi network name
@@ -45,6 +46,7 @@ The app uses GitHub Variables and Secrets for configuration:
 - `GOOGLE_SHEET_ID` - Google Sheet ID for data fetching
 
 **GitHub Secrets:**
+
 - `GOOGLE_SERVICE_ACCOUNT_KEY` - Service account credentials JSON
 
 ## Tech Stack
