@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { GuideSection } from "./types";
 import Navigation from "./components/Navigation";
 import PropertyInfoSection from "./components/PropertyInfoSection";
@@ -20,6 +20,7 @@ const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
   const [activeSection, setActiveSection] = useState("property-info");
+  const [isChatButtonVisible, setIsChatButtonVisible] = useState(false);
 
   // Initialize code verification state from localStorage
   const [isCodeVerified, setIsCodeVerified] = useState(() => {
@@ -33,10 +34,46 @@ function App() {
 
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const header = document.querySelector(".app-header");
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+    window.scrollTo({ top: headerHeight, behavior: "smooth" });
   };
 
+  const handleScrollToMenu = () => {
+    const header = document.querySelector(".app-header");
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+    window.scrollTo({ top: headerHeight, behavior: "smooth" });
+  };
+
+  const handleChatClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  };
+
+  // Show/hide chat button based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToTop = window.scrollY <= 100;
+      const scrolledToBottom = 
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 100;
+      
+      if ((scrolledToTop || scrolledToBottom) && isChatButtonVisible) {
+        setIsChatButtonVisible(false);
+      } else if (!scrolledToTop && !scrolledToBottom && !isChatButtonVisible) {
+        setIsChatButtonVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isChatButtonVisible]);
+
   const { propertyInfo } = guidebookData;
+  const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
+  const fullAddress = propertyInfo.address.replace(
+    "{{APARTMENT_NUMBER}}",
+    apartmentNumber,
+  );
 
   const sections: GuideSection[] = [
     {
@@ -105,7 +142,17 @@ function App() {
       <header className="app-header">
         <div className="header-content">
           <h1 className="app-title">{propertyInfo.name}</h1>
+          <p className="app-address-mobile">
+            <span className="material-symbols-outlined">location_on</span>
+            {fullAddress}
+          </p>
           <p className="app-subtitle">Everything you need for a great stay</p>
+          <span 
+            className="material-symbols-outlined chevron-down-icon"
+            onClick={handleScrollToMenu}
+          >
+            expand_more
+          </span>
         </div>
       </header>
 
@@ -127,6 +174,12 @@ function App() {
           <a href={`tel:${propertyInfo.phone}`}>{propertyInfo.phoneLabel}</a>
         </p>
       </footer>
+
+      {isChatButtonVisible && (
+        <button onClick={handleChatClick} className="floating-chat-button">
+          <span className="material-symbols-outlined">chat</span>
+        </button>
+      )}
     </div>
   );
 }
