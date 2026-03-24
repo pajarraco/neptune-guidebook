@@ -113,7 +113,7 @@ li {
       rgba(0, 72, 77, 0.55) 0%,
       rgba(0, 72, 77, 0.85) 100%
     ),
-    url("./assets/image2.webp") center/cover no-repeat;
+    url("./assets/image5.webp") center/cover no-repeat;
   color: var(--surface);
   padding: 3rem 1.5rem;
   text-align: center;
@@ -640,7 +640,7 @@ ol.instruction-list li {
   left: 0;
   right: 0;
   bottom: 0;
-  filter: blur(4px) brightness(0.6);
+  filter: blur(4px) ;
   z-index: -1;
 }
 
@@ -816,7 +816,7 @@ ol.instruction-list li {
         rgba(0, 72, 77, 0.25) 0%,
         rgba(0, 72, 77, 0.45) 50%
       ),
-      url("./assets/image2.webp") center/cover no-repeat;
+      url("./assets/image5.webp") center/cover no-repeat;
   }
 
   .navigation {
