@@ -52,9 +52,10 @@ export default function AmenitiesSection() {
           <span
             className="material-symbols-outlined"
             style={{
-              fontSize: "1rem",
+              fontSize: "1.25rem",
               verticalAlign: "middle",
               marginRight: "0.25rem",
+              color: "var(--sand-color)",
             }}
           >
             lightbulb

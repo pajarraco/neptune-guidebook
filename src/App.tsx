@@ -43,7 +43,12 @@ function App() {
       id: "property-info",
       title: "Property Info",
       icon: "home",
-      content: <PropertyInfoSection info={propertyInfo} onNavigate={handleSectionChange} />,
+      content: (
+        <PropertyInfoSection
+          info={propertyInfo}
+          onNavigate={handleSectionChange}
+        />
+      ),
     },
     {
       id: "check-in-out",
@@ -118,7 +123,7 @@ function App() {
         <p>
           Have questions? Contact us anytime at{" "}
           <a href={`mailto:${propertyInfo.email}`}>{propertyInfo.email}</a>
-          <span> | </span>
+          <span className="space-mobile"> | </span>
           <a href={`tel:${propertyInfo.phone}`}>{propertyInfo.phoneLabel}</a>
         </p>
       </footer>

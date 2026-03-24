@@ -16,9 +16,10 @@ export default function TransportSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               directions_car
@@ -40,9 +41,10 @@ export default function TransportSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               local_taxi
@@ -59,9 +61,10 @@ export default function TransportSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               flight
@@ -87,7 +90,7 @@ export default function TransportSection() {
                     <span
                       className="material-symbols-outlined"
                       style={{
-                        fontSize: "1rem",
+                        fontSize: "1.25rem",
                         verticalAlign: "middle",
                         marginRight: "0.25rem",
                       }}
@@ -119,9 +122,10 @@ export default function TransportSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               tram
@@ -152,9 +156,10 @@ export default function TransportSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               local_parking

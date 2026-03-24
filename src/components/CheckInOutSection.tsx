@@ -53,9 +53,10 @@ export default function CheckInOutSection() {
           <span
             className="material-symbols-outlined"
             style={{
-              fontSize: "1.25rem",
+              fontSize: "1.5625rem",
               verticalAlign: "middle",
               marginRight: "0.5rem",
+              color: "var(--sand-color)",
             }}
           >
             key
@@ -119,9 +120,10 @@ export default function CheckInOutSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1rem",
+                fontSize: "1.25rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               lightbulb
@@ -143,9 +145,10 @@ export default function CheckInOutSection() {
           <span
             className="material-symbols-outlined"
             style={{
-              fontSize: "1.25rem",
+              fontSize: "1.5625rem",
               verticalAlign: "middle",
               marginRight: "0.5rem",
+              color: "var(--sand-color)",
             }}
           >
             logout

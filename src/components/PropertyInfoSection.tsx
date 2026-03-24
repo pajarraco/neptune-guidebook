@@ -30,14 +30,19 @@ export default function PropertyInfoSection({
       </div>
 
       <div className="info-grid">
-        <div className="info-card" onClick={handleNavigateToCheckInOut} style={{ cursor: "pointer" }}>
+        <div
+          className="info-card"
+          onClick={handleNavigateToCheckInOut}
+          style={{ cursor: "pointer" }}
+        >
           <h3>
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1rem",
+                fontSize: "1.25rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               schedule
@@ -46,14 +51,19 @@ export default function PropertyInfoSection({
           </h3>
           <p className="highlight">{info.checkIn}</p>
         </div>
-        <div className="info-card" onClick={handleNavigateToCheckInOut} style={{ cursor: "pointer" }}>
+        <div
+          className="info-card"
+          onClick={handleNavigateToCheckInOut}
+          style={{ cursor: "pointer" }}
+        >
           <h3>
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1rem",
+                fontSize: "1.25rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               schedule
@@ -69,9 +79,10 @@ export default function PropertyInfoSection({
           <span
             className="material-symbols-outlined"
             style={{
-              fontSize: "1.25rem",
+              fontSize: "1.5625rem",
               verticalAlign: "middle",
               marginRight: "0.5rem",
+              color: "var(--sand-color)",
             }}
           >
             wifi

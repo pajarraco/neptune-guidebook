@@ -15,9 +15,10 @@ export default function EmergencySection() {
           <span
             className="material-symbols-outlined"
             style={{
-              fontSize: "1.25rem",
+              fontSize: "1.5625rem",
               verticalAlign: "middle",
               marginRight: "0.5rem",
+              color: "var(--sand-color)",
             }}
           >
             emergency
@@ -39,9 +40,10 @@ export default function EmergencySection() {
               <span
                 className="material-symbols-outlined"
                 style={{
-                  fontSize: "1rem",
+                  fontSize: "1.25rem",
                   verticalAlign: "middle",
                   marginRight: "0.25rem",
+                  color: "var(--sand-color)",
                 }}
               >
                 phone
@@ -59,9 +61,10 @@ export default function EmergencySection() {
                 <span
                   className="material-symbols-outlined"
                   style={{
-                    fontSize: "0.9rem",
+                    fontSize: "1.125rem",
                     verticalAlign: "middle",
                     marginRight: "0.25rem",
+                    color: "var(--sand-color)",
                   }}
                 >
                   location_on
@@ -80,9 +83,10 @@ export default function EmergencySection() {
                 <span
                   className="material-symbols-outlined"
                   style={{
-                    fontSize: "0.85rem",
+                    fontSize: "1.0625rem",
                     verticalAlign: "middle",
                     marginRight: "0.25rem",
+                    color: "var(--sand-color)",
                   }}
                 >
                   schedule
@@ -112,9 +116,10 @@ export default function EmergencySection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5625rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               local_fire_department
@@ -137,9 +142,10 @@ export default function EmergencySection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.05rem",
+                fontSize: "1.3125rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               beach_access
@@ -152,9 +158,10 @@ export default function EmergencySection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1.05rem",
+                fontSize: "1.3125rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               water_drop
@@ -175,9 +182,10 @@ export default function EmergencySection() {
                   <span
                     className="material-symbols-outlined"
                     style={{
-                      fontSize: "1rem",
+                      fontSize: "1.25rem",
                       verticalAlign: "middle",
                       marginRight: "0.5rem",
+                      color: "var(--sand-color)",
                     }}
                   >
                     location_on

@@ -28,9 +28,10 @@ export default function LocalGuideSection() {
                       <span
                         className="material-symbols-outlined"
                         style={{
-                          fontSize: "0.9rem",
+                          fontSize: "1.125rem",
                           verticalAlign: "middle",
                           marginRight: "0.25rem",
+                          color: "var(--sand-color)",
                         }}
                       >
                         location_on
@@ -43,9 +44,10 @@ export default function LocalGuideSection() {
                       <span
                         className="material-symbols-outlined"
                         style={{
-                          fontSize: "0.9rem",
+                          fontSize: "1.125rem",
                           verticalAlign: "middle",
                           marginRight: "0.25rem",
+                          color: "var(--sand-color)",
                         }}
                       >
                         directions_walk
@@ -70,7 +72,11 @@ export default function LocalGuideSection() {
                     >
                       <span
                         className="material-symbols-outlined"
-                        style={{ fontSize: "1.1rem", marginRight: "0.25rem" }}
+                        style={{
+                          fontSize: "1.375rem",
+                          marginRight: "0.25rem",
+                          color: "var(--sand-color)",
+                        }}
                       >
                         map
                       </span>
@@ -124,9 +130,10 @@ export default function LocalGuideSection() {
             <span
               className="material-symbols-outlined"
               style={{
-                fontSize: "1rem",
+                fontSize: "1.25rem",
                 verticalAlign: "middle",
                 marginRight: "0.5rem",
+                color: "var(--sand-color)",
               }}
             >
               info
