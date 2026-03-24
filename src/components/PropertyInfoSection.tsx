@@ -2,10 +2,12 @@ import type { PropertyInfo } from "../types";
 
 interface PropertyInfoSectionProps {
   info: PropertyInfo;
+  onNavigate: (sectionId: string) => void;
 }
 
 export default function PropertyInfoSection({
   info,
+  onNavigate,
 }: PropertyInfoSectionProps) {
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
   const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || info.wifi.network;
@@ -16,6 +18,10 @@ export default function PropertyInfoSection({
     apartmentNumber,
   );
 
+  const handleNavigateToCheckInOut = () => {
+    onNavigate("check-in-out");
+  };
+
   return (
     <div className="section-content">
       <div className="welcome-header">
@@ -24,7 +30,7 @@ export default function PropertyInfoSection({
       </div>
 
       <div className="info-grid">
-        <div className="info-card">
+        <div className="info-card" onClick={handleNavigateToCheckInOut} style={{ cursor: "pointer" }}>
           <h3>
             <span
               className="material-symbols-outlined"
@@ -40,7 +46,7 @@ export default function PropertyInfoSection({
           </h3>
           <p className="highlight">{info.checkIn}</p>
         </div>
-        <div className="info-card">
+        <div className="info-card" onClick={handleNavigateToCheckInOut} style={{ cursor: "pointer" }}>
           <h3>
             <span
               className="material-symbols-outlined"

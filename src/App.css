@@ -5,10 +5,13 @@
 }
 
 :root {
-  --primary-color: #16293c;
-  --primary-dark: #0d1a28;
-  --secondary-color: #3b82f6;
-  --accent-color: #10b981;
+  --primary-color: #003033;
+  --primary-dark: #001819;
+  --primary-darker: #017880;
+  --secondary-color: #02C0CE;
+  --accent-color: #02D8E8;
+  --dark-bg: #003033;
+  --darker-bg: #001819;
   --background: #f5f7fa;
   --surface: #ffffff;
   --text-primary: #1e293b;
@@ -103,8 +106,8 @@ li {
   background:
     linear-gradient(
       to bottom,
-      rgba(22, 41, 60, 0.55) 0%,
-      rgba(22, 41, 60, 0.85) 100%
+      rgba(0, 72, 77, 0.55) 0%,
+      rgba(0, 72, 77, 0.85) 100%
     ),
     url("./assets/image2.webp") center/cover no-repeat;
   color: var(--surface);
@@ -159,6 +162,7 @@ li {
   overflow-x: auto;
   scrollbar-width: thin;
   padding: 0 0.5rem;
+  background-color: #00c2d7;
 }
 
 .nav-item {
@@ -172,7 +176,7 @@ li {
   transition: all 0.15s ease;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,12 +184,12 @@ li {
 }
 
 .nav-item:hover {
-  color: var(--primary-color);
-  background: rgba(22, 41, 60, 0.02);
+  color: var(--surface);
+  background: rgba(22, 41, 60, 0.2);
 }
 
 .nav-item.active {
-  color: var(--primary-color);
+   color: var(--surface);
   border-bottom-color: var(--primary-color);
   background: rgba(22, 41, 60, 0.03);
 }

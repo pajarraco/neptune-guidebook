@@ -43,7 +43,7 @@ function App() {
       id: "property-info",
       title: "Property Info",
       icon: "home",
-      content: <PropertyInfoSection info={propertyInfo} />,
+      content: <PropertyInfoSection info={propertyInfo} onNavigate={handleSectionChange} />,
     },
     {
       id: "check-in-out",
