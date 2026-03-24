@@ -384,6 +384,7 @@ ol.instruction-list li {
   padding: 1.25rem 1.5rem;
   border-radius: var(--radius);
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
   border: 1px solid #fde68a;
 }
 

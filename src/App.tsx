@@ -117,7 +117,9 @@ function App() {
       <footer className="app-footer">
         <p>
           Have questions? Contact us anytime at{" "}
-          <a href="mailto:host@example.com">host@example.com</a>
+          <a href={`mailto:${propertyInfo.email}`}>{propertyInfo.email}</a>
+          <span> | </span>
+          <a href={`tel:${propertyInfo.phone}`}>{propertyInfo.phoneLabel}</a>
         </p>
       </footer>
     </div>

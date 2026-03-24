@@ -169,6 +169,9 @@ function transformToGuidebookFormat(sheetsData) {
       },
       checkIn: prop.checkInTime || "",
       checkOut: prop.checkOutTime || "",
+      email: prop.email || "",
+      phone: prop.phone || "",
+      phoneLabel: prop.phoneLabel || "",
     };
   }
 

@@ -14,6 +14,9 @@ export interface PropertyInfo {
   };
   checkIn: string;
   checkOut: string;
+  email: string;
+  phone: string;
+  phoneLabel: string;
 }
 
 export interface Amenity {

@@ -1,13 +1,4 @@
-interface PropertyInfo {
-  name: string;
-  address: string;
-  wifi: {
-    network: string;
-    password: string;
-  };
-  checkIn: string;
-  checkOut: string;
-}
+import type { PropertyInfo } from "../types";
 
 interface PropertyInfoSectionProps {
   info: PropertyInfo;
