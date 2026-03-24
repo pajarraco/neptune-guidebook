@@ -8,8 +8,8 @@
   --primary-color: #003033;
   --primary-dark: #001819;
   --primary-darker: #017880;
-  --secondary-color: #02C0CE;
-  --accent-color: #02D8E8;
+  --secondary-color: #02c0ce;
+  --accent-color: #02d8e8;
   --dark-bg: #003033;
   --darker-bg: #001819;
   --background: #f5f7fa;
@@ -189,7 +189,7 @@ li {
 }
 
 .nav-item.active {
-   color: var(--surface);
+  color: var(--surface);
   border-bottom-color: var(--primary-color);
   background: rgba(22, 41, 60, 0.03);
 }
@@ -755,8 +755,11 @@ ol.instruction-list li {
 }
 
 @media (max-width: 768px) {
+  .app-main {
+    padding: 0;
+  }
   .app-header {
-    padding: 2rem 0.7rem;
+    padding: 1rem 0.7rem;
   }
 
   .app-title {
@@ -786,7 +789,9 @@ ol.instruction-list li {
   }
 
   .section-content {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
+    border-radius: 0;
+    border: none;
   }
 
   .info-grid,
@@ -797,6 +802,10 @@ ol.instruction-list li {
 
   .welcome-header h1 {
     font-size: 2rem;
+  }
+
+  .instruction-block{
+    padding: 0.5rem;
   }
 
   .instruction-list li {
