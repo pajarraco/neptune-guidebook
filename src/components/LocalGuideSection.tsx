@@ -1,23 +1,21 @@
-import guidebookDataRaw from "../assets/guidebook-data.json";
-import type { GuidebookData } from "../types";
-
-const guidebookData = guidebookDataRaw as GuidebookData;
+import { useTranslation } from "react-i18next";
 
 export default function LocalGuideSection() {
-  const { localGuide } = guidebookData;
+  const { t } = useTranslation();
+  const recommendations = t('localGuide.recommendations', { returnObjects: true }) as Array<{category: string; name: string; description: string; address?: string; distance?: string; link?: string; note?: string}>;
   const categories = Array.from(
-    new Set(localGuide.recommendations.map((r) => r.category)),
+    new Set(recommendations.map((r) => r.category)),
   );
 
   return (
     <div className="section-content">
-      <h2>{localGuide.sectionTitle}</h2>
+      <h2>{t('localGuide.sectionTitle')}</h2>
 
       {categories.map((category) => (
         <div key={category} className="category-section">
           <h3 className="category-title">{category}</h3>
           <div className="recommendations-grid">
-            {localGuide.recommendations
+            {recommendations
               .filter((r) => r.category === category)
               .map((rec, index) => (
                 <div key={index} className="recommendation-card">
@@ -80,7 +78,7 @@ export default function LocalGuideSection() {
                       >
                         map
                       </span>
-                      {localGuide.viewOnMapsLabel}
+                      {t('localGuide.viewOnMapsLabel')}
                     </a>
                   )}
                   {rec.note && (
@@ -100,47 +98,22 @@ export default function LocalGuideSection() {
         </div>
       ))}
 
-      {localGuide.packingList && (
-        <div className="instruction-block" style={{ marginTop: "2rem" }}>
-          <h3>🎒 {localGuide.packingList.title}</h3>
-          <p style={{ marginBottom: "1rem" }}>
-            {localGuide.packingListIntro}
-          </p>
-          <div className="recommendations-grid">
-            {localGuide.packingList.items.map((item: string, index: number) => (
-              <div
-                key={index}
-                style={{
-                  padding: "0.5rem",
-                  backgroundColor: "var(--background)",
-                  borderRadius: "6px",
-                }}
-              >
-                ✓ {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {localGuide.tip && (
-        <div className="tip-box">
-          <p>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.25rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
-              info
-            </span>
-            {localGuide.tip}
-          </p>
-        </div>
-      )}
+      <div className="tip-box">
+        <p>
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.25rem",
+              verticalAlign: "middle",
+              marginRight: "0.5rem",
+              color: "var(--sand-color)",
+            }}
+          >
+            info
+          </span>
+          {t('localGuide.tip')}
+        </p>
+      </div>
     </div>
   );
 }

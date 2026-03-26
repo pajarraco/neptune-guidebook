@@ -108,10 +108,10 @@ async function fetchSheetData() {
     // Note: We don't need originalData anymore since all data comes from Google Sheets
     const guidebookData = transformToGuidebookFormat(config);
 
-    // Write to the assets folder
+    // Write to the i18n locales folder
     const outputPath = path.join(
       __dirname,
-      "../src/assets/guidebook-data.json",
+      "../src/i18n/locales/en.json",
     );
     fs.writeFileSync(outputPath, JSON.stringify(guidebookData, null, 2));
 
@@ -372,6 +372,21 @@ function transformToGuidebookFormat(config) {
         beaches: config.emergency_water_safety_beaches || "",
         freshwater: config.emergency_water_safety_freshwater || "",
       } : undefined,
+    },
+    sections: {
+      welcome: config.section_welcome || "Welcome",
+      propertyInfo: config.section_property_info || "Property Info",
+      checkInOut: config.section_check_in_out || "Check In/Out",
+      transport: config.section_transport || "Transport",
+      houseRules: config.section_house_rules || "House Rules",
+      amenities: config.section_amenities || "Amenities",
+      localGuide: config.section_local_guide || "Local Guide",
+      emergency: config.section_emergency || "Emergency",
+    },
+    common: {
+      everythingYouNeed: config.common_everything_you_need || "Everything you need for a great stay",
+      haveQuestions: config.common_have_questions || "Have questions? Contact us anytime at",
+      or: config.common_or || "or",
     },
   };
 

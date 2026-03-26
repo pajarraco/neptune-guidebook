@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const jsonPath = path.join(__dirname, '../src/assets/guidebook-data.json');
+const jsonPath = path.join(__dirname, '../src/i18n/locales/en.json');
 const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 
 const rows = [['key', 'value']];
@@ -232,6 +232,25 @@ data.localGuide.recommendations.forEach((rec, i) => {
   if (rec.link) rows.push([`local_rec_${i + 1}_link`, escapeCSV(rec.link)]);
   if (rec.note) rows.push([`local_rec_${i + 1}_note`, escapeCSV(rec.note)]);
 });
+
+// Sections
+if (data.sections) {
+  rows.push(['section_welcome', escapeCSV(data.sections.welcome)]);
+  rows.push(['section_property_info', escapeCSV(data.sections.propertyInfo)]);
+  rows.push(['section_check_in_out', escapeCSV(data.sections.checkInOut)]);
+  rows.push(['section_transport', escapeCSV(data.sections.transport)]);
+  rows.push(['section_house_rules', escapeCSV(data.sections.houseRules)]);
+  rows.push(['section_amenities', escapeCSV(data.sections.amenities)]);
+  rows.push(['section_local_guide', escapeCSV(data.sections.localGuide)]);
+  rows.push(['section_emergency', escapeCSV(data.sections.emergency)]);
+}
+
+// Common translations
+if (data.common) {
+  rows.push(['common_everything_you_need', escapeCSV(data.common.everythingYouNeed)]);
+  rows.push(['common_have_questions', escapeCSV(data.common.haveQuestions)]);
+  rows.push(['common_or', escapeCSV(data.common.or)]);
+}
 
 // Convert to CSV
 const csv = rows.map(row => row.join(',')).join('\n');

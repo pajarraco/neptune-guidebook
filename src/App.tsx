@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import type { GuideSection } from "./types";
+import { useTranslation } from "react-i18next";
+import type { GuideSection } from "./types/types";
 import Navigation from "./components/Navigation";
 import WelcomeSection from "./components/WelcomeSection";
 import PropertyInfoSection from "./components/PropertyInfoSection";
@@ -10,16 +11,13 @@ import AmenitiesSection from "./components/AmenitiesSection";
 import LocalGuideSection from "./components/LocalGuideSection";
 import EmergencySection from "./components/EmergencySection";
 import CodeEntryModal from "./components/CodeEntryModal";
-import guidebookDataRaw from "./assets/guidebook-data.json";
-import type { GuidebookData } from "./types";
-
-const guidebookData = guidebookDataRaw as GuidebookData;
 import "./App.css";
 
 const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
 const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState("welcome");
   const [isChatButtonVisible, setIsChatButtonVisible] = useState(false);
 
@@ -71,9 +69,12 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isChatButtonVisible]);
 
-  const { propertyInfo, welcome } = guidebookData;
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
-  const fullAddress = propertyInfo.address.replace(
+  const propertyName = t('propertyInfo.name');
+  const propertyEmail = t('propertyInfo.email');
+  const propertyPhone = t('propertyInfo.phone');
+  const propertyPhoneLabel = t('propertyInfo.phoneLabel');
+  const fullAddress = t('propertyInfo.address').replace(
     "{{APARTMENT_NUMBER}}",
     apartmentNumber,
   );
@@ -81,54 +82,53 @@ function App() {
   const sections: GuideSection[] = [
     {
       id: "welcome",
-      title: "Welcome",
+      title: t('sections.welcome'),
       icon: "waving_hand",
-      content: <WelcomeSection propertyInfo={propertyInfo} welcomeData={welcome} onNavigate={handleSectionChange} />,
+      content: <WelcomeSection onNavigate={handleSectionChange} />,
     },
     {
       id: "property-info",
-      title: "Property Info",
+      title: t('sections.propertyInfo'),
       icon: "home",
       content: (
         <PropertyInfoSection
-          info={propertyInfo}
           onNavigate={handleSectionChange}
         />
       ),
     },
     {
       id: "check-in-out",
-      title: "Check In/Out",
+      title: t('sections.checkInOut'),
       icon: "key",
       content: <CheckInOutSection />,
     },
     {
       id: "transport",
-      title: "Transport",
+      title: t('sections.transport'),
       icon: "directions_car",
       content: <TransportSection />,
     },
     {
       id: "house-rules",
-      title: "House Rules",
+      title: t('sections.houseRules'),
       icon: "rule",
       content: <HouseRulesSection />,
     },
     {
       id: "amenities",
-      title: "Amenities",
+      title: t('sections.amenities'),
       icon: "stars",
       content: <AmenitiesSection />,
     },
     {
       id: "local-guide",
-      title: "Local Guide",
+      title: t('sections.localGuide'),
       icon: "map",
       content: <LocalGuideSection />,
     },
     {
       id: "emergency",
-      title: "Emergency",
+      title: t('sections.emergency'),
       icon: "emergency",
       content: <EmergencySection />,
     },
@@ -150,12 +150,12 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <h1 className="app-title">{propertyInfo.name}</h1>
+          <h1 className="app-title">{propertyName}</h1>
           <p className="app-address-mobile">
             <span className="material-symbols-outlined">location_on</span>
             {fullAddress}
           </p>
-          <p className="app-subtitle">Everything you need for a great stay</p>
+          <p className="app-subtitle">{t('common.everythingYouNeed')}</p>
           <span 
             className="material-symbols-outlined chevron-down-icon"
             onClick={handleScrollToMenu}
@@ -177,10 +177,10 @@ function App() {
 
       <footer className="app-footer">
         <p>
-          Have questions? Contact us anytime at{" "}
-          <a href={`mailto:${propertyInfo.email}`}>{propertyInfo.email}</a>
+          {t('common.haveQuestions')}{" "}
+          <a href={`mailto:${propertyEmail}`}>{propertyEmail}</a>
           <span className="space-mobile"> | </span>
-          <a href={`tel:${propertyInfo.phone}`}>{propertyInfo.phoneLabel}</a>
+          <a href={`tel:${propertyPhone}`}>{propertyPhoneLabel}</a>
         </p>
       </footer>
 

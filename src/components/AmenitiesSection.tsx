@@ -1,14 +1,12 @@
-import guidebookDataRaw from "../assets/guidebook-data.json";
-import type { GuidebookData } from "../types";
-
-const guidebookData = guidebookDataRaw as GuidebookData;
+import { useTranslation } from "react-i18next";
 
 export default function AmenitiesSection() {
-  const { amenities, amenitiesSection } = guidebookData;
+  const { t } = useTranslation();
+  const amenities = t('amenities', { returnObjects: true }) as Array<{name: string; description: string; instructions?: string}>;
 
   return (
     <div className="section-content">
-      <h2>{amenitiesSection.sectionTitle}</h2>
+      <h2>{t('amenitiesSection.sectionTitle')}</h2>
 
       <div className="amenities-list">
         {amenities.map((amenity, index) => (
@@ -16,31 +14,9 @@ export default function AmenitiesSection() {
             <h3>{amenity.name}</h3>
             <p className="amenity-description">{amenity.description}</p>
 
-            {amenity.items && amenity.items.length > 0 && (
-              <ul style={{ marginTop: "0.75rem", marginLeft: "1.5rem" }}>
-                {amenity.items.map((item, idx) => (
-                  <li key={idx} style={{ marginBottom: "0.25rem" }}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {amenity.serviceInfo && (
-              <p
-                className="amenity-instructions"
-                style={{
-                  backgroundColor: "#fef3c7",
-                  borderLeft: "4px solid #f59e0b",
-                }}
-              >
-                <strong>{amenitiesSection.serviceInfoLabel}</strong> {amenity.serviceInfo}
-              </p>
-            )}
-
             {amenity.instructions && (
               <p className="amenity-instructions">
-                <strong>{amenitiesSection.howToUseLabel}</strong> {amenity.instructions}
+                <strong>{t('amenitiesSection.howToUseLabel')}</strong> {amenity.instructions}
               </p>
             )}
           </div>
@@ -60,9 +36,9 @@ export default function AmenitiesSection() {
           >
             lightbulb
           </span>
-          {amenitiesSection.helpTip.title}
+          {t('amenitiesSection.helpTip.title')}
         </strong>{" "}
-        {amenitiesSection.helpTip.message}
+        {t('amenitiesSection.helpTip.message')}
       </div>
     </div>
   );

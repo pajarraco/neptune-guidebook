@@ -1,19 +1,18 @@
-import type { PropertyInfo } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface PropertyInfoSectionProps {
-  info: PropertyInfo;
   onNavigate: (sectionId: string) => void;
 }
 
 export default function PropertyInfoSection({
-  info,
   onNavigate,
 }: PropertyInfoSectionProps) {
+  const { t } = useTranslation();
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
-  const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || info.wifi.network;
-  const wifiPassword = import.meta.env.VITE_WIFI_PASSWORD || info.wifi.password;
+  const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || t('propertyInfo.wifi.network');
+  const wifiPassword = import.meta.env.VITE_WIFI_PASSWORD || t('propertyInfo.wifi.password');
 
-  const fullAddress = info.address.replace(
+  const fullAddress = t('propertyInfo.address').replace(
     "{{APARTMENT_NUMBER}}",
     apartmentNumber,
   );
@@ -44,7 +43,7 @@ export default function PropertyInfoSection({
   return (
     <div className="section-content">
       <div className="welcome-header">
-        <h1>{info.addressTitle}</h1>
+        <h1>{t('propertyInfo.addressTitle')}</h1>
         <p className="address">{fullAddress}</p>
       </div>
 
@@ -66,9 +65,9 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            {info.checkInLabel}
+            {t('propertyInfo.checkInLabel')}
           </h3>
-          <p className="highlight">{info.checkIn}</p>
+          <p className="highlight">{t('propertyInfo.checkIn')}</p>
         </div>
         <div
           className="info-card"
@@ -87,9 +86,9 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            {info.checkOutLabel}
+            {t('propertyInfo.checkOutLabel')}
           </h3>
-          <p className="highlight">{info.checkOut}</p>
+          <p className="highlight">{t('propertyInfo.checkOut')}</p>
         </div>
       </div>
 
@@ -106,15 +105,15 @@ export default function PropertyInfoSection({
           >
             wifi
           </span>
-          {info.wifi.title}
+          {t('propertyInfo.wifi.title')}
         </h3>
         <div className="wifi-details">
           <div className="wifi-item">
-            <span className="label">{info.wifi.networkLabel}</span>
+            <span className="label">{t('propertyInfo.wifi.networkLabel')}</span>
             <span className="value">{wifiNetwork}</span>
           </div>
           <div className="wifi-item">
-            <span className="label">{info.wifi.passwordLabel}</span>
+            <span className="label">{t('propertyInfo.wifi.passwordLabel')}</span>
             <span className="value password">{wifiPassword}</span>
           </div>
         </div>

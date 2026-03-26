@@ -21,7 +21,7 @@ dist-ssr
 google-service-account.json
 
 # Guidebook data (generated from Google Sheets)
-src/assets/guidebook-data.json
+src/i18n/locales/*.json
 config.csv
 
 # Editor directories and files

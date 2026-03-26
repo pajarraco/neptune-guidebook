@@ -1,14 +1,13 @@
-import guidebookDataRaw from "../assets/guidebook-data.json";
-import type { GuidebookData } from "../types";
-
-const guidebookData = guidebookDataRaw as GuidebookData;
+import { useTranslation } from "react-i18next";
 
 export default function EmergencySection() {
-  const { emergency } = guidebookData;
+  const { t } = useTranslation();
+  const contacts = t('emergency.contacts', { returnObjects: true }) as Array<{type: string; name: string; phone: string; address?: string; hours?: string; note?: string}>;
+  const safetyItems = t('emergency.safetyInfo.items', { returnObjects: true }) as string[];
 
   return (
     <div className="section-content">
-      <h2>{emergency.sectionTitle}</h2>
+      <h2>{t('emergency.sectionTitle')}</h2>
 
       <div className="emergency-alert">
         <h3>
@@ -23,13 +22,13 @@ export default function EmergencySection() {
           >
             emergency
           </span>
-          {emergency.alert.title}
+          {t('emergency.alert.title')}
         </h3>
-        <p dangerouslySetInnerHTML={{ __html: emergency.alert.message }} />
+        <p dangerouslySetInnerHTML={{ __html: t('emergency.alert.message') }} />
       </div>
 
       <div className="contacts-list">
-        {emergency.contacts.map((contact, index) => (
+        {contacts.map((contact, index) => (
           <div key={index} className="contact-card">
             <div className="contact-type">{contact.type}</div>
             <div className="contact-name">{contact.name}</div>
@@ -110,93 +109,42 @@ export default function EmergencySection() {
         ))}
       </div>
 
-      {emergency.safetyInfo && (
-        <div className="safety-info">
-          <h3>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.5625rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
-              local_fire_department
-            </span>
-            {emergency.safetyInfo.title}
-          </h3>
-          <ul>
-            {emergency.safetyInfo.items.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {emergency.waterSafety && (
-        <div className="safety-info" style={{ marginTop: "1.5rem" }}>
-          <h3>{emergency.waterSafety.title}</h3>
-
-          <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.3125rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
-              beach_access
-            </span>
-            {emergency.beachesLabel}
-          </h4>
-          <p>{emergency.waterSafety.beaches}</p>
-
-          <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.3125rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
-              water_drop
-            </span>
-            {emergency.freshwaterLabel}
-          </h4>
-          <p>{emergency.waterSafety.freshwater}</p>
-        </div>
-      )}
+      <div className="safety-info">
+        <h3>
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.5625rem",
+              verticalAlign: "middle",
+              marginRight: "0.5rem",
+              color: "var(--sand-color)",
+            }}
+          >
+            local_fire_department
+          </span>
+          {t('emergency.safetyInfo.title')}
+        </h3>
+        <ul>
+          {safetyItems.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
 
       <div className="tip-box">
         <strong>
-          {(() => {
-            const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER;
-            if (apartmentNumber) {
-              return (
-                <>
-                  <span
-                    className="material-symbols-outlined"
-                    style={{
-                      fontSize: "1.25rem",
-                      verticalAlign: "middle",
-                      marginRight: "0.5rem",
-                      color: "var(--sand-color)",
-                    }}
-                  >
-                    location_on
-                  </span>
-                  {emergency.addressNoteLabel} Broadbeach, Unit{" "}
-                  {apartmentNumber}, Gold Coast, Queensland 4218
-                </>
-              );
-            }
-            return emergency.addressNote;
-          })()}
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.25rem",
+              verticalAlign: "middle",
+              marginRight: "0.5rem",
+              color: "var(--sand-color)",
+            }}
+          >
+            location_on
+          </span>
+          {t('emergency.addressNote')}
         </strong>
       </div>
     </div>

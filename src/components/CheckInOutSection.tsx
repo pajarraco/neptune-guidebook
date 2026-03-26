@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import guidebookDataRaw from "../assets/guidebook-data.json";
-import type { GuidebookData } from "../types";
+import { useTranslation } from "react-i18next";
 
-const guidebookData = guidebookDataRaw as GuidebookData;
 const STORAGE_KEY = "checkout-checklist-state";
 
 export default function CheckInOutSection() {
-  const { checkInOut } = guidebookData;
+  const { t } = useTranslation();
 
   // Initialize state from localStorage
   const [checkedItems, setCheckedItems] = useState<Set<number>>(() => {
@@ -44,9 +42,12 @@ export default function CheckInOutSection() {
     });
   };
 
+  const checkInSteps = t('checkInOut.checkIn.steps', { returnObjects: true }) as string[];
+  const checkOutSteps = t('checkInOut.checkOut.steps', { returnObjects: true }) as string[];
+
   return (
     <div className="section-content">
-      <h2>{checkInOut.sectionTitle}</h2>
+      <h2>{t('checkInOut.sectionTitle')}</h2>
 
       <div className="instruction-block">
         <h3>
@@ -61,33 +62,12 @@ export default function CheckInOutSection() {
           >
             key
           </span>
-          {checkInOut.checkIn.title}
+          {t('checkInOut.checkIn.title')}
         </h3>
-        {checkInOut.checkIn.description && (
-          <p>{checkInOut.checkIn.description}</p>
-        )}
 
-        {checkInOut.checkIn.arrivingEarly && (
-          <div
-            className="tip-box"
-            style={{ marginTop: "1rem", marginBottom: "1rem" }}
-          >
-            <strong>{checkInOut.checkIn.arrivingEarlyLabel || "Arriving early?"}</strong>
-            <p style={{ marginTop: "0.5rem" }}>
-              {checkInOut.checkIn.arrivingEarly}
-            </p>
-          </div>
-        )}
-
-        {checkInOut.checkIn.note && (
-          <p style={{ marginTop: "1rem", fontStyle: "italic" }}>
-            {checkInOut.checkIn.note}
-          </p>
-        )}
-
-        <h4 style={{ marginTop: "1.5rem" }}>{checkInOut.checkIn.subheading || "Access Codes & Arrival Info"}</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>{t('checkInOut.checkIn.subheading')}</h4>
         <ol className="instruction-list">
-          {checkInOut.checkIn.steps.map((step, index) => {
+          {checkInSteps.map((step, index) => {
             const doorCode = import.meta.env.VITE_CODE || "";
             const processedStep = step.replace("{{CODE}}", doorCode);
             return (
@@ -98,47 +78,24 @@ export default function CheckInOutSection() {
             );
           })}
         </ol>
-
-        {checkInOut.checkIn.personalMeet && (
-          <p style={{ marginTop: "1rem" }}>{checkInOut.checkIn.personalMeet}</p>
-        )}
-
-        {checkInOut.checkIn.codeNotReceived && (
-          <div className="tip-box" style={{ marginTop: "1rem" }}>
-            <strong
-              dangerouslySetInnerHTML={{
-                __html: checkInOut.checkIn.codeNotReceived,
-              }}
-            />
-          </div>
-        )}
       </div>
 
-      {checkInOut.tip && (
-        <div className="tip-box">
-          <p>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.25rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
-              lightbulb
-            </span>
-            {checkInOut.tip}
-          </p>
-        </div>
-      )}
-
-      {checkInOut.directions && (
-        <div className="instruction-block">
-          <h3>{checkInOut.directions.title}</h3>
-          <p>{checkInOut.directions.description}</p>
-        </div>
-      )}
+      <div className="tip-box">
+        <p>
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.25rem",
+              verticalAlign: "middle",
+              marginRight: "0.5rem",
+              color: "var(--sand-color)",
+            }}
+          >
+            lightbulb
+          </span>
+          {t('checkInOut.tip')}
+        </p>
+      </div>
 
       <div className="instruction-block" id="checkout-section">
         <h3>
@@ -153,22 +110,12 @@ export default function CheckInOutSection() {
           >
             logout
           </span>
-          {checkInOut.checkOut.title}
+          {t('checkInOut.checkOut.title')}
         </h3>
-        {checkInOut.checkOut.time && (
-          <p>
-            <strong>{checkInOut.checkOut.time}</strong>
-          </p>
-        )}
-        {checkInOut.checkOut.lateCheckout && (
-          <p style={{ marginTop: "0.5rem" }}>
-            {checkInOut.checkOut.lateCheckout}
-          </p>
-        )}
 
-        <h4 style={{ marginTop: "1.5rem" }}>{checkInOut.checkOut.subheading || "Please assist us by:"}</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>{t('checkInOut.checkOut.subheading')}</h4>
         <ul className="instruction-list checkout-list">
-          {checkInOut.checkOut.steps.map((step, index) => (
+          {checkOutSteps.map((step, index) => (
             <li
               key={index}
               onClick={() => toggleCheckItem(index)}

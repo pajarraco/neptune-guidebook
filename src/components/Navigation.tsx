@@ -1,4 +1,4 @@
-import type { GuideSection } from "../types";
+import type { GuideSection } from "../types/types";
 
 interface NavigationProps {
   sections: GuideSection[];
