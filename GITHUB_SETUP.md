@@ -60,14 +60,17 @@ You should already have these set up:
 1. Checkout code
 2. Setup Node.js
 3. Install dependencies (npm ci)
-4. Fetch data from Google Sheets ← NEW STEP
+4. Fetch data from Google Sheets ← SEPARATE STEP
    - Uses GOOGLE_SERVICE_ACCOUNT_KEY
    - Uses GOOGLE_SHEET_ID
-   - Updates src/assets/guidebook-data.json
+   - Creates src/assets/guidebook-data.json
 5. Build the app
    - Uses VITE_* variables
+   - Does NOT fetch data (already done in step 4)
 6. Deploy to GitHub Pages
 ```
+
+**Important:** The `npm run build` script no longer includes `fetch-data`. Data fetching is done as a separate step in the GitHub Actions workflow before building. This allows the build to work without requiring Google Sheets credentials.
 
 ## Deployment Flow
 
