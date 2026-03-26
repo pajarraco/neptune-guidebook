@@ -4,11 +4,11 @@ import type { GuidebookData } from "../types";
 const guidebookData = guidebookDataRaw as GuidebookData;
 
 export default function AmenitiesSection() {
-  const { amenities } = guidebookData;
+  const { amenities, amenitiesSection } = guidebookData;
 
   return (
     <div className="section-content">
-      <h2>Amenities & Appliances</h2>
+      <h2>{amenitiesSection.sectionTitle}</h2>
 
       <div className="amenities-list">
         {amenities.map((amenity, index) => (
@@ -34,13 +34,13 @@ export default function AmenitiesSection() {
                   borderLeft: "4px solid #f59e0b",
                 }}
               >
-                <strong>Service Info:</strong> {amenity.serviceInfo}
+                <strong>{amenitiesSection.serviceInfoLabel}</strong> {amenity.serviceInfo}
               </p>
             )}
 
             {amenity.instructions && (
               <p className="amenity-instructions">
-                <strong>How to use:</strong> {amenity.instructions}
+                <strong>{amenitiesSection.howToUseLabel}</strong> {amenity.instructions}
               </p>
             )}
           </div>
@@ -60,10 +60,9 @@ export default function AmenitiesSection() {
           >
             lightbulb
           </span>
-          Need help?
+          {amenitiesSection.helpTip.title}
         </strong>{" "}
-        If you experience any issues with appliances or amenities, don't
-        hesitate to get in touch.
+        {amenitiesSection.helpTip.message}
       </div>
     </div>
   );

@@ -18,21 +18,40 @@ export default function PropertyInfoSection({
     apartmentNumber,
   );
 
-  const handleNavigateToCheckInOut = () => {
+  const handleNavigateToCheckIn = () => {
     onNavigate("check-in-out");
+  };
+
+  const handleNavigateToCheckOut = () => {
+    onNavigate("check-in-out");
+    // Wait for navigation to complete, then scroll to checkout section
+    setTimeout(() => {
+      const checkoutSection = document.getElementById("checkout-section");
+      if (checkoutSection) {
+        const navigation = document.querySelector(".navigation");
+        const navHeight = navigation?.getBoundingClientRect().height || 0;
+        const elementPosition = checkoutSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - navHeight - 20;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 100);
   };
 
   return (
     <div className="section-content">
       <div className="welcome-header">
-        <h1>Address</h1>
+        <h1>{info.addressTitle}</h1>
         <p className="address">{fullAddress}</p>
       </div>
 
       <div className="info-grid">
         <div
           className="info-card"
-          onClick={handleNavigateToCheckInOut}
+          onClick={handleNavigateToCheckIn}
           style={{ cursor: "pointer" }}
         >
           <h3>
@@ -47,13 +66,13 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            Check-in
+            {info.checkInLabel}
           </h3>
           <p className="highlight">{info.checkIn}</p>
         </div>
         <div
           className="info-card"
-          onClick={handleNavigateToCheckInOut}
+          onClick={handleNavigateToCheckOut}
           style={{ cursor: "pointer" }}
         >
           <h3>
@@ -68,7 +87,7 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            Check-out
+            {info.checkOutLabel}
           </h3>
           <p className="highlight">{info.checkOut}</p>
         </div>
@@ -87,15 +106,15 @@ export default function PropertyInfoSection({
           >
             wifi
           </span>
-          WiFi Information
+          {info.wifi.title}
         </h3>
         <div className="wifi-details">
           <div className="wifi-item">
-            <span className="label">Network:</span>
+            <span className="label">{info.wifi.networkLabel}</span>
             <span className="value">{wifiNetwork}</span>
           </div>
           <div className="wifi-item">
-            <span className="label">Password:</span>
+            <span className="label">{info.wifi.passwordLabel}</span>
             <span className="value password">{wifiPassword}</span>
           </div>
         </div>

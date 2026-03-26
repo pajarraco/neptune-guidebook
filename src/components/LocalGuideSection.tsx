@@ -11,7 +11,7 @@ export default function LocalGuideSection() {
 
   return (
     <div className="section-content">
-      <h2>Local Area Guide</h2>
+      <h2>{localGuide.sectionTitle}</h2>
 
       {categories.map((category) => (
         <div key={category} className="category-section">
@@ -80,7 +80,7 @@ export default function LocalGuideSection() {
                       >
                         map
                       </span>
-                      View on Google Maps
+                      {localGuide.viewOnMapsLabel}
                     </a>
                   )}
                   {rec.note && (
@@ -104,8 +104,7 @@ export default function LocalGuideSection() {
         <div className="instruction-block" style={{ marginTop: "2rem" }}>
           <h3>🎒 {localGuide.packingList.title}</h3>
           <p style={{ marginBottom: "1rem" }}>
-            We've got you covered with the basics, but here are a few essentials
-            you might want to bring:
+            {localGuide.packingListIntro}
           </p>
           <div className="recommendations-grid">
             {localGuide.packingList.items.map((item: string, index: number) => (

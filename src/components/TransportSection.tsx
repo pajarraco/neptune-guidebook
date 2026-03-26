@@ -8,7 +8,7 @@ export default function TransportSection() {
 
   return (
     <div className="section-content">
-      <h2>Transport & Getting Around</h2>
+      <h2>{transport.sectionTitle}</h2>
 
       {transport.carRental && (
         <div className="instruction-block">
@@ -137,11 +137,11 @@ export default function TransportSection() {
             {transport.publicTransport.info}
           </p>
           <p style={{ marginTop: "0.5rem" }}>
-            <strong>Fares:</strong> {transport.publicTransport.fares}
+            <strong>{transport.faresLabel}</strong> {transport.publicTransport.fares}
           </p>
           {transport.publicTransport.limitations && (
             <div className="tip-box" style={{ marginTop: "1rem" }}>
-              <strong>Please note:</strong>
+              <strong>{transport.pleaseNoteLabel}</strong>
               <p style={{ marginTop: "0.5rem" }}>
                 {transport.publicTransport.limitations}
               </p>

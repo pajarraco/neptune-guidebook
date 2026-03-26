@@ -5,15 +5,55 @@ export interface GuideSection {
   content: React.ReactNode;
 }
 
+export interface Welcome {
+  introMessages: string[];
+  featuresSection: {
+    title: string;
+    answer: string;
+    description: string;
+    features: Array<{ icon: string; text: string; link?: string }>;
+    note: string;
+  };
+  addToPhone: {
+    icon: string;
+    title: string;
+    messages: string[];
+  };
+  meetYourTeam: {
+    title: string;
+    photoPlaceholder: string;
+    hostWelcome: {
+      icon: string;
+      title: string;
+      description: string;
+      teamIntro: string;
+      teamMembers: Array<{ icon: string; text: string }>;
+    };
+    founderNote: {
+      icon: string;
+      title: string;
+      message: string;
+      mission: string;
+      closing: string;
+    };
+  };
+}
+
 export interface PropertyInfo {
   name: string;
   address: string;
+  addressTitle: string;
   wifi: {
     network: string;
     password: string;
+    title: string;
+    networkLabel: string;
+    passwordLabel: string;
   };
   checkIn: string;
+  checkInLabel: string;
   checkOut: string;
+  checkOutLabel: string;
   email: string;
   phone: string;
   phoneLabel: string;
@@ -48,9 +88,11 @@ export interface EmergencyContact {
 
 export interface CheckInOutStep {
   title: string;
+  subheading?: string;
   steps: string[];
   description?: string;
   arrivingEarly?: string;
+  arrivingEarlyLabel?: string;
   note?: string;
   personalMeet?: string;
   codeNotReceived?: string;
@@ -59,6 +101,7 @@ export interface CheckInOutStep {
 }
 
 export interface CheckInOut {
+  sectionTitle: string;
   checkIn: CheckInOutStep;
   checkOut: CheckInOutStep;
   tip?: string;
@@ -75,6 +118,9 @@ export interface TransportOption {
 }
 
 export interface Transport {
+  sectionTitle: string;
+  faresLabel: string;
+  pleaseNoteLabel: string;
   parking?: {
     title: string;
     description: string;
@@ -104,6 +150,9 @@ export interface Transport {
 }
 
 export interface LocalGuide {
+  sectionTitle: string;
+  viewOnMapsLabel: string;
+  packingListIntro: string;
   recommendations: LocalRecommendation[];
   tip?: string;
   packingList?: {
@@ -113,6 +162,10 @@ export interface LocalGuide {
 }
 
 export interface Emergency {
+  sectionTitle: string;
+  beachesLabel: string;
+  freshwaterLabel: string;
+  addressNoteLabel: string;
   alert: {
     title: string;
     message: string;
@@ -144,11 +197,23 @@ export interface HouseRules {
   };
 }
 
+export interface AmenitiesSection {
+  sectionTitle: string;
+  serviceInfoLabel: string;
+  howToUseLabel: string;
+  helpTip: {
+    title: string;
+    message: string;
+  };
+}
+
 export interface GuidebookData {
+  welcome: Welcome;
   propertyInfo: PropertyInfo;
   checkInOut: CheckInOut;
   transport: Transport;
   houseRules: HouseRules;
+  amenitiesSection: AmenitiesSection;
   amenities: Amenity[];
   localGuide: LocalGuide;
   emergency: Emergency;

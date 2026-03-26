@@ -46,7 +46,7 @@ export default function CheckInOutSection() {
 
   return (
     <div className="section-content">
-      <h2>Check-in & Check-out Instructions</h2>
+      <h2>{checkInOut.sectionTitle}</h2>
 
       <div className="instruction-block">
         <h3>
@@ -72,7 +72,7 @@ export default function CheckInOutSection() {
             className="tip-box"
             style={{ marginTop: "1rem", marginBottom: "1rem" }}
           >
-            <strong>Arriving early?</strong>
+            <strong>{checkInOut.checkIn.arrivingEarlyLabel || "Arriving early?"}</strong>
             <p style={{ marginTop: "0.5rem" }}>
               {checkInOut.checkIn.arrivingEarly}
             </p>
@@ -85,7 +85,7 @@ export default function CheckInOutSection() {
           </p>
         )}
 
-        <h4 style={{ marginTop: "1.5rem" }}>Access Codes & Arrival Info</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>{checkInOut.checkIn.subheading || "Access Codes & Arrival Info"}</h4>
         <ol className="instruction-list">
           {checkInOut.checkIn.steps.map((step, index) => {
             const doorCode = import.meta.env.VITE_CODE || "";
@@ -140,7 +140,7 @@ export default function CheckInOutSection() {
         </div>
       )}
 
-      <div className="instruction-block">
+      <div className="instruction-block" id="checkout-section">
         <h3>
           <span
             className="material-symbols-outlined"
@@ -166,7 +166,7 @@ export default function CheckInOutSection() {
           </p>
         )}
 
-        <h4 style={{ marginTop: "1.5rem" }}>Please assist us by:</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>{checkInOut.checkOut.subheading || "Please assist us by:"}</h4>
         <ul className="instruction-list checkout-list">
           {checkInOut.checkOut.steps.map((step, index) => (
             <li

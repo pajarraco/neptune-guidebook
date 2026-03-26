@@ -288,6 +288,262 @@ li {
   font-size: 1.1rem;
 }
 
+.welcome-intro {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.welcome-message {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  max-width: 800px;
+  margin: 0 auto 1rem;
+}
+
+.welcome-features {
+  background: var(--background);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.welcome-features h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.welcome-features p {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem auto;
+  max-width: 500px;
+  text-align: left;
+}
+
+.features-list li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.features-list li.clickable {
+  cursor: pointer;
+}
+
+.features-list li.clickable:hover {
+  transform: translateX(5px);
+  border-color: var(--aqua-blue);
+  background: var(--background);
+  box-shadow: var(--shadow-md);
+}
+
+.features-list li.clickable:active {
+  transform: translateX(3px);
+}
+
+.feature-icon {
+  color: var(--aqua-blue);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.happiness-note {
+  font-style: italic;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+.add-to-phone {
+  background: linear-gradient(135deg, var(--aqua-blue) 0%, var(--secondary-color) 100%);
+  padding: 2rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--surface);
+}
+
+.add-to-phone h3 {
+  color: var(--surface);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.add-to-phone p {
+  color: var(--surface);
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+.meet-your-team {
+  margin-bottom: 2rem;
+}
+
+.meet-your-team h2 {
+  color: var(--primary-color);
+  font-size: 1.875rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.host-welcome {
+  background: var(--background);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.host-welcome h3 {
+  color: var(--primary-color);
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.host-welcome p {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.team-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.team-list li {
+  padding: 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.team-icon {
+  color: var(--aqua-blue);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.founder-note {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--aqua-blue);
+  border-left: 4px solid var(--aqua-blue);
+}
+
+.founder-note h3 {
+  color: var(--primary-color);
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+.founder-message {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.mission-statement {
+  background: var(--background);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--aqua-blue);
+  margin: 1.5rem 0;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.founder-note p:last-child {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.welcome-contact {
+  background: var(--background);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.welcome-contact h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.welcome-contact p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.contact-details p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.contact-details a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+  color: var(--aqua-blue);
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

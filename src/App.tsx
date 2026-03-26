@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { GuideSection } from "./types";
 import Navigation from "./components/Navigation";
+import WelcomeSection from "./components/WelcomeSection";
 import PropertyInfoSection from "./components/PropertyInfoSection";
 import CheckInOutSection from "./components/CheckInOutSection";
 import TransportSection from "./components/TransportSection";
@@ -19,7 +20,7 @@ const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
 const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
-  const [activeSection, setActiveSection] = useState("property-info");
+  const [activeSection, setActiveSection] = useState("welcome");
   const [isChatButtonVisible, setIsChatButtonVisible] = useState(false);
 
   // Initialize code verification state from localStorage
@@ -35,8 +36,10 @@ function App() {
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId);
     const header = document.querySelector(".app-header");
+    const navigation = document.querySelector(".navigation");
     const headerHeight = header?.getBoundingClientRect().height || 0;
-    window.scrollTo({ top: headerHeight, behavior: "smooth" });
+    const navHeight = navigation?.getBoundingClientRect().height || 0;
+    window.scrollTo({ top: headerHeight + navHeight, behavior: "smooth" });
   };
 
   const handleScrollToMenu = () => {
@@ -68,7 +71,7 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isChatButtonVisible]);
 
-  const { propertyInfo } = guidebookData;
+  const { propertyInfo, welcome } = guidebookData;
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
   const fullAddress = propertyInfo.address.replace(
     "{{APARTMENT_NUMBER}}",
@@ -76,6 +79,12 @@ function App() {
   );
 
   const sections: GuideSection[] = [
+    {
+      id: "welcome",
+      title: "Welcome",
+      icon: "waving_hand",
+      content: <WelcomeSection propertyInfo={propertyInfo} welcomeData={welcome} onNavigate={handleSectionChange} />,
+    },
     {
       id: "property-info",
       title: "Property Info",

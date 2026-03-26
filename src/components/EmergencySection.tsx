@@ -8,7 +8,7 @@ export default function EmergencySection() {
 
   return (
     <div className="section-content">
-      <h2>Emergency Contacts & Safety</h2>
+      <h2>{emergency.sectionTitle}</h2>
 
       <div className="emergency-alert">
         <h3>
@@ -150,7 +150,7 @@ export default function EmergencySection() {
             >
               beach_access
             </span>
-            Beaches
+            {emergency.beachesLabel}
           </h4>
           <p>{emergency.waterSafety.beaches}</p>
 
@@ -166,7 +166,7 @@ export default function EmergencySection() {
             >
               water_drop
             </span>
-            Freshwater Swimming
+            {emergency.freshwaterLabel}
           </h4>
           <p>{emergency.waterSafety.freshwater}</p>
         </div>
@@ -190,7 +190,7 @@ export default function EmergencySection() {
                   >
                     location_on
                   </span>
-                  Address for Emergency Services: Broadbeach, Unit{" "}
+                  {emergency.addressNoteLabel} Broadbeach, Unit{" "}
                   {apartmentNumber}, Gold Coast, Queensland 4218
                 </>
               );

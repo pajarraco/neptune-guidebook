@@ -82,47 +82,37 @@ async function fetchSheetData() {
 
     console.log("Fetching data from Google Sheets...");
 
-    // Define all the sheets to fetch
-    const sheetNames = [
-      "property-info",
-      "check-in-steps",
-      "check-out-steps",
-      "transport",
-      "house-rules",
-      "amenities",
-      "local-guide",
-      "emergency-contacts",
-    ];
+    // Fetch the config sheet (key-value pairs)
+    const configResponse = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "Config!A1:B1000",
+    });
 
-    // Fetch all sheets in parallel
-    const fetchPromises = sheetNames.map((sheetName) =>
-      sheets.spreadsheets.values
-        .get({
-          spreadsheetId,
-          range: `${sheetName}!A1:Z1000`,
-        })
-        .then((response) => ({ sheetName, data: response.data.values }))
-        .catch((error) => {
-          console.error(
-            `  ⚠ Warning: Could not fetch sheet "${sheetName}": ${error.message}`,
-          );
-          return { sheetName, data: null };
-        }),
-    );
+    const configData = configResponse.data.values;
+    if (!configData || configData.length < 2) {
+      console.error("Error: Config sheet is empty or has no data");
+      process.exit(1);
+    }
 
-    const results = await Promise.all(fetchPromises);
+    console.log(`  ✓ Fetched Config: ${configData.length - 1} rows`);
 
-    // Convert results to a map
-    const sheetsData = {};
-    results.forEach(({ sheetName, data }) => {
-      if (data && data.length > 0) {
-        sheetsData[sheetName] = parseSheetData(data);
-        console.log(`  ✓ Fetched ${sheetName}: ${data.length - 1} rows`);
+    // Parse config data (skip header row)
+    const config = {};
+    configData.slice(1).forEach((row) => {
+      if (row[0]) {
+        config[row[0]] = row[1] || "";
       }
     });
 
-    // Transform the data into guidebook format
-    const guidebookData = transformToGuidebookFormat(sheetsData);
+    // Read the original guidebook-data.json to preserve array-based data
+    const originalJsonPath = path.join(
+      __dirname,
+      "../src/assets/guidebook-data.json",
+    );
+    const originalData = JSON.parse(fs.readFileSync(originalJsonPath, "utf-8"));
+
+    // Transform the config data into guidebook format
+    const guidebookData = transformToGuidebookFormat(config, originalData);
 
     // Write to the assets folder
     const outputPath = path.join(
@@ -139,180 +129,126 @@ async function fetchSheetData() {
   }
 }
 
-// Parse sheet data (convert rows to objects with headers as keys)
-function parseSheetData(rows) {
-  if (!rows || rows.length < 2) return [];
-
-  const headers = rows[0];
-  return rows.slice(1).map((row) => {
-    const obj = {};
-    headers.forEach((header, index) => {
-      obj[header] = row[index] || "";
-    });
-    return obj;
+// Transform config data to match guidebook-data.json structure
+function transformToGuidebookFormat(config, originalData) {
+  // Convert \n to actual newlines in text values
+  Object.keys(config).forEach((key) => {
+    if (typeof config[key] === "string") {
+      config[key] = config[key].replace(/\\n/g, "\n");
+    }
   });
-}
 
-// Transform sheet data to match guidebook-data.json structure
-function transformToGuidebookFormat(sheetsData) {
-  const guidebook = {};
-
-  // Property Info
-  if (sheetsData["property-info"] && sheetsData["property-info"][0]) {
-    const prop = sheetsData["property-info"][0];
-    guidebook.propertyInfo = {
-      name: prop.propertyName || "",
-      address: prop.address || "",
-      wifi: {
-        network: prop.wifiNetwork || "",
-        password: prop.wifiPassword || "",
+  const guidebook = {
+    welcome: {
+      introMessages: [
+        config.welcome_intro_message_1 || "",
+        config.welcome_intro_message_2 || "",
+      ],
+      featuresSection: {
+        title: config.welcome_features_title || "",
+        answer: config.welcome_features_answer || "",
+        description: config.welcome_features_description || "",
+        features: originalData.welcome.featuresSection.features,
+        note: config.welcome_features_note || "",
       },
-      checkIn: prop.checkInTime || "",
-      checkOut: prop.checkOutTime || "",
-      email: prop.email || "",
-      phone: prop.phone || "",
-      phoneLabel: prop.phoneLabel || "",
-    };
-  }
-
-  // Check In/Out
-  guidebook.checkInOut = {
-    checkIn: {
-      title: "Check-in Process",
-      steps:
-        sheetsData["check-in-steps"]?.map((row) => row.stepDescription) || [],
-    },
-    checkOut: {
-      title: "Check-out Process",
-      steps:
-        sheetsData["check-out-steps"]?.map((row) => row.stepDescription) || [],
-    },
-    tip: "Tip: Early check-in or late check-out may be available - please enquire at least 48 hours in advance. Additional fees may apply.",
-  };
-
-  // Transport
-  if (sheetsData["transport"]) {
-    const transportData = sheetsData["transport"];
-    guidebook.transport = {};
-
-    transportData.forEach((row) => {
-      const key = row.section.toLowerCase().replace(/\s+/g, "");
-
-      if (key === "parking") {
-        guidebook.transport.parking = {
-          title: row.title,
-          description: row.description,
-        };
-      } else if (key === "rideshare") {
-        guidebook.transport.rideshare = {
-          title: row.title,
-          description: row.description,
-        };
-      } else if (key === "publictransport") {
-        guidebook.transport.publicTransport = {
-          title: row.title,
-          description: row.description,
-          info: row.info || "",
-          fares: row.fares || "",
-        };
-      } else if (key === "airporttransfers") {
-        let options = [];
-
-        // Try to parse options from JSON array
-        if (row.info && row.info.trim()) {
-          try {
-            options = JSON.parse(row.info.trim());
-          } catch (e) {
-            console.warn(
-              "Failed to parse airport transfer options JSON:",
-              e.message,
-            );
-          }
-        }
-
-        guidebook.transport.airportTransfers = {
-          title: row.title,
-          description: row.description,
-          options: options,
-          note: row.notes || "",
-        };
-      } else if (key === "carrental") {
-        guidebook.transport.carRental = {
-          title: row.title,
-          description: row.description,
-          note: row.notes || "",
-        };
-      }
-    });
-  }
-
-  // House Rules
-  if (sheetsData["house-rules"]) {
-    guidebook.houseRules = {
-      rules: sheetsData["house-rules"].map((row) => ({
-        icon: row.icon,
-        title: row.title,
-        description: row.description,
-      })),
-      importantNote: {
-        title: "Important - Body Corporate Rules",
-        message:
-          "This apartment is subject to body corporate by-laws. Violations may result in fines, immediate eviction without refund, and loss of security bond. Please respect all residents and building rules.",
-      },
-    };
-  }
-
-  // Amenities
-  if (sheetsData["amenities"]) {
-    guidebook.amenities = sheetsData["amenities"].map((row) => ({
-      name: row.name,
-      description: row.description,
-      instructions: row.instructions,
-    }));
-  }
-
-  // Local Guide
-  if (sheetsData["local-guide"]) {
-    guidebook.localGuide = {
-      recommendations: sheetsData["local-guide"].map((row) => ({
-        category: row.category,
-        name: row.name,
-        description: row.description,
-        address: row.address,
-        distance: row.distance,
-        link: row.link,
-      })),
-      tip: "Getting Around: G:link light rail stops at Broadbeach South (3 min walk) - connects to Surfers Paradise and Southport. Uber and DiDi readily available. Free parking at Pacific Fair for 3 hours.",
-    };
-  }
-
-  // Emergency
-  if (sheetsData["emergency-contacts"]) {
-    guidebook.emergency = {
-      alert: {
-        title: "In Case of Emergency",
-        message:
-          "For life-threatening emergencies, always call <strong>000</strong> (Triple Zero) for Police, Fire or Ambulance.",
-      },
-      contacts: sheetsData["emergency-contacts"].map((row) => ({
-        type: row.type,
-        name: row.name,
-        phone: row.phone,
-      })),
-      safetyInfo: {
-        title: "Safety Equipment",
-        items: [
-          "Fire extinguisher: Located in kitchen cupboard",
-          "First aid kit: Bathroom vanity drawer",
-          "Emergency exits: Main door and fire stairs at end of corridor",
-          "Smoke alarms: Installed throughout apartment (tested quarterly)",
-          "Fire evacuation plan: Posted on back of main door",
+      addToPhone: {
+        icon: config.welcome_add_to_phone_icon || "",
+        title: config.welcome_add_to_phone_title || "",
+        messages: [
+          config.welcome_add_to_phone_message_1 || "",
+          config.welcome_add_to_phone_message_2 || "",
         ],
       },
-      addressNote:
-        "Address for Emergency Services: Broadbeach, Gold Coast, Queensland 4218 (provide specific unit number when calling)",
-    };
-  }
+      meetYourTeam: {
+        title: config.welcome_meet_team_title || "",
+        photoPlaceholder: config.welcome_meet_team_photo || "",
+        hostWelcome: {
+          icon: config.welcome_host_icon || "",
+          title: config.welcome_host_title || "",
+          description: config.welcome_host_description || "",
+          teamIntro: config.welcome_host_team_intro || "",
+          teamMembers: originalData.welcome.meetYourTeam.hostWelcome.teamMembers,
+        },
+        founderNote: {
+          icon: config.welcome_founder_icon || "",
+          title: config.welcome_founder_title || "",
+          message: config.welcome_founder_message || "",
+          mission: config.welcome_founder_mission || "",
+          closing: config.welcome_founder_closing || "",
+        },
+      },
+    },
+    propertyInfo: {
+      name: config.property_name || "",
+      address: config.property_address || "",
+      addressTitle: config.property_address_title || "",
+      wifi: {
+        network: config.property_wifi_network || "",
+        password: config.property_wifi_password || "",
+        title: config.property_wifi_title || "",
+        networkLabel: config.property_wifi_network_label || "",
+        passwordLabel: config.property_wifi_password_label || "",
+      },
+      checkIn: config.property_checkin_time || "",
+      checkInLabel: config.property_checkin_label || "",
+      checkOut: config.property_checkout_time || "",
+      checkOutLabel: config.property_checkout_label || "",
+      email: config.property_email || "",
+      phone: config.property_phone || "",
+      phoneLabel: config.property_phone_label || "",
+    },
+    checkInOut: {
+      sectionTitle: config.checkinout_section_title || "",
+      checkIn: {
+        title: config.checkin_title || "",
+        subheading: config.checkin_subheading || "",
+        arrivingEarlyLabel: config.checkin_arriving_early_label || "",
+        steps: originalData.checkInOut.checkIn.steps,
+      },
+      checkOut: {
+        title: config.checkout_title || "",
+        subheading: config.checkout_subheading || "",
+        steps: originalData.checkInOut.checkOut.steps,
+      },
+      tip: config.checkinout_tip || "",
+    },
+    transport: {
+      ...originalData.transport,
+      sectionTitle: config.transport_section_title || "",
+      faresLabel: config.transport_fares_label || "",
+      pleaseNoteLabel: config.transport_please_note_label || "",
+    },
+    houseRules: originalData.houseRules,
+    amenitiesSection: {
+      sectionTitle: config.amenities_section_title || "",
+      serviceInfoLabel: config.amenities_service_info_label || "",
+      howToUseLabel: config.amenities_how_to_use_label || "",
+      helpTip: {
+        title: config.amenities_help_tip_title || "",
+        message: config.amenities_help_tip_message || "",
+      },
+    },
+    amenities: originalData.amenities,
+    localGuide: {
+      sectionTitle: config.localguide_section_title || "",
+      viewOnMapsLabel: config.localguide_view_on_maps_label || "",
+      packingListIntro: config.localguide_packing_list_intro || "",
+      recommendations: originalData.localGuide.recommendations,
+      tip: originalData.localGuide.tip,
+      packingList: originalData.localGuide.packingList,
+    },
+    emergency: {
+      sectionTitle: config.emergency_section_title || "",
+      beachesLabel: config.emergency_beaches_label || "",
+      freshwaterLabel: config.emergency_freshwater_label || "",
+      addressNoteLabel: config.emergency_address_note_label || "",
+      alert: originalData.emergency.alert,
+      contacts: originalData.emergency.contacts,
+      safetyInfo: originalData.emergency.safetyInfo,
+      addressNote: originalData.emergency.addressNote,
+      waterSafety: originalData.emergency.waterSafety,
+    },
+  };
 
   return guidebook;
 }
