@@ -104,15 +104,9 @@ async function fetchSheetData() {
       }
     });
 
-    // Read the original guidebook-data.json to preserve array-based data
-    const originalJsonPath = path.join(
-      __dirname,
-      "../src/assets/guidebook-data.json",
-    );
-    const originalData = JSON.parse(fs.readFileSync(originalJsonPath, "utf-8"));
-
     // Transform the config data into guidebook format
-    const guidebookData = transformToGuidebookFormat(config, originalData);
+    // Note: We don't need originalData anymore since all data comes from Google Sheets
+    const guidebookData = transformToGuidebookFormat(config);
 
     // Write to the assets folder
     const outputPath = path.join(
@@ -163,7 +157,7 @@ function getNumberedSimpleItems(config, prefix) {
 }
 
 // Transform config data to match guidebook-data.json structure
-function transformToGuidebookFormat(config, originalData) {
+function transformToGuidebookFormat(config) {
   // Convert \n to actual newlines in text values
   Object.keys(config).forEach((key) => {
     if (typeof config[key] === "string") {
