@@ -113,6 +113,13 @@ async function fetchSheetData() {
       __dirname,
       "../src/i18n/locales/en.json",
     );
+    
+    // Ensure the directory exists
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+    
     fs.writeFileSync(outputPath, JSON.stringify(guidebookData, null, 2));
 
     console.log("\n✓ Successfully fetched and saved guidebook data");
