@@ -13,9 +13,11 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
   );
 
   const introMessages = t('welcome.introMessages', { returnObjects: true }) as string[];
-  const features = t('welcome.featuresSection.features', { returnObjects: true }) as Array<{icon: string; text: string; link?: string}>;
+  const features = t('welcome.featuresSection.features', { returnObjects: true }) as Array<{text: string; link?: string}>;
+  const featureIcons = ['wifi', 'door_front', 'restaurant', 'map', 'phone', 'sentiment_satisfied'];
   const addToPhoneMessages = t('welcome.addToPhone.messages', { returnObjects: true }) as string[];
-  const teamMembers = t('welcome.meetYourTeam.hostWelcome.teamMembers', { returnObjects: true }) as Array<{icon: string; text: string}>;
+  const teamMembers = t('welcome.meetYourTeam.hostWelcome.teamMembers', { returnObjects: true }) as Array<{text: string}>;
+  const teamMemberIcons = ['support_agent', 'home_repair_service', 'cleaning_services'];
 
   return (
     <div className="section-content">
@@ -49,7 +51,7 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
               onClick={() => feature.link && onNavigate(feature.link)}
             >
               <span className="material-symbols-outlined feature-icon">
-                {feature.icon}
+                {featureIcons[index] || 'info'}
               </span>
               {feature.text}
             </li>
@@ -63,7 +65,7 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
       <div className="add-to-phone">
         <h3>
           <span className="material-symbols-outlined" style={{ fontSize: '1.5rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>
-            {t('welcome.addToPhone.icon')}
+            phone_iphone
           </span>
           {t('welcome.addToPhone.title')}
         </h3>
@@ -78,7 +80,7 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
         <div className="host-welcome">
           <h3>
             <span className="material-symbols-outlined" style={{ fontSize: '1.5rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>
-              {t('welcome.meetYourTeam.hostWelcome.icon')}
+              waving_hand
             </span>
             {t('welcome.meetYourTeam.hostWelcome.title')}
           </h3>
@@ -88,7 +90,7 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
             {teamMembers.map((member, index) => (
               <li key={index}>
                 <span className="material-symbols-outlined team-icon">
-                  {member.icon}
+                  {teamMemberIcons[index] || 'person'}
                 </span>
                 {member.text}
               </li>
@@ -99,7 +101,7 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
         <div className="founder-note">
           <h3>
             <span className="material-symbols-outlined" style={{ fontSize: '1.5rem', verticalAlign: 'middle', marginRight: '0.5rem' }}>
-              {t('welcome.meetYourTeam.founderNote.icon')}
+              person
             </span>
             {t('welcome.meetYourTeam.founderNote.title')}
           </h3>
