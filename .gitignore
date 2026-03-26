@@ -22,6 +22,7 @@ google-service-account.json
 
 # Guidebook data (generated from Google Sheets)
 src/assets/guidebook-data.json
+config.csv
 
 # Editor directories and files
 .vscode/*

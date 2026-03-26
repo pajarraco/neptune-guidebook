@@ -129,6 +129,39 @@ async function fetchSheetData() {
   }
 }
 
+// Helper function to get numbered items from config
+function getNumberedItems(config, prefix, properties) {
+  const items = [];
+  let i = 1;
+  
+  while (config[`${prefix}_${i}_${properties[0]}`] !== undefined) {
+    const item = {};
+    properties.forEach(prop => {
+      const value = config[`${prefix}_${i}_${prop}`];
+      if (value !== undefined && value !== '') {
+        item[prop] = value;
+      }
+    });
+    items.push(item);
+    i++;
+  }
+  
+  return items;
+}
+
+// Helper function to get numbered simple items (just strings)
+function getNumberedSimpleItems(config, prefix) {
+  const items = [];
+  let i = 1;
+  
+  while (config[`${prefix}_${i}`] !== undefined) {
+    items.push(config[`${prefix}_${i}`]);
+    i++;
+  }
+  
+  return items;
+}
+
 // Transform config data to match guidebook-data.json structure
 function transformToGuidebookFormat(config, originalData) {
   // Convert \n to actual newlines in text values
@@ -148,7 +181,7 @@ function transformToGuidebookFormat(config, originalData) {
         title: config.welcome_features_title || "",
         answer: config.welcome_features_answer || "",
         description: config.welcome_features_description || "",
-        features: originalData.welcome.featuresSection.features,
+        features: getNumberedItems(config, 'welcome_feature', ['icon', 'text', 'link']),
         note: config.welcome_features_note || "",
       },
       addToPhone: {
@@ -167,7 +200,7 @@ function transformToGuidebookFormat(config, originalData) {
           title: config.welcome_host_title || "",
           description: config.welcome_host_description || "",
           teamIntro: config.welcome_host_team_intro || "",
-          teamMembers: originalData.welcome.meetYourTeam.hostWelcome.teamMembers,
+          teamMembers: getNumberedItems(config, 'welcome_team_member', ['icon', 'text']),
         },
         founderNote: {
           icon: config.welcome_founder_icon || "",
@@ -203,22 +236,53 @@ function transformToGuidebookFormat(config, originalData) {
         title: config.checkin_title || "",
         subheading: config.checkin_subheading || "",
         arrivingEarlyLabel: config.checkin_arriving_early_label || "",
-        steps: originalData.checkInOut.checkIn.steps,
+        steps: getNumberedSimpleItems(config, 'checkin_step'),
       },
       checkOut: {
         title: config.checkout_title || "",
         subheading: config.checkout_subheading || "",
-        steps: originalData.checkInOut.checkOut.steps,
+        steps: getNumberedSimpleItems(config, 'checkout_step'),
       },
       tip: config.checkinout_tip || "",
     },
     transport: {
-      ...originalData.transport,
       sectionTitle: config.transport_section_title || "",
       faresLabel: config.transport_fares_label || "",
       pleaseNoteLabel: config.transport_please_note_label || "",
+      parking: config.transport_parking_title ? {
+        title: config.transport_parking_title,
+        description: config.transport_parking_description || "",
+      } : undefined,
+      rideshare: config.transport_rideshare_title ? {
+        title: config.transport_rideshare_title,
+        description: config.transport_rideshare_description || "",
+      } : undefined,
+      publicTransport: config.transport_public_title ? {
+        title: config.transport_public_title,
+        description: config.transport_public_description || "",
+        info: config.transport_public_info || "",
+        fares: config.transport_public_fares || "",
+        limitations: config.transport_public_limitations,
+      } : undefined,
+      airportTransfers: config.transport_airport_title ? {
+        title: config.transport_airport_title,
+        description: config.transport_airport_description || "",
+        options: getNumberedItems(config, 'transport_airport_option', ['name', 'phone', 'type']),
+        note: config.transport_airport_note,
+      } : undefined,
+      carRental: config.transport_car_rental_title ? {
+        title: config.transport_car_rental_title,
+        description: config.transport_car_rental_description || "",
+        note: config.transport_car_rental_note,
+      } : undefined,
     },
-    houseRules: originalData.houseRules,
+    houseRules: {
+      rules: getNumberedItems(config, 'house_rule', ['icon', 'title', 'description']),
+      importantNote: {
+        title: config.house_rules_important_note_title || "",
+        message: config.house_rules_important_note_message || "",
+      },
+    },
     amenitiesSection: {
       sectionTitle: config.amenities_section_title || "",
       serviceInfoLabel: config.amenities_service_info_label || "",
@@ -228,25 +292,92 @@ function transformToGuidebookFormat(config, originalData) {
         message: config.amenities_help_tip_message || "",
       },
     },
-    amenities: originalData.amenities,
+    amenities: (() => {
+      const amenities = [];
+      let i = 1;
+      while (config[`amenity_${i}_name`]) {
+        const amenity = {
+          name: config[`amenity_${i}_name`],
+          description: config[`amenity_${i}_description`] || "",
+        };
+        if (config[`amenity_${i}_instructions`]) {
+          amenity.instructions = config[`amenity_${i}_instructions`];
+        }
+        if (config[`amenity_${i}_service_info`]) {
+          amenity.serviceInfo = config[`amenity_${i}_service_info`];
+        }
+        if (config[`amenity_${i}_items`]) {
+          amenity.items = config[`amenity_${i}_items`].split(' | ');
+        }
+        amenities.push(amenity);
+        i++;
+      }
+      return amenities;
+    })(),
     localGuide: {
       sectionTitle: config.localguide_section_title || "",
       viewOnMapsLabel: config.localguide_view_on_maps_label || "",
       packingListIntro: config.localguide_packing_list_intro || "",
-      recommendations: originalData.localGuide.recommendations,
-      tip: originalData.localGuide.tip,
-      packingList: originalData.localGuide.packingList,
+      recommendations: (() => {
+        const recs = [];
+        let i = 1;
+        while (config[`local_rec_${i}_name`]) {
+          const rec = {
+            category: config[`local_rec_${i}_category`] || "",
+            name: config[`local_rec_${i}_name`],
+            description: config[`local_rec_${i}_description`] || "",
+          };
+          if (config[`local_rec_${i}_address`]) rec.address = config[`local_rec_${i}_address`];
+          if (config[`local_rec_${i}_distance`]) rec.distance = config[`local_rec_${i}_distance`];
+          if (config[`local_rec_${i}_link`]) rec.link = config[`local_rec_${i}_link`];
+          if (config[`local_rec_${i}_note`]) rec.note = config[`local_rec_${i}_note`];
+          recs.push(rec);
+          i++;
+        }
+        return recs;
+      })(),
+      tip: config.local_guide_tip || "",
+      packingList: config.local_guide_packing_list_title ? {
+        title: config.local_guide_packing_list_title,
+        items: getNumberedSimpleItems(config, 'local_guide_packing_item'),
+      } : undefined,
     },
     emergency: {
       sectionTitle: config.emergency_section_title || "",
       beachesLabel: config.emergency_beaches_label || "",
       freshwaterLabel: config.emergency_freshwater_label || "",
       addressNoteLabel: config.emergency_address_note_label || "",
-      alert: originalData.emergency.alert,
-      contacts: originalData.emergency.contacts,
-      safetyInfo: originalData.emergency.safetyInfo,
-      addressNote: originalData.emergency.addressNote,
-      waterSafety: originalData.emergency.waterSafety,
+      alert: {
+        title: config.emergency_alert_title || "",
+        message: config.emergency_alert_message || "",
+      },
+      contacts: (() => {
+        const contacts = [];
+        let i = 1;
+        while (config[`emergency_contact_${i}_name`]) {
+          const contact = {
+            type: config[`emergency_contact_${i}_type`] || "",
+            name: config[`emergency_contact_${i}_name`],
+            phone: config[`emergency_contact_${i}_phone`] || "",
+          };
+          if (config[`emergency_contact_${i}_address`]) contact.address = config[`emergency_contact_${i}_address`];
+          if (config[`emergency_contact_${i}_hours`]) contact.hours = config[`emergency_contact_${i}_hours`];
+          if (config[`emergency_contact_${i}_note`]) contact.note = config[`emergency_contact_${i}_note`];
+          contacts.push(contact);
+          i++;
+        }
+        return contacts;
+      })(),
+      safetyInfo: {
+        title: config.emergency_safety_info_title || "",
+        items: getNumberedSimpleItems(config, 'emergency_safety_item'),
+      },
+      addressNote: config.emergency_address_note || "",
+      waterSafety: config.emergency_water_safety_title ? {
+        title: config.emergency_water_safety_title,
+        beaches: config.emergency_water_safety_beaches || "",
+        freshwater: config.emergency_water_safety_freshwater || "",
+      } : undefined,
     },
   };
 
