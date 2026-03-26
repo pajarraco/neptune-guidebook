@@ -11,6 +11,7 @@ import AmenitiesSection from "./components/AmenitiesSection";
 import LocalGuideSection from "./components/LocalGuideSection";
 import EmergencySection from "./components/EmergencySection";
 import CodeEntryModal from "./components/CodeEntryModal";
+import LanguageSelector from "./components/LanguageSelector";
 import "./App.css";
 
 const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
@@ -148,6 +149,8 @@ function App() {
 
   return (
     <div className="app">
+      <LanguageSelector />
+      
       <header className="app-header">
         <div className="header-content">
           <h1 className="app-title">{propertyName}</h1>

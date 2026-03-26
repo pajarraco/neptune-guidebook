@@ -82,48 +82,55 @@ async function fetchSheetData() {
 
     console.log("Fetching data from Google Sheets...");
 
-    // Fetch the config sheet (key-value pairs)
-    const configResponse = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range: "Config!A1:B1000",
-    });
+    // Get languages from environment variable or default to 'en'
+    const languagesEnv = process.env.LANGUAGES || "en";
+    const languages = languagesEnv.split(",").map(lang => lang.trim());
 
-    const configData = configResponse.data.values;
-    if (!configData || configData.length < 2) {
-      console.error("Error: Config sheet is empty or has no data");
-      process.exit(1);
-    }
+    console.log(`Languages to fetch: ${languages.join(", ")}\n`);
 
-    console.log(`  ✓ Fetched Config: ${configData.length - 1} rows`);
-
-    // Parse config data (skip header row)
-    const config = {};
-    configData.slice(1).forEach((row) => {
-      if (row[0]) {
-        config[row[0]] = row[1] || "";
-      }
-    });
-
-    // Transform the config data into guidebook format
-    // Note: We don't need originalData anymore since all data comes from Google Sheets
-    const guidebookData = transformToGuidebookFormat(config);
-
-    // Write to the i18n locales folder
-    const outputPath = path.join(
-      __dirname,
-      "../src/i18n/locales/en.json",
-    );
-    
-    // Ensure the directory exists
-    const outputDir = path.dirname(outputPath);
+    // Ensure the output directory exists
+    const outputDir = path.join(__dirname, "../src/i18n/locales");
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
-    
-    fs.writeFileSync(outputPath, JSON.stringify(guidebookData, null, 2));
 
-    console.log("\n✓ Successfully fetched and saved guidebook data");
-    console.log(`  Output: ${outputPath}`);
+    // Fetch and process each language
+    for (const lang of languages) {
+      console.log(`Fetching ${lang}...`);
+
+      // Fetch the language sheet (key-value pairs)
+      const configResponse = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${lang}!A1:B1000`,
+      });
+
+      const configData = configResponse.data.values;
+      if (!configData || configData.length < 2) {
+        console.warn(`  ⚠ Warning: ${lang} sheet is empty or has no data, skipping...`);
+        continue;
+      }
+
+      console.log(`  ✓ Fetched ${lang}: ${configData.length - 1} rows`);
+
+      // Parse config data (skip header row)
+      const config = {};
+      configData.slice(1).forEach((row) => {
+        if (row[0]) {
+          config[row[0]] = row[1] || "";
+        }
+      });
+
+      // Transform the config data into guidebook format
+      const guidebookData = transformToGuidebookFormat(config);
+
+      // Write to the i18n locales folder
+      const outputPath = path.join(outputDir, `${lang}.json`);
+      fs.writeFileSync(outputPath, JSON.stringify(guidebookData, null, 2));
+
+      console.log(`  ✓ Saved: ${outputPath}\n`);
+    }
+
+    console.log("✓ Successfully fetched and saved all language data");
   } catch (error) {
     console.error("Error fetching sheet data:", error.message);
     process.exit(1);
