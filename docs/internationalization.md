@@ -11,6 +11,7 @@ This project uses `react-i18next` for multi-language support. Translation files 
 **NEVER** translate section IDs in the `link` property of features.
 
 **Valid Section IDs:**
+
 - `property-info`
 - `check-in-out`
 - `local-guide`
@@ -19,6 +20,7 @@ This project uses `react-i18next` for multi-language support. Translation files 
 - `emergency`
 
 **Correct Example:**
+
 ```json
 {
   "features": [
@@ -31,6 +33,7 @@ This project uses `react-i18next` for multi-language support. Translation files 
 ```
 
 **Incorrect Example:**
+
 ```json
 {
   "features": [
@@ -45,15 +48,15 @@ This project uses `react-i18next` for multi-language support. Translation files 
 ### 2. Link Properties Are English-Only
 
 The `fetch-sheet-data.js` script automatically:
+
 - Includes `link` properties ONLY in `en.json`
 - Excludes `link` properties from `es.json`, `fr.json`, `it.json`
 
 This is controlled in the `transformToGuidebookFormat` function:
 
 ```javascript
-const featureProperties = language === 'en' 
-  ? ['icon', 'text', 'link'] 
-  : ['icon', 'text'];
+const featureProperties =
+  language === "en" ? ["icon", "text", "link"] : ["icon", "text"];
 ```
 
 ### 3. Manual Translation File Editing
@@ -73,11 +76,11 @@ To add a new language:
 3. Add the language to `src/components/LanguageSelector.tsx`:
    ```typescript
    const languages = [
-     { code: 'en', name: 'English', flag: '🇬🇧' },
-     { code: 'es', name: 'Español', flag: '🇪🇸' },
-     { code: 'fr', name: 'Français', flag: '🇫🇷' },
-     { code: 'it', name: 'Italiano', flag: '🇮🇹' },
-     { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+     { code: "en", name: "English", flag: "🇬🇧" },
+     { code: "es", name: "Español", flag: "🇪🇸" },
+     { code: "fr", name: "Français", flag: "🇫🇷" },
+     { code: "it", name: "Italiano", flag: "🇮🇹" },
+     { code: "de", name: "Deutsch", flag: "🇩🇪" },
    ];
    ```
 4. Run `npm run fetch-data` to generate the new translation file
@@ -85,11 +88,13 @@ To add a new language:
 ## Language Selector Component
 
 ### Location
+
 - **Component**: `src/components/LanguageSelector.tsx`
 - **Styles**: `src/components/LanguageSelector.css`
 - **Position**: Fixed in top-right corner of the banner
 
 ### Features
+
 - Dropdown menu showing current language flag and code
 - Click to expand and select from available languages
 - Auto-closes after selection
@@ -97,6 +102,7 @@ To add a new language:
 - Uses Material Symbols Outlined icons
 
 ### Styling Rules
+
 - Fixed position: `top: 20px; right: 20px;`
 - High z-index (1000) to stay above other content
 - White background with shadow for visibility
@@ -105,26 +111,31 @@ To add a new language:
 ## Google Sheets Data Fetching
 
 ### Script Location
+
 `scripts/fetch-sheet-data.js`
 
 ### Key Functions
 
 **`transformToGuidebookFormat(config, language)`**
+
 - Transforms Google Sheets data into the guidebook JSON structure
 - `language` parameter determines whether to include `link` properties
 - Only includes links when `language === 'en'`
 
 **`getNumberedItems(config, prefix, properties)`**
+
 - Fetches numbered items from the sheet (e.g., `welcome_feature_1_text`, `welcome_feature_2_text`)
 - `properties` array determines which fields to include
 - For features, properties vary by language (see Rule #2)
 
 ### Running the Script
+
 ```bash
 npm run fetch-data
 ```
 
 ### Environment Variables Required
+
 - `GOOGLE_SHEET_ID` - The Google Sheets document ID
 - `GOOGLE_SERVICE_ACCOUNT_KEY` or `GOOGLE_SERVICE_ACCOUNT_PATH` - Authentication credentials
 - `LANGUAGES` - Comma-separated language codes (e.g., "en,es,fr,it")
@@ -132,19 +143,24 @@ npm run fetch-data
 ## Common Issues and Solutions
 
 ### Issue: Links don't work in translated versions
+
 **Cause**: Link properties contain translated text instead of section IDs  
-**Solution**: 
+**Solution**:
+
 1. Check translation files - remove or fix incorrect `link` values
 2. Re-run `npm run fetch-data` to regenerate from Google Sheets
 3. Ensure Google Sheets only has section IDs in link columns
 
 ### Issue: Language selector icon not displaying
+
 **Cause**: Wrong Material Icons class name  
 **Solution**: Use `material-symbols-outlined` not `material-icons`
 
 ### Issue: New language not appearing
+
 **Cause**: Missing from LanguageSelector component or LANGUAGES env var  
-**Solution**: 
+**Solution**:
+
 1. Add to `languages` array in `LanguageSelector.tsx`
 2. Add to `LANGUAGES` environment variable
 3. Run `npm run fetch-data`

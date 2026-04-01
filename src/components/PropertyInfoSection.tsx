@@ -9,10 +9,12 @@ export default function PropertyInfoSection({
 }: PropertyInfoSectionProps) {
   const { t } = useTranslation();
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
-  const wifiNetwork = import.meta.env.VITE_WIFI_NETWORK || t('propertyInfo.wifi.network');
-  const wifiPassword = import.meta.env.VITE_WIFI_PASSWORD || t('propertyInfo.wifi.password');
+  const wifiNetwork =
+    import.meta.env.VITE_WIFI_NETWORK || t("propertyInfo.wifi.network");
+  const wifiPassword =
+    import.meta.env.VITE_WIFI_PASSWORD || t("propertyInfo.wifi.password");
 
-  const fullAddress = t('propertyInfo.address').replace(
+  const fullAddress = t("propertyInfo.address").replace(
     "{{APARTMENT_NUMBER}}",
     apartmentNumber,
   );
@@ -30,11 +32,12 @@ export default function PropertyInfoSection({
         const navigation = document.querySelector(".navigation");
         const navHeight = navigation?.getBoundingClientRect().height || 0;
         const elementPosition = checkoutSection.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - navHeight - 20;
-        
+        const offsetPosition =
+          elementPosition + window.scrollY - navHeight - 20;
+
         window.scrollTo({
           top: offsetPosition,
-          behavior: "smooth"
+          behavior: "smooth",
         });
       }
     }, 100);
@@ -43,7 +46,7 @@ export default function PropertyInfoSection({
   return (
     <div className="section-content">
       <div className="welcome-header">
-        <h1>{t('propertyInfo.addressTitle')}</h1>
+        <h1>{t("propertyInfo.addressTitle")}</h1>
         <p className="address">{fullAddress}</p>
       </div>
 
@@ -65,9 +68,9 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            {t('propertyInfo.checkInLabel')}
+            {t("propertyInfo.checkInLabel")}
           </h3>
-          <p className="highlight">{t('propertyInfo.checkIn')}</p>
+          <p className="highlight">{t("propertyInfo.checkIn")}</p>
         </div>
         <div
           className="info-card"
@@ -86,9 +89,9 @@ export default function PropertyInfoSection({
             >
               schedule
             </span>
-            {t('propertyInfo.checkOutLabel')}
+            {t("propertyInfo.checkOutLabel")}
           </h3>
-          <p className="highlight">{t('propertyInfo.checkOut')}</p>
+          <p className="highlight">{t("propertyInfo.checkOut")}</p>
         </div>
       </div>
 
@@ -105,15 +108,17 @@ export default function PropertyInfoSection({
           >
             wifi
           </span>
-          {t('propertyInfo.wifi.title')}
+          {t("propertyInfo.wifi.title")}
         </h3>
         <div className="wifi-details">
           <div className="wifi-item">
-            <span className="label">{t('propertyInfo.wifi.networkLabel')}</span>
+            <span className="label">{t("propertyInfo.wifi.networkLabel")}</span>
             <span className="value">{wifiNetwork}</span>
           </div>
           <div className="wifi-item">
-            <span className="label">{t('propertyInfo.wifi.passwordLabel')}</span>
+            <span className="label">
+              {t("propertyInfo.wifi.passwordLabel")}
+            </span>
             <span className="value password">{wifiPassword}</span>
           </div>
         </div>

@@ -2,14 +2,24 @@ import { useTranslation } from "react-i18next";
 
 export default function LocalGuideSection() {
   const { t } = useTranslation();
-  const recommendations = t('localGuide.recommendations', { returnObjects: true }) as Array<{category: string; name: string; description: string; address?: string; distance?: string; link?: string; note?: string}>;
+  const recommendations = t("localGuide.recommendations", {
+    returnObjects: true,
+  }) as Array<{
+    category: string;
+    name: string;
+    description: string;
+    address?: string;
+    distance?: string;
+    link?: string;
+    note?: string;
+  }>;
   const categories = Array.from(
     new Set(recommendations.map((r) => r.category)),
   );
 
   return (
     <div className="section-content">
-      <h2>{t('localGuide.sectionTitle')}</h2>
+      <h2>{t("localGuide.sectionTitle")}</h2>
 
       {categories.map((category) => (
         <div key={category} className="category-section">
@@ -78,7 +88,7 @@ export default function LocalGuideSection() {
                       >
                         map
                       </span>
-                      {t('localGuide.viewOnMapsLabel')}
+                      {t("localGuide.viewOnMapsLabel")}
                     </a>
                   )}
                   {rec.note && (
@@ -111,7 +121,7 @@ export default function LocalGuideSection() {
           >
             info
           </span>
-          {t('localGuide.tip')}
+          {t("localGuide.tip")}
         </p>
       </div>
     </div>

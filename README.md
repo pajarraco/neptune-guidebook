@@ -93,18 +93,20 @@ When working with feature links in the Welcome section:
 4. **Manual editing**: If manually editing translation files, ensure links use section IDs, not translated text
 
 **Example (Correct)**:
+
 ```json
 {
   "text": "Código Wi-Fi",
-  "link": "property-info"  // ✅ Section ID, not translated
+  "link": "property-info" // ✅ Section ID, not translated
 }
 ```
 
 **Example (Incorrect)**:
+
 ```json
 {
   "text": "Código Wi-Fi",
-  "link": "información de la propiedad"  // ❌ Translated text
+  "link": "información de la propiedad" // ❌ Translated text
 }
 ```
 
@@ -113,17 +115,20 @@ When working with feature links in the Welcome section:
 The `scripts/fetch-sheet-data.js` script fetches content from Google Sheets and generates translation files:
 
 **How it works**:
+
 1. Reads data from separate sheets for each language (e.g., `en`, `es`, `fr`, `it`)
 2. Transforms key-value pairs into the guidebook JSON structure
 3. **Automatically excludes `link` properties for non-English languages**
 4. Writes to `src/i18n/locales/{lang}.json`
 
 **Running the script**:
+
 ```bash
 npm run fetch-data
 ```
 
 **Sheet Structure**:
+
 - Each language has its own sheet tab
 - Column A: Key (e.g., `welcome_feature_1_text`)
 - Column B: Value (translated content)

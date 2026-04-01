@@ -42,12 +42,16 @@ export default function CheckInOutSection() {
     });
   };
 
-  const checkInSteps = t('checkInOut.checkIn.steps', { returnObjects: true }) as string[];
-  const checkOutSteps = t('checkInOut.checkOut.steps', { returnObjects: true }) as string[];
+  const checkInSteps = t("checkInOut.checkIn.steps", {
+    returnObjects: true,
+  }) as string[];
+  const checkOutSteps = t("checkInOut.checkOut.steps", {
+    returnObjects: true,
+  }) as string[];
 
   return (
     <div className="section-content">
-      <h2>{t('checkInOut.sectionTitle')}</h2>
+      <h2>{t("checkInOut.sectionTitle")}</h2>
 
       <div className="instruction-block">
         <h3>
@@ -62,10 +66,12 @@ export default function CheckInOutSection() {
           >
             key
           </span>
-          {t('checkInOut.checkIn.title')}
+          {t("checkInOut.checkIn.title")}
         </h3>
 
-        <h4 style={{ marginTop: "1.5rem" }}>{t('checkInOut.checkIn.subheading')}</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>
+          {t("checkInOut.checkIn.subheading")}
+        </h4>
         <ol className="instruction-list">
           {checkInSteps.map((step, index) => {
             const doorCode = import.meta.env.VITE_CODE || "";
@@ -93,7 +99,7 @@ export default function CheckInOutSection() {
           >
             lightbulb
           </span>
-          {t('checkInOut.tip')}
+          {t("checkInOut.tip")}
         </p>
       </div>
 
@@ -110,10 +116,12 @@ export default function CheckInOutSection() {
           >
             logout
           </span>
-          {t('checkInOut.checkOut.title')}
+          {t("checkInOut.checkOut.title")}
         </h3>
 
-        <h4 style={{ marginTop: "1.5rem" }}>{t('checkInOut.checkOut.subheading')}</h4>
+        <h4 style={{ marginTop: "1.5rem" }}>
+          {t("checkInOut.checkOut.subheading")}
+        </h4>
         <ul className="instruction-list checkout-list">
           {checkOutSteps.map((step, index) => (
             <li

@@ -2,12 +2,21 @@ import { useTranslation } from "react-i18next";
 
 export default function EmergencySection() {
   const { t } = useTranslation();
-  const contacts = t('emergency.contacts', { returnObjects: true }) as Array<{type: string; name: string; phone: string; address?: string; hours?: string; note?: string}>;
-  const safetyItems = t('emergency.safetyInfo.items', { returnObjects: true }) as string[];
+  const contacts = t("emergency.contacts", { returnObjects: true }) as Array<{
+    type: string;
+    name: string;
+    phone: string;
+    address?: string;
+    hours?: string;
+    note?: string;
+  }>;
+  const safetyItems = t("emergency.safetyInfo.items", {
+    returnObjects: true,
+  }) as string[];
 
   return (
     <div className="section-content">
-      <h2>{t('emergency.sectionTitle')}</h2>
+      <h2>{t("emergency.sectionTitle")}</h2>
 
       <div className="emergency-alert">
         <h3>
@@ -22,9 +31,9 @@ export default function EmergencySection() {
           >
             emergency
           </span>
-          {t('emergency.alert.title')}
+          {t("emergency.alert.title")}
         </h3>
-        <p dangerouslySetInnerHTML={{ __html: t('emergency.alert.message') }} />
+        <p dangerouslySetInnerHTML={{ __html: t("emergency.alert.message") }} />
       </div>
 
       <div className="contacts-list">
@@ -122,7 +131,7 @@ export default function EmergencySection() {
           >
             local_fire_department
           </span>
-          {t('emergency.safetyInfo.title')}
+          {t("emergency.safetyInfo.title")}
         </h3>
         <ul>
           {safetyItems.map((item, index) => (
@@ -144,7 +153,7 @@ export default function EmergencySection() {
           >
             location_on
           </span>
-          {t('emergency.addressNote')}
+          {t("emergency.addressNote")}
         </strong>
       </div>
     </div>

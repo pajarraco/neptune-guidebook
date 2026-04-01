@@ -55,9 +55,9 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const scrolledToTop = window.scrollY <= 100;
-      const scrolledToBottom = 
+      const scrolledToBottom =
         window.innerHeight + window.scrollY >= document.body.scrollHeight - 100;
-      
+
       if ((scrolledToTop || scrolledToBottom) && isChatButtonVisible) {
         setIsChatButtonVisible(false);
       } else if (!scrolledToTop && !scrolledToBottom && !isChatButtonVisible) {
@@ -70,11 +70,11 @@ function App() {
   }, [isChatButtonVisible]);
 
   const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
-  const propertyName = t('propertyInfo.name');
-  const propertyEmail = t('propertyInfo.email');
-  const propertyPhone = t('propertyInfo.phone');
-  const propertyPhoneLabel = t('propertyInfo.phoneLabel');
-  const fullAddress = t('propertyInfo.address').replace(
+  const propertyName = t("propertyInfo.name");
+  const propertyEmail = t("propertyInfo.email");
+  const propertyPhone = t("propertyInfo.phone");
+  const propertyPhoneLabel = t("propertyInfo.phoneLabel");
+  const fullAddress = t("propertyInfo.address").replace(
     "{{APARTMENT_NUMBER}}",
     apartmentNumber,
   );
@@ -82,53 +82,49 @@ function App() {
   const sections: GuideSection[] = [
     {
       id: "welcome",
-      title: t('sections.welcome'),
+      title: t("sections.welcome"),
       icon: "waving_hand",
       content: <WelcomeSection onNavigate={handleSectionChange} />,
     },
     {
       id: "property-info",
-      title: t('sections.propertyInfo'),
+      title: t("sections.propertyInfo"),
       icon: "home",
-      content: (
-        <PropertyInfoSection
-          onNavigate={handleSectionChange}
-        />
-      ),
+      content: <PropertyInfoSection onNavigate={handleSectionChange} />,
     },
     {
       id: "check-in-out",
-      title: t('sections.checkInOut'),
+      title: t("sections.checkInOut"),
       icon: "key",
       content: <CheckInOutSection />,
     },
     {
       id: "transport",
-      title: t('sections.transport'),
+      title: t("sections.transport"),
       icon: "directions_car",
       content: <TransportSection />,
     },
     {
       id: "house-rules",
-      title: t('sections.houseRules'),
+      title: t("sections.houseRules"),
       icon: "rule",
       content: <HouseRulesSection />,
     },
     {
       id: "amenities",
-      title: t('sections.amenities'),
+      title: t("sections.amenities"),
       icon: "stars",
       content: <AmenitiesSection />,
     },
     {
       id: "local-guide",
-      title: t('sections.localGuide'),
+      title: t("sections.localGuide"),
       icon: "map",
       content: <LocalGuideSection />,
     },
     {
       id: "emergency",
-      title: t('sections.emergency'),
+      title: t("sections.emergency"),
       icon: "emergency",
       content: <EmergencySection />,
     },
@@ -149,7 +145,7 @@ function App() {
   return (
     <div className="app">
       <LanguageSelector />
-      
+
       <header className="app-header">
         <div className="header-content">
           <h1 className="app-title">{propertyName}</h1>
@@ -157,8 +153,8 @@ function App() {
             <span className="material-symbols-outlined">location_on</span>
             {fullAddress}
           </p>
-          <p className="app-subtitle">{t('common.everythingYouNeed')}</p>
-          <span 
+          <p className="app-subtitle">{t("common.everythingYouNeed")}</p>
+          <span
             className="material-symbols-outlined chevron-down-icon"
             onClick={handleScrollToMenu}
           >
@@ -179,7 +175,7 @@ function App() {
 
       <footer className="app-footer">
         <p>
-          {t('common.haveQuestions')}{" "}
+          {t("common.haveQuestions")}{" "}
           <a href={`mailto:${propertyEmail}`}>{propertyEmail}</a>
           <span className="space-mobile"> | </span>
           <a href={`tel:${propertyPhone}`}>{propertyPhoneLabel}</a>

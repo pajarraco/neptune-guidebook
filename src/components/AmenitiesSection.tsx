@@ -2,11 +2,15 @@ import { useTranslation } from "react-i18next";
 
 export default function AmenitiesSection() {
   const { t } = useTranslation();
-  const amenities = t('amenities', { returnObjects: true }) as Array<{name: string; description: string; instructions?: string}>;
+  const amenities = t("amenities", { returnObjects: true }) as Array<{
+    name: string;
+    description: string;
+    instructions?: string;
+  }>;
 
   return (
     <div className="section-content">
-      <h2>{t('amenitiesSection.sectionTitle')}</h2>
+      <h2>{t("amenitiesSection.sectionTitle")}</h2>
 
       <div className="amenities-list">
         {amenities.map((amenity, index) => (
@@ -16,7 +20,8 @@ export default function AmenitiesSection() {
 
             {amenity.instructions && (
               <p className="amenity-instructions">
-                <strong>{t('amenitiesSection.howToUseLabel')}</strong> {amenity.instructions}
+                <strong>{t("amenitiesSection.howToUseLabel")}</strong>{" "}
+                {amenity.instructions}
               </p>
             )}
           </div>
@@ -36,9 +41,9 @@ export default function AmenitiesSection() {
           >
             lightbulb
           </span>
-          {t('amenitiesSection.helpTip.title')}
+          {t("amenitiesSection.helpTip.title")}
         </strong>{" "}
-        {t('amenitiesSection.helpTip.message')}
+        {t("amenitiesSection.helpTip.message")}
       </div>
     </div>
   );

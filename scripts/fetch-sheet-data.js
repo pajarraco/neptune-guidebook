@@ -84,7 +84,7 @@ async function fetchSheetData() {
 
     // Get languages from environment variable or default to 'en'
     const languagesEnv = process.env.LANGUAGES || "en";
-    const languages = languagesEnv.split(",").map(lang => lang.trim());
+    const languages = languagesEnv.split(",").map((lang) => lang.trim());
 
     console.log(`Languages to fetch: ${languages.join(", ")}\n`);
 
@@ -106,7 +106,9 @@ async function fetchSheetData() {
 
       const configData = configResponse.data.values;
       if (!configData || configData.length < 2) {
-        console.warn(`  ⚠ Warning: ${lang} sheet is empty or has no data, skipping...`);
+        console.warn(
+          `  ⚠ Warning: ${lang} sheet is empty or has no data, skipping...`,
+        );
         continue;
       }
 
@@ -141,19 +143,19 @@ async function fetchSheetData() {
 function getNumberedItems(config, prefix, properties) {
   const items = [];
   let i = 1;
-  
+
   while (config[`${prefix}_${i}_${properties[0]}`] !== undefined) {
     const item = {};
-    properties.forEach(prop => {
+    properties.forEach((prop) => {
       const value = config[`${prefix}_${i}_${prop}`];
-      if (value !== undefined && value !== '') {
+      if (value !== undefined && value !== "") {
         item[prop] = value;
       }
     });
     items.push(item);
     i++;
   }
-  
+
   return items;
 }
 
@@ -161,17 +163,17 @@ function getNumberedItems(config, prefix, properties) {
 function getNumberedSimpleItems(config, prefix) {
   const items = [];
   let i = 1;
-  
+
   while (config[`${prefix}_${i}`] !== undefined) {
     items.push(config[`${prefix}_${i}`]);
     i++;
   }
-  
+
   return items;
 }
 
 // Transform config data to match guidebook-data.json structure
-function transformToGuidebookFormat(config, language = 'en') {
+function transformToGuidebookFormat(config, language = "en") {
   // Convert \n to actual newlines in text values
   Object.keys(config).forEach((key) => {
     if (typeof config[key] === "string") {
@@ -180,9 +182,8 @@ function transformToGuidebookFormat(config, language = 'en') {
   });
 
   // For features, only include 'link' property for English
-  const featureProperties = language === 'en' 
-    ? ['icon', 'text', 'link'] 
-    : ['icon', 'text'];
+  const featureProperties =
+    language === "en" ? ["icon", "text", "link"] : ["icon", "text"];
 
   const guidebook = {
     welcome: {
@@ -194,7 +195,11 @@ function transformToGuidebookFormat(config, language = 'en') {
         title: config.welcome_features_title || "",
         answer: config.welcome_features_answer || "",
         description: config.welcome_features_description || "",
-        features: getNumberedItems(config, 'welcome_feature', featureProperties),
+        features: getNumberedItems(
+          config,
+          "welcome_feature",
+          featureProperties,
+        ),
         note: config.welcome_features_note || "",
       },
       addToPhone: {
@@ -213,7 +218,10 @@ function transformToGuidebookFormat(config, language = 'en') {
           title: config.welcome_host_title || "",
           description: config.welcome_host_description || "",
           teamIntro: config.welcome_host_team_intro || "",
-          teamMembers: getNumberedItems(config, 'welcome_team_member', ['icon', 'text']),
+          teamMembers: getNumberedItems(config, "welcome_team_member", [
+            "icon",
+            "text",
+          ]),
         },
         founderNote: {
           icon: config.welcome_founder_icon || "",
@@ -249,12 +257,12 @@ function transformToGuidebookFormat(config, language = 'en') {
         title: config.checkin_title || "",
         subheading: config.checkin_subheading || "",
         arrivingEarlyLabel: config.checkin_arriving_early_label || "",
-        steps: getNumberedSimpleItems(config, 'checkin_step'),
+        steps: getNumberedSimpleItems(config, "checkin_step"),
       },
       checkOut: {
         title: config.checkout_title || "",
         subheading: config.checkout_subheading || "",
-        steps: getNumberedSimpleItems(config, 'checkout_step'),
+        steps: getNumberedSimpleItems(config, "checkout_step"),
       },
       tip: config.checkinout_tip || "",
     },
@@ -262,35 +270,53 @@ function transformToGuidebookFormat(config, language = 'en') {
       sectionTitle: config.transport_section_title || "",
       faresLabel: config.transport_fares_label || "",
       pleaseNoteLabel: config.transport_please_note_label || "",
-      parking: config.transport_parking_title ? {
-        title: config.transport_parking_title,
-        description: config.transport_parking_description || "",
-      } : undefined,
-      rideshare: config.transport_rideshare_title ? {
-        title: config.transport_rideshare_title,
-        description: config.transport_rideshare_description || "",
-      } : undefined,
-      publicTransport: config.transport_public_title ? {
-        title: config.transport_public_title,
-        description: config.transport_public_description || "",
-        info: config.transport_public_info || "",
-        fares: config.transport_public_fares || "",
-        limitations: config.transport_public_limitations,
-      } : undefined,
-      airportTransfers: config.transport_airport_title ? {
-        title: config.transport_airport_title,
-        description: config.transport_airport_description || "",
-        options: getNumberedItems(config, 'transport_airport_option', ['name', 'phone', 'type']),
-        note: config.transport_airport_note,
-      } : undefined,
-      carRental: config.transport_car_rental_title ? {
-        title: config.transport_car_rental_title,
-        description: config.transport_car_rental_description || "",
-        note: config.transport_car_rental_note,
-      } : undefined,
+      parking: config.transport_parking_title
+        ? {
+            title: config.transport_parking_title,
+            description: config.transport_parking_description || "",
+          }
+        : undefined,
+      rideshare: config.transport_rideshare_title
+        ? {
+            title: config.transport_rideshare_title,
+            description: config.transport_rideshare_description || "",
+          }
+        : undefined,
+      publicTransport: config.transport_public_title
+        ? {
+            title: config.transport_public_title,
+            description: config.transport_public_description || "",
+            info: config.transport_public_info || "",
+            fares: config.transport_public_fares || "",
+            limitations: config.transport_public_limitations,
+          }
+        : undefined,
+      airportTransfers: config.transport_airport_title
+        ? {
+            title: config.transport_airport_title,
+            description: config.transport_airport_description || "",
+            options: getNumberedItems(config, "transport_airport_option", [
+              "name",
+              "phone",
+              "type",
+            ]),
+            note: config.transport_airport_note,
+          }
+        : undefined,
+      carRental: config.transport_car_rental_title
+        ? {
+            title: config.transport_car_rental_title,
+            description: config.transport_car_rental_description || "",
+            note: config.transport_car_rental_note,
+          }
+        : undefined,
     },
     houseRules: {
-      rules: getNumberedItems(config, 'house_rule', ['icon', 'title', 'description']),
+      rules: getNumberedItems(config, "house_rule", [
+        "icon",
+        "title",
+        "description",
+      ]),
       importantNote: {
         title: config.house_rules_important_note_title || "",
         message: config.house_rules_important_note_message || "",
@@ -320,7 +346,7 @@ function transformToGuidebookFormat(config, language = 'en') {
           amenity.serviceInfo = config[`amenity_${i}_service_info`];
         }
         if (config[`amenity_${i}_items`]) {
-          amenity.items = config[`amenity_${i}_items`].split(' | ');
+          amenity.items = config[`amenity_${i}_items`].split(" | ");
         }
         amenities.push(amenity);
         i++;
@@ -340,20 +366,26 @@ function transformToGuidebookFormat(config, language = 'en') {
             name: config[`local_rec_${i}_name`],
             description: config[`local_rec_${i}_description`] || "",
           };
-          if (config[`local_rec_${i}_address`]) rec.address = config[`local_rec_${i}_address`];
-          if (config[`local_rec_${i}_distance`]) rec.distance = config[`local_rec_${i}_distance`];
-          if (config[`local_rec_${i}_link`]) rec.link = config[`local_rec_${i}_link`];
-          if (config[`local_rec_${i}_note`]) rec.note = config[`local_rec_${i}_note`];
+          if (config[`local_rec_${i}_address`])
+            rec.address = config[`local_rec_${i}_address`];
+          if (config[`local_rec_${i}_distance`])
+            rec.distance = config[`local_rec_${i}_distance`];
+          if (config[`local_rec_${i}_link`])
+            rec.link = config[`local_rec_${i}_link`];
+          if (config[`local_rec_${i}_note`])
+            rec.note = config[`local_rec_${i}_note`];
           recs.push(rec);
           i++;
         }
         return recs;
       })(),
       tip: config.local_guide_tip || "",
-      packingList: config.local_guide_packing_list_title ? {
-        title: config.local_guide_packing_list_title,
-        items: getNumberedSimpleItems(config, 'local_guide_packing_item'),
-      } : undefined,
+      packingList: config.local_guide_packing_list_title
+        ? {
+            title: config.local_guide_packing_list_title,
+            items: getNumberedSimpleItems(config, "local_guide_packing_item"),
+          }
+        : undefined,
     },
     emergency: {
       sectionTitle: config.emergency_section_title || "",
@@ -373,9 +405,12 @@ function transformToGuidebookFormat(config, language = 'en') {
             name: config[`emergency_contact_${i}_name`],
             phone: config[`emergency_contact_${i}_phone`] || "",
           };
-          if (config[`emergency_contact_${i}_address`]) contact.address = config[`emergency_contact_${i}_address`];
-          if (config[`emergency_contact_${i}_hours`]) contact.hours = config[`emergency_contact_${i}_hours`];
-          if (config[`emergency_contact_${i}_note`]) contact.note = config[`emergency_contact_${i}_note`];
+          if (config[`emergency_contact_${i}_address`])
+            contact.address = config[`emergency_contact_${i}_address`];
+          if (config[`emergency_contact_${i}_hours`])
+            contact.hours = config[`emergency_contact_${i}_hours`];
+          if (config[`emergency_contact_${i}_note`])
+            contact.note = config[`emergency_contact_${i}_note`];
           contacts.push(contact);
           i++;
         }
@@ -383,14 +418,16 @@ function transformToGuidebookFormat(config, language = 'en') {
       })(),
       safetyInfo: {
         title: config.emergency_safety_info_title || "",
-        items: getNumberedSimpleItems(config, 'emergency_safety_item'),
+        items: getNumberedSimpleItems(config, "emergency_safety_item"),
       },
       addressNote: config.emergency_address_note || "",
-      waterSafety: config.emergency_water_safety_title ? {
-        title: config.emergency_water_safety_title,
-        beaches: config.emergency_water_safety_beaches || "",
-        freshwater: config.emergency_water_safety_freshwater || "",
-      } : undefined,
+      waterSafety: config.emergency_water_safety_title
+        ? {
+            title: config.emergency_water_safety_title,
+            beaches: config.emergency_water_safety_beaches || "",
+            freshwater: config.emergency_water_safety_freshwater || "",
+          }
+        : undefined,
     },
     sections: {
       welcome: config.section_welcome || "Welcome",
@@ -403,8 +440,11 @@ function transformToGuidebookFormat(config, language = 'en') {
       emergency: config.section_emergency || "Emergency",
     },
     common: {
-      everythingYouNeed: config.common_everything_you_need || "Everything you need for a great stay",
-      haveQuestions: config.common_have_questions || "Have questions? Contact us anytime at",
+      everythingYouNeed:
+        config.common_everything_you_need ||
+        "Everything you need for a great stay",
+      haveQuestions:
+        config.common_have_questions || "Have questions? Contact us anytime at",
       or: config.common_or || "or",
     },
   };

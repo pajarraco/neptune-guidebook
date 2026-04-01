@@ -11,6 +11,7 @@ This folder contains scripts to sync content between Google Sheets (CSV) and the
 The CSV file `guidebook-data.csv` contains all editable text content in a simple key-value format.
 
 **To edit content:**
+
 1. Open `guidebook-data.csv` in Google Sheets (File → Import)
 2. Edit the values in column B (keep column A keys unchanged)
 3. Export as CSV when done (File → Download → CSV)
@@ -25,6 +26,7 @@ node scripts/csv-to-json.js
 ```
 
 This will:
+
 - ✅ Read the CSV file
 - ✅ Convert flat structure back to nested JSON
 - ✅ Preserve array-based data (amenities, recommendations, contacts, etc.)
@@ -41,6 +43,7 @@ Open the app and verify your changes appear correctly.
 ## What's in the CSV?
 
 The CSV contains **configuration and labels only**:
+
 - Welcome messages
 - Feature descriptions
 - Team member info
@@ -51,6 +54,7 @@ The CSV contains **configuration and labels only**:
 ## What's NOT in the CSV?
 
 These are kept in the JSON (too complex for CSV):
+
 - Amenities list
 - Local recommendations
 - Emergency contacts
@@ -69,6 +73,7 @@ To edit these, modify `src/assets/guidebook-data.json` directly.
 ## Troubleshooting
 
 **Script fails to run:**
+
 ```bash
 # Make sure you're in the project root
 cd /Users/wfh/Studio/neptune-guidebook
@@ -76,10 +81,12 @@ node scripts/csv-to-json.js
 ```
 
 **Changes don't appear:**
+
 - Check that the CSV was saved in the correct location
 - Verify the script ran successfully
 - Restart the dev server (`npm run dev`)
 
 **CSV formatting issues:**
+
 - Use proper CSV escaping for quotes: `"value with ""quotes"""`
 - Multi-line values should use `\n` for line breaks

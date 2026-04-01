@@ -3,11 +3,13 @@ import { useTranslation } from "react-i18next";
 export default function TransportSection() {
   const { t } = useTranslation();
 
-  const airportOptions = t('transport.airportTransfers.options', { returnObjects: true }) as Array<{name: string; phone?: string; type: string}>;
+  const airportOptions = t("transport.airportTransfers.options", {
+    returnObjects: true,
+  }) as Array<{ name: string; phone?: string; type: string }>;
 
   return (
     <div className="section-content">
-      <h2>{t('transport.sectionTitle')}</h2>
+      <h2>{t("transport.sectionTitle")}</h2>
 
       <div className="instruction-block">
         <h3>
@@ -22,9 +24,9 @@ export default function TransportSection() {
           >
             local_parking
           </span>
-          {t('transport.parking.title')}
+          {t("transport.parking.title")}
         </h3>
-        <p>{t('transport.parking.description')}</p>
+        <p>{t("transport.parking.description")}</p>
       </div>
 
       <div className="instruction-block">
@@ -40,9 +42,9 @@ export default function TransportSection() {
           >
             local_taxi
           </span>
-          {t('transport.rideshare.title')}
+          {t("transport.rideshare.title")}
         </h3>
-        <p>{t('transport.rideshare.description')}</p>
+        <p>{t("transport.rideshare.description")}</p>
       </div>
 
       <div className="instruction-block">
@@ -58,14 +60,15 @@ export default function TransportSection() {
           >
             tram
           </span>
-          {t('transport.publicTransport.title')}
+          {t("transport.publicTransport.title")}
         </h3>
-        <p>{t('transport.publicTransport.description')}</p>
+        <p>{t("transport.publicTransport.description")}</p>
         <p style={{ marginTop: "0.5rem" }}>
-          {t('transport.publicTransport.info')}
+          {t("transport.publicTransport.info")}
         </p>
         <p style={{ marginTop: "0.5rem" }}>
-          <strong>{t('transport.faresLabel')}</strong> {t('transport.publicTransport.fares')}
+          <strong>{t("transport.faresLabel")}</strong>{" "}
+          {t("transport.publicTransport.fares")}
         </p>
       </div>
 
@@ -82,9 +85,9 @@ export default function TransportSection() {
           >
             flight
           </span>
-          {t('transport.airportTransfers.title')}
+          {t("transport.airportTransfers.title")}
         </h3>
-        <p>{t('transport.airportTransfers.description')}</p>
+        <p>{t("transport.airportTransfers.description")}</p>
         <div style={{ marginTop: "1rem" }}>
           {airportOptions.map((option, index) => (
             <div
@@ -120,7 +123,7 @@ export default function TransportSection() {
           ))}
         </div>
         <p style={{ marginTop: "1rem", fontStyle: "italic" }}>
-          {t('transport.airportTransfers.note')}
+          {t("transport.airportTransfers.note")}
         </p>
       </div>
 
@@ -137,11 +140,11 @@ export default function TransportSection() {
           >
             directions_car
           </span>
-          {t('transport.carRental.title')}
+          {t("transport.carRental.title")}
         </h3>
-        <p>{t('transport.carRental.description')}</p>
+        <p>{t("transport.carRental.description")}</p>
         <p style={{ marginTop: "0.5rem", fontStyle: "italic" }}>
-          {t('transport.carRental.note')}
+          {t("transport.carRental.note")}
         </p>
       </div>
     </div>
