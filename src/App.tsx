@@ -36,7 +36,10 @@ function App() {
     const header = document.querySelector(".app-header");
     const navigation = document.querySelector(".navigation");
     const headerHeight = header?.getBoundingClientRect().height || 0;
-    const navHeight = navigation?.getBoundingClientRect().height || 0;
+    
+    const isMobile = window.innerWidth <= 768;
+    const navHeight = isMobile ? 0 : (navigation?.getBoundingClientRect().height || 0);
+    
     window.scrollTo({ top: headerHeight + navHeight, behavior: "smooth" });
   };
 

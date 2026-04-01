@@ -10,7 +10,7 @@ export default function AmenitiesSection() {
 
   return (
     <div className="section-content">
-      <h2>{t("amenitiesSection.sectionTitle")}</h2>
+      <h1>{t("amenitiesSection.sectionTitle")}</h1>
 
       <div className="amenities-list">
         {amenities.map((amenity, index) => (

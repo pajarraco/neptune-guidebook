@@ -16,7 +16,7 @@ export default function EmergencySection() {
 
   return (
     <div className="section-content">
-      <h2>{t("emergency.sectionTitle")}</h2>
+      <h1>{t("emergency.sectionTitle")}</h1>
 
       <div className="emergency-alert">
         <h3>

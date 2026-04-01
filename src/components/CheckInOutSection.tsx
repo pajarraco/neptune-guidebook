@@ -51,7 +51,7 @@ export default function CheckInOutSection() {
 
   return (
     <div className="section-content">
-      <h2>{t("checkInOut.sectionTitle")}</h2>
+      <h1>{t("checkInOut.sectionTitle")}</h1>
 
       <div className="instruction-block">
         <h3>

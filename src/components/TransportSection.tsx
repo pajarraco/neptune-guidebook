@@ -9,7 +9,7 @@ export default function TransportSection() {
 
   return (
     <div className="section-content">
-      <h2>{t("transport.sectionTitle")}</h2>
+      <h1>{t("transport.sectionTitle")}</h1>
 
       <div className="instruction-block">
         <h3>

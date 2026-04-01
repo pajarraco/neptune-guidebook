@@ -8,16 +8,10 @@ export default function PropertyInfoSection({
   onNavigate,
 }: PropertyInfoSectionProps) {
   const { t } = useTranslation();
-  const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
   const wifiNetwork =
     import.meta.env.VITE_WIFI_NETWORK || t("propertyInfo.wifi.network");
   const wifiPassword =
     import.meta.env.VITE_WIFI_PASSWORD || t("propertyInfo.wifi.password");
-
-  const fullAddress = t("propertyInfo.address").replace(
-    "{{APARTMENT_NUMBER}}",
-    apartmentNumber,
-  );
 
   const handleNavigateToCheckIn = () => {
     onNavigate("check-in-out");
@@ -30,7 +24,10 @@ export default function PropertyInfoSection({
       const checkoutSection = document.getElementById("checkout-section");
       if (checkoutSection) {
         const navigation = document.querySelector(".navigation");
-        const navHeight = navigation?.getBoundingClientRect().height || 0;
+        // On mobile (<=768px), nav is fixed at bottom, so no offset needed
+        // On desktop, nav is sticky at top, so account for nav height
+        const isMobile = window.innerWidth <= 768;
+        const navHeight = isMobile ? 0 : (navigation?.getBoundingClientRect().height || 0);
         const elementPosition = checkoutSection.getBoundingClientRect().top;
         const offsetPosition =
           elementPosition + window.scrollY - navHeight - 20;
@@ -45,10 +42,7 @@ export default function PropertyInfoSection({
 
   return (
     <div className="section-content">
-      <div className="welcome-header">
-        <h1>{t("propertyInfo.addressTitle")}</h1>
-        <p className="address">{fullAddress}</p>
-      </div>
+      <h1>{t("propertyInfo.addressTitle")}</h1>
 
       <div className="info-grid">
         <div

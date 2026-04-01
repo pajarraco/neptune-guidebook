@@ -17,7 +17,7 @@ export default function HouseRulesSection() {
 
   return (
     <div className="section-content">
-      <h2>{t("sections.houseRules")}</h2>
+      <h1>{t("sections.houseRules")}</h1>
 
       <div className="rules-grid">
         {rules.map((rule, index) => (

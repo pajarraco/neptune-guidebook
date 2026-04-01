@@ -6,11 +6,6 @@ interface WelcomeSectionProps {
 
 function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
   const { t } = useTranslation();
-  const apartmentNumber = import.meta.env.VITE_APARTMENT_NUMBER || "";
-  const fullAddress = t("propertyInfo.address").replace(
-    "{{APARTMENT_NUMBER}}",
-    apartmentNumber,
-  );
 
   const introMessages = t("welcome.introMessages", {
     returnObjects: true,
@@ -40,23 +35,8 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
 
   return (
     <div className="section-content">
-      <div className="welcome-header">
-        <h1>{t("propertyInfo.name")}</h1>
-        <p className="address">
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.2rem",
-              verticalAlign: "middle",
-              marginRight: "0.25rem",
-            }}
-          >
-            location_on
-          </span>
-          {fullAddress}
-        </p>
-      </div>
-
+      <h1>{t("propertyInfo.name")}</h1>
+      
       <div className="welcome-intro">
         {introMessages.map((message, index) => (
           <p key={index} className="welcome-message">

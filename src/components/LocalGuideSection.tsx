@@ -19,7 +19,7 @@ export default function LocalGuideSection() {
 
   return (
     <div className="section-content">
-      <h2>{t("localGuide.sectionTitle")}</h2>
+      <h1>{t("localGuide.sectionTitle")}</h1>
 
       {categories.map((category) => (
         <div key={category} className="category-section">
