@@ -121,7 +121,7 @@ async function fetchSheetData() {
       });
 
       // Transform the config data into guidebook format
-      const guidebookData = transformToGuidebookFormat(config);
+      const guidebookData = transformToGuidebookFormat(config, lang);
 
       // Write to the i18n locales folder
       const outputPath = path.join(outputDir, `${lang}.json`);
@@ -171,13 +171,18 @@ function getNumberedSimpleItems(config, prefix) {
 }
 
 // Transform config data to match guidebook-data.json structure
-function transformToGuidebookFormat(config) {
+function transformToGuidebookFormat(config, language = 'en') {
   // Convert \n to actual newlines in text values
   Object.keys(config).forEach((key) => {
     if (typeof config[key] === "string") {
       config[key] = config[key].replace(/\\n/g, "\n");
     }
   });
+
+  // For features, only include 'link' property for English
+  const featureProperties = language === 'en' 
+    ? ['icon', 'text', 'link'] 
+    : ['icon', 'text'];
 
   const guidebook = {
     welcome: {
@@ -189,7 +194,7 @@ function transformToGuidebookFormat(config) {
         title: config.welcome_features_title || "",
         answer: config.welcome_features_answer || "",
         description: config.welcome_features_description || "",
-        features: getNumberedItems(config, 'welcome_feature', ['icon', 'text', 'link']),
+        features: getNumberedItems(config, 'welcome_feature', featureProperties),
         note: config.welcome_features_note || "",
       },
       addToPhone: {

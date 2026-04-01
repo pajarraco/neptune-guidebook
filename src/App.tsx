@@ -12,7 +12,6 @@ import LocalGuideSection from "./components/LocalGuideSection";
 import EmergencySection from "./components/EmergencySection";
 import CodeEntryModal from "./components/CodeEntryModal";
 import LanguageSelector from "./components/LanguageSelector";
-import "./App.css";
 
 const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
 const STORAGE_KEY = "guidebook-access-code";
