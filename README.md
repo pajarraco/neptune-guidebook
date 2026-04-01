@@ -6,11 +6,53 @@ A modern, interactive digital guidebook for vacation rental properties built wit
 
 - 🔐 Secure access code entry
 - 📱 Mobile-friendly responsive design
-- � Multi-language support (English, Spanish, French, Italian)
-- �🏠 Property information and amenities
+- 🌍 Multi-language support (English, Spanish, French, Italian)
+- 🏠 Property information and amenities
 - 🗺️ Local area guide
 - 🔄 Dynamic content from Google Sheets
 - 🚀 Automated deployment to GitHub Pages
+
+## Add This Guide to Your Phone
+
+**We highly recommend installing this guide** — it's faster, easier, and works even offline.
+
+### Android (Chrome) - Automatic Prompt ✨
+
+On Android devices, Chrome will **automatically show an install banner** at the bottom of the screen after you visit the guide. Simply:
+
+1. Wait for the **"Add to Home screen"** or **"Install"** banner to appear
+2. Tap **"Install"** on the banner
+3. The guidebook icon will appear on your home screen
+
+**Manual installation (if banner doesn't appear):**
+
+1. Tap the **three-dot menu** (⋮) in the top-right corner
+2. Tap **"Add to Home screen"** or **"Install app"**
+3. Confirm by tapping **"Add"** or **"Install"**
+
+### iPhone (Safari) - Manual Installation
+
+iOS requires manual installation via Safari:
+
+1. Open the guidebook in **Safari** (not Chrome or other browsers)
+2. Tap the **Share** button (square with arrow pointing up) at the bottom of the screen
+3. Scroll down and tap **"Add to Home Screen"**
+4. Customize the name if desired, then tap **"Add"**
+5. The guidebook icon will appear on your home screen like a native app
+
+**iOS Enhancements:**
+- ✨ **Optimized status bar** - Translucent black status bar for immersive experience
+- 📱 **Custom app title** - Shows "Neptune Guide" on home screen
+- 🎨 **Splash screen support** - Smooth loading experience
+- 🔗 **App shortcuts** - Quick access to Property Info and Local Guide (on supported iOS versions)
+
+### Benefits of Installing
+
+- 📲 **Quick access** from your home screen
+- ⚡ **Faster loading** times
+- 📴 **Works offline** after first visit
+- 🎯 **Full-screen experience** without browser UI
+- 🍎 **Native-like feel** on iOS with optimized meta tags
 
 ## Development
 
