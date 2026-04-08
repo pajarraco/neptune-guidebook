@@ -24,14 +24,6 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
   const addToPhoneMessages = t("welcome.addToPhone.messages", {
     returnObjects: true,
   }) as string[];
-  const teamMembers = t("welcome.meetYourTeam.hostWelcome.teamMembers", {
-    returnObjects: true,
-  }) as Array<{ text: string }>;
-  const teamMemberIcons = [
-    "support_agent",
-    "home_repair_service",
-    "cleaning_services",
-  ];
 
   return (
     <div className="section-content">
@@ -106,16 +98,6 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
           </h3>
           <p>{t("welcome.meetYourTeam.hostWelcome.description")}</p>
           <p>{t("welcome.meetYourTeam.hostWelcome.teamIntro")}</p>
-          <ul className="team-list">
-            {teamMembers.map((member, index) => (
-              <li key={index}>
-                <span className="material-symbols-outlined team-icon">
-                  {teamMemberIcons[index] || "person"}
-                </span>
-                {member.text}
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div className="founder-note">

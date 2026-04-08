@@ -7,12 +7,15 @@ export default function HouseRulesSection() {
     description: string;
   }>;
   const ruleIcons = [
+    "house",
     "smoking_rooms",
-    "pets",
     "volume_up",
     "event",
     "cleaning_services",
     "recycling",
+    "pool",
+    "garage",
+    "pets",
   ];
 
   return (

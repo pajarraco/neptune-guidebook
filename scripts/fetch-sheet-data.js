@@ -218,10 +218,6 @@ function transformToGuidebookFormat(config, language = "en") {
           title: config.welcome_host_title || "",
           description: config.welcome_host_description || "",
           teamIntro: config.welcome_host_team_intro || "",
-          teamMembers: getNumberedItems(config, "welcome_team_member", [
-            "icon",
-            "text",
-          ]),
         },
         founderNote: {
           icon: config.welcome_founder_icon || "",

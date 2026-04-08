@@ -27,7 +27,6 @@ export interface Welcome {
       title: string;
       description: string;
       teamIntro: string;
-      teamMembers: Array<{ icon: string; text: string }>;
     };
     founderNote: {
       icon: string;

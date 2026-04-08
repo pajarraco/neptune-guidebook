@@ -94,10 +94,6 @@ rows.push([
   "welcome_host_team_intro",
   escapeCSV(data.welcome.meetYourTeam.hostWelcome.teamIntro),
 ]);
-data.welcome.meetYourTeam.hostWelcome.teamMembers.forEach((m, i) => {
-  rows.push([`welcome_team_member_${i + 1}_icon`, escapeCSV(m.icon)]);
-  rows.push([`welcome_team_member_${i + 1}_text`, escapeCSV(m.text)]);
-});
 
 // Founder note
 rows.push([
