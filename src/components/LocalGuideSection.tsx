@@ -17,6 +17,8 @@ export default function LocalGuideSection() {
     new Set(recommendations.map((r) => r.category)),
   );
 
+  const directionsIcon = ["directions_car", "directions_walk"];
+
   return (
     <div className="section-content">
       <h1>{t("localGuide.sectionTitle")}</h1>
@@ -56,9 +58,10 @@ export default function LocalGuideSection() {
                           verticalAlign: "middle",
                           marginRight: "0.25rem",
                           color: "var(--sand-color)",
+                          marginTop: "-0.1rem",
                         }}
                       >
-                        directions_walk
+                        {directionsIcon[rec.distance?.includes("walk") ? 1 : 0]}
                       </span>
                       {rec.distance}
                     </p>
