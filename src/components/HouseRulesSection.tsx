@@ -29,14 +29,18 @@ export default function HouseRulesSection() {
               {ruleIcons[index] || "info"}
             </span>
             <h4>{rule.title}</h4>
-            <p>{rule.description}</p>
+            <p dangerouslySetInnerHTML={{ __html: rule.description }} />
           </div>
         ))}
       </div>
 
       <div className="important-note">
         <h3>{t("houseRules.importantNote.title")}</h3>
-        <p>{t("houseRules.importantNote.message")}</p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: t("houseRules.importantNote.message"),
+          }}
+        />
       </div>
     </div>
   );

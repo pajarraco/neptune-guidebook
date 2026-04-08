@@ -41,6 +41,7 @@ iOS requires manual installation via Safari:
 5. The guidebook icon will appear on your home screen like a native app
 
 **iOS Enhancements:**
+
 - ✨ **Optimized status bar** - Translucent black status bar for immersive experience
 - 📱 **Custom app title** - Shows "Neptune Guide" on home screen
 - 🎨 **Splash screen support** - Smooth loading experience
@@ -183,6 +184,9 @@ Comprehensive documentation is available in the `docs/` folder:
 - **[Internationalization Guide](docs/internationalization.md)** - Complete guide to i18n, translation management, and navigation links
 - **[Component Guidelines](docs/component-guidelines.md)** - Component development standards, styling conventions, and best practices
 - **[Google Sheets Integration](docs/google-sheets-integration.md)** - Setup, configuration, and usage of the Google Sheets CMS
+- **[Icon Utilities Guide](docs/icon-utilities.md)** - Complete reference for Material Symbols icon utility classes
+- **[Icon Quick Reference](docs/icon-quick-reference.md)** - Cheat sheet with copy-paste ready icon examples
+- **[Icon Inventory](docs/icon-inventory.md)** - Catalog of all icons used in the application
 
 ## Tech Stack
 

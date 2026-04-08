@@ -174,10 +174,11 @@ function getNumberedSimpleItems(config, prefix) {
 
 // Transform config data to match guidebook-data.json structure
 function transformToGuidebookFormat(config, language = "en") {
-  // Convert \n to actual newlines in text values
+  // Convert newlines to <br> tags in text values
   Object.keys(config).forEach((key) => {
     if (typeof config[key] === "string") {
-      config[key] = config[key].replace(/\\n/g, "\n");
+      // Replace both escaped \n and actual newline characters with <br>
+      config[key] = config[key].replace(/\\n/g, "<br>").replace(/\n/g, "<br>");
     }
   });
 
@@ -231,7 +232,8 @@ function transformToGuidebookFormat(config, language = "en") {
     propertyInfo: {
       name: config.property_name || "",
       address: config.property_address || "",
-      addressTitle: config.property_address_title || "",
+      info_title: config.property_info_title || "",
+      info_description: config.property_info_description || "",
       wifi: {
         network: config.property_wifi_network || "",
         password: config.property_wifi_password || "",

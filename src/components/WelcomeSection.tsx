@@ -28,12 +28,14 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
   return (
     <div className="section-content">
       <h1>{t("propertyInfo.name")}</h1>
-      
+
       <div className="welcome-intro">
         {introMessages.map((message, index) => (
-          <p key={index} className="welcome-message">
-            {message}
-          </p>
+          <p
+            key={index}
+            className="welcome-message"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
         ))}
       </div>
 
@@ -42,7 +44,11 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
         <p>
           <strong>{t("welcome.featuresSection.answer")}</strong>
         </p>
-        <p>{t("welcome.featuresSection.description")}</p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: t("welcome.featuresSection.description"),
+          }}
+        />
         <ul className="features-list">
           {features.map((feature, index) => (
             <li
@@ -50,32 +56,30 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
               className={feature.link ? "clickable" : ""}
               onClick={() => feature.link && onNavigate(feature.link)}
             >
-              <span className="material-symbols-outlined feature-icon">
+              <span className="material-symbols-outlined feature-icon icon-sand">
                 {featureIcons[index] || "info"}
               </span>
               {feature.text}
             </li>
           ))}
         </ul>
-        <p className="happiness-note">{t("welcome.featuresSection.note")}</p>
+        <p
+          className="happiness-note"
+          dangerouslySetInnerHTML={{
+            __html: t("welcome.featuresSection.note"),
+          }}
+        />
       </div>
 
       <div className="add-to-phone">
         <h3>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.5rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-            }}
-          >
+          <span className="material-symbols-outlined icon-xl icon-inline">
             phone_iphone
           </span>
           {t("welcome.addToPhone.title")}
         </h3>
         {addToPhoneMessages.map((message, index) => (
-          <p key={index}>{message}</p>
+          <p key={index} dangerouslySetInnerHTML={{ __html: message }} />
         ))}
       </div>
 
@@ -84,57 +88,47 @@ function WelcomeSection({ onNavigate }: WelcomeSectionProps) {
 
         <div className="host-welcome">
           <h3>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.5rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-              }}
-            >
+            <span className="material-symbols-outlined icon-xl icon-inline icon-sand">
               waving_hand
             </span>
             {t("welcome.meetYourTeam.hostWelcome.title")}
           </h3>
-          <p>{t("welcome.meetYourTeam.hostWelcome.description")}</p>
-          <p>{t("welcome.meetYourTeam.hostWelcome.teamIntro")}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: t("welcome.meetYourTeam.hostWelcome.description"),
+            }}
+          />
+          <p
+            dangerouslySetInnerHTML={{
+              __html: t("welcome.meetYourTeam.hostWelcome.teamIntro"),
+            }}
+          />
         </div>
 
         <div className="founder-note">
           <h3>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.5rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-              }}
-            >
+            <span className="material-symbols-outlined icon-xl icon-inline icon-sand">
               person
             </span>
             {t("welcome.meetYourTeam.founderNote.title")}
           </h3>
-          <p className="founder-message">
-            {t("welcome.meetYourTeam.founderNote.message")
-              .split("\n")
-              .map((line, index, arr) => (
-                <span key={index}>
-                  {line}
-                  {index < arr.length - 1 && <br />}
-                </span>
-              ))}
-          </p>
-          <p className="mission-statement">
-            {t("welcome.meetYourTeam.founderNote.mission")
-              .split("\n")
-              .map((line, index, arr) => (
-                <span key={index}>
-                  {line}
-                  {index < arr.length - 1 && <br />}
-                </span>
-              ))}
-          </p>
-          <p>{t("welcome.meetYourTeam.founderNote.closing")}</p>
+          <p
+            className="founder-message"
+            dangerouslySetInnerHTML={{
+              __html: t("welcome.meetYourTeam.founderNote.message"),
+            }}
+          />
+          <p
+            className="mission-statement"
+            dangerouslySetInnerHTML={{
+              __html: t("welcome.meetYourTeam.founderNote.mission"),
+            }}
+          />
+          <p
+            dangerouslySetInnerHTML={{
+              __html: t("welcome.meetYourTeam.founderNote.closing"),
+            }}
+          />
         </div>
       </div>
     </div>

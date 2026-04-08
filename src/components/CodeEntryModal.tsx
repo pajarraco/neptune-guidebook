@@ -38,10 +38,7 @@ export default function CodeEntryModal({
       />
       <div className="modal-content">
         <div className="modal-header">
-          <span
-            className="material-symbols-outlined"
-            style={{ fontSize: "3rem", color: "var(--primary-color)" }}
-          >
+          <span className="material-symbols-outlined icon-4xl icon-primary">
             lock
           </span>
           <h2>Welcome to Your Guidebook</h2>
@@ -63,14 +60,7 @@ export default function CodeEntryModal({
 
           {error && (
             <p className="error-message">
-              <span
-                className="material-symbols-outlined"
-                style={{
-                  fontSize: "1rem",
-                  verticalAlign: "middle",
-                  marginRight: "0.25rem",
-                }}
-              >
+              <span className="material-symbols-outlined icon-xs icon-middle icon-mr-xs">
                 error
               </span>
               Incorrect code. Please try again.
@@ -78,14 +68,7 @@ export default function CodeEntryModal({
           )}
 
           <button type="submit" className="submit-button">
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.25rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-              }}
-            >
+            <span className="material-symbols-outlined icon-base icon-middle icon-mr-md">
               check_circle
             </span>
             Access Guidebook
@@ -93,14 +76,7 @@ export default function CodeEntryModal({
         </form>
 
         <p className="help-text">
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1rem",
-              verticalAlign: "middle",
-              marginRight: "0.25rem",
-            }}
-          >
+          <span className="material-symbols-outlined icon-xs icon-middle icon-mr-xs">
             info
           </span>
           Your access code was provided in your booking confirmation email.

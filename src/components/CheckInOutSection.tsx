@@ -99,7 +99,7 @@ export default function CheckInOutSection() {
           >
             lightbulb
           </span>
-          {t("checkInOut.tip")}
+          <span dangerouslySetInnerHTML={{ __html: t("checkInOut.tip") }} />
         </p>
       </div>
 
@@ -135,7 +135,7 @@ export default function CheckInOutSection() {
                   ? "check_circle"
                   : "radio_button_unchecked"}
               </span>
-              {step}
+              <span dangerouslySetInnerHTML={{ __html: step }} />
             </li>
           ))}
         </ul>

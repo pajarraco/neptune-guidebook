@@ -7,6 +7,15 @@ export default function AmenitiesSection() {
     description: string;
     instructions?: string;
   }>;
+  const amenityIcons = [
+    "oven_gen",
+    "laundry",
+    "tv",
+    "ac_unit",
+    "balcony",
+    "garage",
+    "pool",
+  ];
 
   return (
     <div className="section-content">
@@ -15,13 +24,23 @@ export default function AmenitiesSection() {
       <div className="amenities-list">
         {amenities.map((amenity, index) => (
           <div key={index} className="amenity-item">
-            <h3>{amenity.name}</h3>
-            <p className="amenity-description">{amenity.description}</p>
+            <h3>
+              <span className="material-symbols-outlined icon-2xl icon-inline icon-sand">
+                {amenityIcons[index] || "info"}
+              </span>
+              {amenity.name}
+            </h3>
+            <p
+              className="amenity-description"
+              dangerouslySetInnerHTML={{ __html: amenity.description }}
+            />
 
             {amenity.instructions && (
               <p className="amenity-instructions">
-                <strong>{t("amenitiesSection.howToUseLabel")}</strong>{" "}
-                {amenity.instructions}
+                <strong>{t("amenitiesSection.howToUseLabel")}</strong>
+                <span
+                  dangerouslySetInnerHTML={{ __html: amenity.instructions }}
+                />
               </p>
             )}
           </div>
@@ -30,20 +49,16 @@ export default function AmenitiesSection() {
 
       <div className="tip-box">
         <strong>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.25rem",
-              verticalAlign: "middle",
-              marginRight: "0.25rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-base icon-middle icon-mr-xs icon-sand">
             lightbulb
           </span>
           {t("amenitiesSection.helpTip.title")}
         </strong>{" "}
-        {t("amenitiesSection.helpTip.message")}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: t("amenitiesSection.helpTip.message"),
+          }}
+        />
       </div>
     </div>
   );

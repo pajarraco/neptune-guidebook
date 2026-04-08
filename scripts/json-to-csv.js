@@ -120,9 +120,10 @@ rows.push([
 // Property info
 rows.push(["property_name", escapeCSV(data.propertyInfo.name)]);
 rows.push(["property_address", escapeCSV(data.propertyInfo.address)]);
+rows.push(["property_info_title", escapeCSV(data.propertyInfo.info_title)]);
 rows.push([
-  "property_address_title",
-  escapeCSV(data.propertyInfo.addressTitle),
+  "property_info_description",
+  escapeCSV(data.propertyInfo.info_description),
 ]);
 rows.push(["property_wifi_title", escapeCSV(data.propertyInfo.wifi.title)]);
 rows.push([

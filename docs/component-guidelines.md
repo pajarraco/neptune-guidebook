@@ -74,11 +74,49 @@ const changeLanguage = (langCode: string) => {
 
 **CRITICAL**: Always use `material-symbols-outlined` class for Material Icons, not `material-icons`.
 
+**NEW**: Use utility classes instead of inline styles for icons. See [Icon Utilities Documentation](./icon-utilities.md) for complete reference.
+
+**Preferred approach** (using utility classes):
+
 ```tsx
 <span className="material-symbols-outlined dropdown-arrow">
   {isOpen ? "expand_less" : "expand_more"}
 </span>
 ```
+
+**Avoid** (inline styles):
+
+```tsx
+<span
+  className="material-symbols-outlined"
+  style={{
+    fontSize: "1.25rem",
+    verticalAlign: "middle",
+    marginRight: "0.5rem",
+    color: "var(--sand-color)",
+  }}
+>
+  phone
+</span>
+```
+
+**Instead use** (utility classes):
+
+```tsx
+<span className="material-symbols-outlined icon-base icon-inline-sm icon-sand">
+  phone
+</span>
+```
+
+**Quick Reference**:
+
+- Size: `icon-xs`, `icon-sm`, `icon-md`, `icon-base`, `icon-lg`, `icon-xl`, `icon-2xl`, `icon-3xl`, `icon-4xl`
+- Color: `icon-sand`, `icon-aqua`, `icon-primary`, `icon-secondary`, `icon-surface`
+- Spacing: `icon-inline`, `icon-inline-sm`, `icon-inline-xs`, `icon-mr-xs`, `icon-mr-sm`, `icon-mr-md`
+- Style: `icon-filled`, `icon-outlined`, `icon-outlined-medium`, `icon-outlined-light`
+- Context: `nav-icon`, `feature-icon`, `team-icon`, `rule-icon`, `check-icon`, `dropdown-arrow`
+
+See [icon-quick-reference.md](./icon-quick-reference.md) for copy-paste ready examples.
 
 ## Navigation Component
 
@@ -106,7 +144,12 @@ Example:
 ### Material Icons
 
 - **Class name**: `material-symbols-outlined` (not `material-icons`)
-- **Common icons**: `expand_more`, `expand_less`, `location_on`, `wifi`, `phone_iphone`
+- **Styling**: Use utility classes from `styles.css` instead of inline styles
+- **Common icons**: `expand_more`, `expand_less`, `location_on`, `wifi`, `phone`, `emergency`, `info`
+- **Documentation**:
+  - [Icon Utilities Guide](./icon-utilities.md) - Complete documentation
+  - [Icon Quick Reference](./icon-quick-reference.md) - Cheat sheet with examples
+  - [Icon Inventory](./icon-inventory.md) - All icons used in the app
 
 ### Internationalization
 

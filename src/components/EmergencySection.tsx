@@ -20,15 +20,7 @@ export default function EmergencySection() {
 
       <div className="emergency-alert">
         <h3>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.5625rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-2xl icon-inline icon-sand">
             emergency
           </span>
           {t("emergency.alert.title")}
@@ -45,15 +37,7 @@ export default function EmergencySection() {
               href={`tel:${contact.phone.replace(/\D/g, "")}`}
               className="contact-phone"
             >
-              <span
-                className="material-symbols-outlined"
-                style={{
-                  fontSize: "1.25rem",
-                  verticalAlign: "middle",
-                  marginRight: "0.25rem",
-                  color: "var(--sand-color)",
-                }}
-              >
+              <span className="material-symbols-outlined icon-base icon-middle icon-mr-xs icon-sand">
                 phone
               </span>
               {contact.phone}
@@ -66,15 +50,7 @@ export default function EmergencySection() {
                   color: "var(--text-secondary)",
                 }}
               >
-                <span
-                  className="material-symbols-outlined"
-                  style={{
-                    fontSize: "1.125rem",
-                    verticalAlign: "middle",
-                    marginRight: "0.25rem",
-                    color: "var(--sand-color)",
-                  }}
-                >
+                <span className="material-symbols-outlined icon-md icon-middle icon-mr-xs icon-sand">
                   location_on
                 </span>
                 {contact.address}
@@ -88,15 +64,7 @@ export default function EmergencySection() {
                   color: "var(--text-secondary)",
                 }}
               >
-                <span
-                  className="material-symbols-outlined"
-                  style={{
-                    fontSize: "1.0625rem",
-                    verticalAlign: "middle",
-                    marginRight: "0.25rem",
-                    color: "var(--sand-color)",
-                  }}
-                >
+                <span className="material-symbols-outlined icon-sm icon-middle icon-mr-xs icon-sand">
                   schedule
                 </span>
                 {contact.hours}
@@ -110,9 +78,8 @@ export default function EmergencySection() {
                   fontStyle: "italic",
                   color: "var(--text-secondary)",
                 }}
-              >
-                {contact.note}
-              </div>
+                dangerouslySetInnerHTML={{ __html: contact.note }}
+              />
             )}
           </div>
         ))}
@@ -120,15 +87,7 @@ export default function EmergencySection() {
 
       <div className="safety-info">
         <h3>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.5625rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-2xl icon-inline icon-sand">
             local_fire_department
           </span>
           {t("emergency.safetyInfo.title")}
@@ -142,15 +101,7 @@ export default function EmergencySection() {
 
       <div className="tip-box">
         <strong>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.25rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-base icon-inline icon-sand">
             location_on
           </span>
           {t("emergency.addressNote")}

@@ -27,7 +27,9 @@ export default function PropertyInfoSection({
         // On mobile (<=768px), nav is fixed at bottom, so no offset needed
         // On desktop, nav is sticky at top, so account for nav height
         const isMobile = window.innerWidth <= 768;
-        const navHeight = isMobile ? 0 : (navigation?.getBoundingClientRect().height || 0);
+        const navHeight = isMobile
+          ? 0
+          : navigation?.getBoundingClientRect().height || 0;
         const elementPosition = checkoutSection.getBoundingClientRect().top;
         const offsetPosition =
           elementPosition + window.scrollY - navHeight - 20;
@@ -42,7 +44,19 @@ export default function PropertyInfoSection({
 
   return (
     <div className="section-content">
-      <h1>{t("propertyInfo.addressTitle")}</h1>
+      <h1>{t("propertyInfo.info_title")}</h1>
+
+      <p className="address">
+        <span className="material-symbols-outlined icon-2xl icon-inline icon-sand">
+          location_on
+        </span>
+        {t("propertyInfo.address")}
+      </p>
+
+      <p
+        className="info-description"
+        dangerouslySetInnerHTML={{ __html: t("propertyInfo.info_description") }}
+      />
 
       <div className="info-grid">
         <div
@@ -51,15 +65,7 @@ export default function PropertyInfoSection({
           style={{ cursor: "pointer" }}
         >
           <h3>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.25rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
+            <span className="material-symbols-outlined icon-base icon-inline icon-sand">
               schedule
             </span>
             {t("propertyInfo.checkInLabel")}
@@ -72,15 +78,7 @@ export default function PropertyInfoSection({
           style={{ cursor: "pointer" }}
         >
           <h3>
-            <span
-              className="material-symbols-outlined"
-              style={{
-                fontSize: "1.25rem",
-                verticalAlign: "middle",
-                marginRight: "0.5rem",
-                color: "var(--sand-color)",
-              }}
-            >
+            <span className="material-symbols-outlined icon-base icon-inline icon-sand">
               schedule
             </span>
             {t("propertyInfo.checkOutLabel")}
@@ -91,15 +89,7 @@ export default function PropertyInfoSection({
 
       <div className="wifi-section">
         <h3>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.5625rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-2xl icon-inline icon-sand">
             wifi
           </span>
           {t("propertyInfo.wifi.title")}

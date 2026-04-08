@@ -150,6 +150,151 @@ li {
 }
 
 /* ============================================
+   MATERIAL SYMBOLS ICON UTILITIES
+   ============================================ */
+
+/* Base icon class */
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/* Icon sizes */
+.icon-xs {
+  font-size: 1rem;
+}
+.icon-sm {
+  font-size: 1.0625rem;
+}
+.icon-md {
+  font-size: 1.125rem;
+}
+.icon-base {
+  font-size: 1.25rem;
+}
+.icon-lg {
+  font-size: 1.375rem;
+}
+.icon-xl {
+  font-size: 1.5rem;
+}
+.icon-2xl {
+  font-size: 1.5625rem;
+}
+.icon-3xl {
+  font-size: 2.5rem;
+}
+.icon-4xl {
+  font-size: 3rem;
+}
+
+/* Icon alignment */
+.icon-middle {
+  vertical-align: middle;
+}
+
+.icon-middle-offset {
+  vertical-align: middle;
+  margin-top: -0.1rem;
+}
+
+.icon-middle-offset-lg {
+  vertical-align: middle;
+  margin-top: -0.5rem;
+}
+
+/* Icon spacing */
+.icon-mr-xs {
+  margin-right: 0.25rem;
+}
+.icon-mr-sm {
+  margin-right: 0.3rem;
+}
+.icon-mr-md {
+  margin-right: 0.5rem;
+}
+.icon-pr-sm {
+  padding-right: 0.3rem;
+}
+
+/* Icon colors */
+.icon-sand {
+  color: var(--sand-color);
+}
+.icon-primary {
+  color: var(--primary-color);
+}
+.icon-secondary {
+  color: var(--text-secondary);
+}
+.icon-aqua {
+  color: var(--aqua-blue);
+}
+.icon-surface {
+  color: var(--surface);
+}
+
+/* Icon variation settings - filled */
+.icon-filled {
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+/* Icon variation settings - outlined (default) */
+.icon-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+/* Icon variation settings - outlined with medium weight */
+.icon-outlined-medium {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 500,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+/* Icon variation settings - outlined light */
+.icon-outlined-light {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 300,
+    "GRAD" 0,
+    "opsz" 60;
+}
+
+/* Combined utility classes for common patterns */
+.icon-inline {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.icon-inline-sm {
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.icon-inline-xs {
+  vertical-align: middle;
+  margin-right: 0.3rem;
+}
+
+/* ============================================
    LANGUAGE SELECTOR
    ============================================ */
 
@@ -295,6 +440,55 @@ li {
   transition: color 0.2s ease;
 }
 
+/* Context-specific icon styles */
+.dropdown-arrow {
+  font-size: 20px;
+  color: #666;
+}
+
+.feature-icon {
+  color: var(--aqua-blue);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.team-icon {
+  color: var(--aqua-blue);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.rule-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--sand-color);
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 300,
+    "GRAD" 0,
+    "opsz" 60;
+}
+
+.nav-icon {
+  font-size: 24px;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -406,15 +600,6 @@ li {
   background: rgba(22, 41, 60, 0.03);
 }
 
-.nav-icon {
-  font-size: 24px;
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
-}
-
 .nav-item.active .nav-icon {
   font-variation-settings:
     "FILL" 1,
@@ -487,8 +672,16 @@ li {
    ============================================ */
 
 .address {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.address .material-symbols-outlined {
+  vertical-align: middle;
+  margin-right: 0.3rem;
+  margin-top: -0.5rem;
 }
 
 .welcome-intro {
@@ -560,17 +753,6 @@ li {
 
 .features-list li.clickable:active {
   transform: translateX(3px);
-}
-
-.feature-icon {
-  color: var(--aqua-blue);
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  font-variation-settings:
-    "FILL" 1,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
 }
 
 .happiness-note {
@@ -654,17 +836,6 @@ li {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-}
-
-.team-icon {
-  color: var(--aqua-blue);
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
 }
 
 .founder-note {
@@ -755,6 +926,20 @@ li {
    PROPERTY INFO & CARDS
    ============================================ */
 
+.info-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -900,18 +1085,6 @@ ol.instruction-list li {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-color);
-}
-
-.rule-icon {
-  font-size: 48px;
-  display: block;
-  margin-bottom: 1rem;
-  color: var(--sand-color);
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 300,
-    "GRAD" 0,
-    "opsz" 60;
 }
 
 .important-note {
@@ -1478,7 +1651,7 @@ ol.instruction-list li {
   .floating-chat-button {
     bottom: 6rem;
   }
-  .app-footer{
+  .app-footer {
     padding-bottom: 6rem;
   }
 }

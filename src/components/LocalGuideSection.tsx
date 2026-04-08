@@ -32,38 +32,26 @@ export default function LocalGuideSection() {
               .map((rec, index) => (
                 <div key={index} className="recommendation-card">
                   <h4>{rec.name}</h4>
-                  <p className="rec-description">{rec.description}</p>
+                  <p
+                    className="rec-description"
+                    dangerouslySetInnerHTML={{ __html: rec.description }}
+                  />
                   {rec.address && (
                     <p className="rec-address">
-                      <span
-                        className="material-symbols-outlined"
-                        style={{
-                          fontSize: "1.125rem",
-                          verticalAlign: "middle",
-                          marginRight: "0.25rem",
-                          color: "var(--sand-color)",
-                        }}
-                      >
+                      <span className="material-symbols-outlined icon-md icon-middle icon-mr-xs icon-sand">
                         location_on
                       </span>
-                      {rec.address}
+                      <span dangerouslySetInnerHTML={{ __html: rec.address }} />
                     </p>
                   )}
                   {rec.distance && (
                     <p className="rec-distance">
-                      <span
-                        className="material-symbols-outlined"
-                        style={{
-                          fontSize: "1.125rem",
-                          verticalAlign: "middle",
-                          marginRight: "0.25rem",
-                          color: "var(--sand-color)",
-                          marginTop: "-0.1rem",
-                        }}
-                      >
+                      <span className="material-symbols-outlined icon-md icon-middle-offset icon-mr-xs icon-sand">
                         {directionsIcon[rec.distance?.includes("walk") ? 1 : 0]}
                       </span>
-                      {rec.distance}
+                      <span
+                        dangerouslySetInnerHTML={{ __html: rec.distance }}
+                      />
                     </p>
                   )}
                   {rec.link && (
@@ -81,14 +69,7 @@ export default function LocalGuideSection() {
                         fontWeight: 500,
                       }}
                     >
-                      <span
-                        className="material-symbols-outlined"
-                        style={{
-                          fontSize: "1.375rem",
-                          marginRight: "0.25rem",
-                          color: "var(--sand-color)",
-                        }}
-                      >
+                      <span className="material-symbols-outlined icon-lg icon-mr-xs icon-sand">
                         map
                       </span>
                       {t("localGuide.viewOnMapsLabel")}
@@ -101,9 +82,8 @@ export default function LocalGuideSection() {
                         fontStyle: "italic",
                         fontSize: "0.9rem",
                       }}
-                    >
-                      {rec.note}
-                    </p>
+                      dangerouslySetInnerHTML={{ __html: rec.note }}
+                    />
                   )}
                 </div>
               ))}
@@ -113,18 +93,10 @@ export default function LocalGuideSection() {
 
       <div className="tip-box">
         <p>
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "1.25rem",
-              verticalAlign: "middle",
-              marginRight: "0.5rem",
-              color: "var(--sand-color)",
-            }}
-          >
+          <span className="material-symbols-outlined icon-base icon-inline icon-sand">
             info
           </span>
-          {t("localGuide.tip")}
+          <span dangerouslySetInnerHTML={{ __html: t("localGuide.tip") }} />
         </p>
       </div>
     </div>
