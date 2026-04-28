@@ -123,6 +123,7 @@ they survive rebuilds.
    ```
 
    This is where the locale JSON files are read from at runtime.
+
 4. **Expose port** `3000` (or override with the `PORT` env var).
 
 ### How the data lifecycle works
@@ -141,6 +142,7 @@ they survive rebuilds.
   ```
 
   Or restart the container with `FORCE_FETCH_LOCALES=1` set.
+
 - **Manual edits:** you can edit JSON files directly on the volume (they're
   just files) — changes are picked up immediately on the next page load.
 

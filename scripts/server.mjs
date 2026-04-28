@@ -65,8 +65,9 @@ function serveFile(res, filePath, { noCache = false } = {}) {
 }
 
 function isInside(child, parent) {
-  const rel = path.relative(parent, child);
-  return rel && !rel.startsWith("..") && !path.isAbsolute(rel);
+  const c = path.resolve(child);
+  const p = path.resolve(parent);
+  return c === p || c.startsWith(p + path.sep);
 }
 
 const server = http.createServer((req, res) => {
@@ -95,7 +96,7 @@ const server = http.createServer((req, res) => {
 
   // Static + SPA fallback.
   const filePath = path.join(DIST, pathname);
-  if (!isInside(filePath, DIST) && filePath !== DIST) {
+  if (!isInside(filePath, DIST)) {
     return send(res, 403, "Forbidden");
   }
   fs.stat(filePath, (err, stat) => {
