@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import SignIn from "./SignIn";
-import Editor from "./Editor";
+import SignIn from "./components/SignIn";
+import Editor from "./components/Editor";
 import { api } from "./api";
 
 export default function App() {

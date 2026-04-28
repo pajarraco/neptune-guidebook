@@ -6,6 +6,7 @@ import path from "node:path";
 // Guest app build. Source lives in src/app/, output goes to dist/.
 export default defineConfig({
   root: "src/app",
+  envDir: __dirname,
   publicDir: path.resolve(__dirname, "public"),
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   resolve: {

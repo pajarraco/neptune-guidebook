@@ -10,7 +10,10 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 
-if ("serviceWorker" in navigator) {
+// Register the service worker in production only. In dev (Vite),
+// SW intercepts /@vite/client and other HMR plumbing, breaking hot
+// reload and WebSocket connections.
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js")
@@ -20,5 +23,13 @@ if ("serviceWorker" in navigator) {
       .catch((error) => {
         console.log("SW registration failed:", error);
       });
+  });
+} else if (
+  import.meta.env.DEV &&
+  "serviceWorker" in navigator
+) {
+  // Defensively unregister any SW left over from a previous prod session.
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((r) => r.unregister());
   });
 }

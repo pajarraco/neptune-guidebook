@@ -8,6 +8,7 @@ import path from "node:path";
 export default defineConfig({
   root: "src/admin",
   base: "/admin/",
+  envDir: __dirname,
   publicDir: false,
   plugins: [react()],
   resolve: {
