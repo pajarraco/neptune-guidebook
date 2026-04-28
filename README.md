@@ -10,7 +10,7 @@ A modern, interactive digital guidebook for vacation rental properties built wit
 - 🏠 Property information and amenities
 - 🗺️ Local area guide
 - 🔄 Dynamic content from Google Sheets
-- 🚀 Automated deployment to GitHub Pages
+- 🚀 Self-hostable on Coolify (Nixpacks build pack) with persistent JSON volume
 
 ## Add This Guide to Your Phone
 
@@ -76,36 +76,79 @@ npm run fetch-data
 
 ## Environment Variables
 
-The app uses GitHub Variables and Secrets for configuration:
-
-**GitHub Variables:**
+Build-time (must be available when `npm run build` runs):
 
 - `VITE_CODE` - Access code for the guidebook
 - `VITE_APARTMENT_NUMBER` - Unit/apartment number
 - `VITE_WIFI_NETWORK` - WiFi network name
 - `VITE_WIFI_PASSWORD` - WiFi password
+- `VITE_LANGUAGES` - Comma-separated language codes embedded in the bundle (e.g. `en,es,fr,it`). Drives `supportedLngs` in i18n config.
+
+Runtime / fetch-data:
+
 - `GOOGLE_SHEET_ID` - Google Sheet ID for data fetching
-- `LANGUAGES` - Comma-separated list of language codes (e.g., "en,es,fr,it")
-
-**GitHub Secrets:**
-
-- `GOOGLE_SERVICE_ACCOUNT_KEY` - Service account credentials JSON
+- `GOOGLE_SERVICE_ACCOUNT_KEY` - Service account credentials JSON (single-line)
+- `LANGUAGES` - Comma-separated language codes for the fetch script
+- `LOCALES_DIR` - Where the fetch script writes JSON files. Defaults to `public/locales` for dev. On Coolify set this to the volume mount path, e.g. `/app/dist/locales`.
+- `PORT` - Port the static server listens on (default `3000`)
+- `FORCE_FETCH_LOCALES=1` - Force the entrypoint to refetch locales from Google Sheets even if the volume already has data
 
 **Local Development (.env.local):**
 
 ```env
 VITE_CODE=your-access-code
 VITE_APARTMENT_NUMBER=123
+VITE_LANGUAGES=en,es,fr,it
 GOOGLE_SHEET_ID=your-sheet-id
 GOOGLE_SERVICE_ACCOUNT_PATH=./path/to/credentials.json
 LANGUAGES=en,es,fr,it
 ```
 
+## Deploying to Coolify (Nixpacks)
+
+Locale JSON files are **not bundled** — they are loaded at runtime from
+`/locales/{lng}.json`. On Coolify those files live on a persistent volume so
+they survive rebuilds.
+
+### Setup
+
+1. **Create the application** in Coolify, point it at this repo, and select
+   the **Nixpacks** build pack. The included `nixpacks.toml` configures
+   build/start commands automatically.
+2. **Set environment variables** (build + runtime, see list above).
+3. **Add a persistent volume** mounted at:
+
+   ```
+   /app/dist/locales
+   ```
+
+   This is where the locale JSON files are read from at runtime.
+4. **Expose port** `3000` (or override with the `PORT` env var).
+
+### How the data lifecycle works
+
+- **First boot:** `scripts/start.sh` sees the volume is empty, runs
+  `node scripts/fetch-sheet-data.js` which writes the locale JSON files
+  directly into `/app/dist/locales` (the volume), then starts `serve`.
+- **Subsequent boots / rebuilds:** the volume already has data, so the
+  entrypoint skips the fetch and just starts the server. Your edits /
+  fetched data persist.
+- **Refreshing data from Google Sheets:** open a terminal on the running
+  container in Coolify and run:
+
+  ```bash
+  LOCALES_DIR=/app/dist/locales npm run fetch-data
+  ```
+
+  Or restart the container with `FORCE_FETCH_LOCALES=1` set.
+- **Manual edits:** you can edit JSON files directly on the volume (they're
+  just files) — changes are picked up immediately on the next page load.
+
 ## Internationalization (i18n)
 
 ### Language Support
 
-The app supports multiple languages using `react-i18next`. Translation files are located in `src/i18n/locales/`:
+The app supports multiple languages using `react-i18next` with `i18next-http-backend`. Translation files are loaded at runtime from `public/locales/` (dev) or `dist/locales/` (production / Coolify volume). Generated files:
 
 - `en.json` - English (default)
 - `es.json` - Spanish
@@ -192,10 +235,9 @@ Comprehensive documentation is available in the `docs/` folder:
 
 - React 19 with TypeScript
 - Vite 8
-- i18next / react-i18next for internationalization
+- i18next / react-i18next + i18next-http-backend (runtime locale loading)
 - Google Sheets API
-- GitHub Actions for CI/CD
-- GitHub Pages for hosting
+- Coolify + Nixpacks for hosting (static `dist/` served by `serve`)
 
 ## Project Structure
 

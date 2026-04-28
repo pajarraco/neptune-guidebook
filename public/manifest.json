@@ -2,15 +2,15 @@
   "name": "Neptune Guidebook",
   "short_name": "Neptune",
   "description": "Your vacation rental property guide",
-  "start_url": "/neptune-guidebook/",
-  "scope": "/neptune-guidebook/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1976d2",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/neptune-guidebook/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -27,10 +27,10 @@
       "name": "Property Info",
       "short_name": "Property",
       "description": "View property information",
-      "url": "/neptune-guidebook/#property-info",
+      "url": "/#property-info",
       "icons": [
         {
-          "src": "/neptune-guidebook/favicon.svg",
+          "src": "/favicon.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }
@@ -40,10 +40,10 @@
       "name": "Local Guide",
       "short_name": "Guide",
       "description": "Explore local area",
-      "url": "/neptune-guidebook/#local-guide",
+      "url": "/#local-guide",
       "icons": [
         {
-          "src": "/neptune-guidebook/favicon.svg",
+          "src": "/favicon.svg",
           "sizes": "any",
           "type": "image/svg+xml"
         }

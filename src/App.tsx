@@ -17,7 +17,7 @@ const REQUIRED_CODE = import.meta.env.VITE_CODE || null;
 const STORAGE_KEY = "guidebook-access-code";
 
 function App() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
   const [activeSection, setActiveSection] = useState("welcome");
   const [isChatButtonVisible, setIsChatButtonVisible] = useState(false);
 
@@ -136,6 +136,11 @@ function App() {
   ];
 
   const currentSection = sections.find((s) => s.id === activeSection);
+
+  // Wait for translations to load before rendering
+  if (!ready) {
+    return <div className="app-loading" />;
+  }
 
   // Show code entry modal if not verified
   if (!isCodeVerified) {

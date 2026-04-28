@@ -1,0 +1,27 @@
+# Nixpacks build configuration for Coolify deployment.
+#
+# At build time we DO NOT run `fetch-sheet-data.js` — locales live on a
+# persistent volume mounted at /app/dist/locales and are populated by the
+# container entrypoint (scripts/start.sh) on first boot.
+#
+# Required Coolify env vars:
+#   - VITE_CODE
+#   - VITE_APARTMENT_NUMBER
+#   - VITE_LANGUAGES                e.g. "en,es,fr,it"
+#   - GOOGLE_SHEET_ID
+#   - GOOGLE_SERVICE_ACCOUNT_KEY    (full JSON as a single line)
+#
+# Required Coolify volume mount:
+#   - /app/dist/locales            (persistent storage)
+
+[phases.setup]
+nixPkgs = ["nodejs_22", "npm-9_x"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "sh scripts/start.sh"

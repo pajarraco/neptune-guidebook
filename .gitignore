@@ -21,6 +21,7 @@ dist-ssr
 google-service-account.json
 
 # Guidebook data (generated from Google Sheets)
+public/locales/
 src/i18n/locales/*.json
 config.csv
 *.csv

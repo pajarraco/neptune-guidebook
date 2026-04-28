@@ -1,5 +1,5 @@
 const CACHE_NAME = "neptune-guidebook-v1";
-const urlsToCache = ["/neptune-guidebook/", "/neptune-guidebook/index.html"];
+const urlsToCache = ["/", "/index.html"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

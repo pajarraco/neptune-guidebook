@@ -88,11 +88,17 @@ async function fetchSheetData() {
 
     console.log(`Languages to fetch: ${languages.join(", ")}\n`);
 
-    // Ensure the output directory exists
-    const outputDir = path.join(__dirname, "../src/i18n/locales");
+    // Output directory. Defaults to `public/locales` so Vite serves the JSON
+    // statically in dev and copies it into `dist/locales` for production.
+    // On Coolify, set LOCALES_DIR=/app/dist/locales (the persistent volume
+    // mount path) so the files live on the volume.
+    const outputDir = process.env.LOCALES_DIR
+      ? path.resolve(process.env.LOCALES_DIR)
+      : path.join(__dirname, "../public/locales");
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
+    console.log(`Output directory: ${outputDir}`);
 
     // Fetch and process each language
     for (const lang of languages) {
