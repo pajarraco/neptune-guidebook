@@ -9,6 +9,10 @@ export default defineConfig({
   root: "src/admin",
   base: "/admin/",
   envDir: __dirname,
+  // Separate cache dir from the guest Vite so the two dev servers don't
+  // overwrite each other's pre-bundled deps (which caused 504 Outdated
+  // Optimize Dep on react-hook-form).
+  cacheDir: path.resolve(__dirname, "node_modules/.vite-admin"),
   publicDir: false,
   plugins: [react()],
   resolve: {

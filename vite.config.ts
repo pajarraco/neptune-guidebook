@@ -7,6 +7,9 @@ import path from "node:path";
 export default defineConfig({
   root: "src/app",
   envDir: __dirname,
+  // Separate cache dir from the admin Vite so the two dev servers don't
+  // overwrite each other's pre-bundled deps.
+  cacheDir: path.resolve(__dirname, "node_modules/.vite-app"),
   publicDir: path.resolve(__dirname, "public"),
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   resolve: {

@@ -207,31 +207,63 @@ export default function Editor({ email, onSignOut }: Props) {
 
       <div className="layout">
         <aside className="sidebar">
-          <h2>Languages</h2>
-          <ul className="lang-list">
-            {languages.map((l) => (
-              <li key={l.lang}>
-                <button
-                  className={l.lang === activeLang ? "active" : ""}
-                  onClick={() => setActiveLang(l.lang)}
-                  disabled={dirty}
-                  title={dirty ? "Save or revert your changes first" : ""}
-                >
-                  <span>{l.lang}</span>
-                  {!l.exists && <em> (missing)</em>}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <hr />
-          <button className="secondary" onClick={onPull}>
-            Pull from Google Sheets
-          </button>
+          {view === "form" && (
+            <nav className="sidebar-group sidebar-sections" aria-label="Sections">
+              <span className="sidebar-label">Sections</span>
+              <ul className="section-nav">
+                {SECTION_REGISTRY.map((s) => (
+                  <li key={s.id}>
+                    <button
+                      className={s.id === activeSection ? "active" : ""}
+                      onClick={() => setActiveSection(s.id)}
+                    >
+                      {s.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          <div className="sidebar-footer">
+            <div className="sidebar-group">
+              <label className="sidebar-label" htmlFor="lang-select">
+                Language
+              </label>
+              <select
+                id="lang-select"
+                className="lang-select"
+                value={activeLang ?? ""}
+                onChange={(e) => setActiveLang(e.target.value || null)}
+                disabled={dirty || languages.length === 0}
+                title={dirty ? "Save or revert your changes first" : ""}
+              >
+                {languages.length === 0 && <option value="">Loading…</option>}
+                {languages.map((l) => (
+                  <option key={l.lang} value={l.lang}>
+                    {l.lang}
+                    {!l.exists ? " (missing)" : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button className="secondary" onClick={onPull}>
+              Pull from Google Sheets
+            </button>
+          </div>
         </aside>
 
         <main className="content">
           <div className="toolbar">
             <strong>{activeLang ?? "—"}.json</strong>
+            {view === "form" && activeSection && (
+              <span className="toolbar-section">
+                ›{" "}
+                {
+                  SECTION_REGISTRY.find((s) => s.id === activeSection)?.label
+                }
+              </span>
+            )}
             <div className="view-toggle" role="tablist">
               <button
                 className={view === "form" ? "active" : ""}
@@ -263,19 +295,6 @@ export default function Editor({ email, onSignOut }: Props) {
 
           {view === "form" ? (
             <FormProvider {...formMethods}>
-              <div className="section-tabs" role="tablist">
-                {SECTION_REGISTRY.map((s) => (
-                  <button
-                    key={s.id}
-                    role="tab"
-                    aria-selected={s.id === activeSection}
-                    className={s.id === activeSection ? "active" : ""}
-                    onClick={() => setActiveSection(s.id)}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
               <form
                 className="form-body"
                 onSubmit={(e) => {

@@ -121,41 +121,90 @@ button.secondary {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid var(--border);
   background: var(--surface);
   padding: 1rem;
   overflow-y: auto;
+  gap: 1rem;
 }
-.sidebar h2 {
-  font-size: 0.75rem;
+.sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.sidebar-label {
+  font-size: 0.7rem;
   text-transform: uppercase;
   color: var(--muted);
-  letter-spacing: 0.05em;
-  margin: 0 0 0.5rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
 }
-.lang-list {
+.lang-select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.92rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.lang-select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -1px;
+}
+.lang-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sidebar-sections {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.section-nav {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.lang-list li {
-  margin-bottom: 0.25rem;
-}
-.lang-list button {
+.section-nav button {
   width: 100%;
   text-align: left;
   background: transparent;
-  border: 1px solid transparent;
+  border: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
 }
-.lang-list button.active {
+.section-nav button:hover:not(:disabled) {
+  background: #f0f1f5;
+}
+.section-nav button.active {
   background: #e8f0fe;
-  border-color: #c8d8f7;
   color: var(--primary);
   font-weight: 600;
 }
-.lang-list button em {
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toolbar-section {
   color: var(--muted);
-  font-size: 0.85em;
+  font-size: 0.92rem;
 }
 
 .content {
@@ -245,35 +294,6 @@ hr {
 }
 .view-toggle button + button {
   border-left: 1px solid var(--border);
-}
-
-/* ---------- Section tabs ---------- */
-.section-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1rem;
-  padding-bottom: 0.25rem;
-}
-.section-tabs button {
-  border: 1px solid transparent;
-  background: transparent;
-  border-radius: 6px 6px 0 0;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-.section-tabs button:hover {
-  color: var(--text);
-}
-.section-tabs button.active {
-  color: var(--primary);
-  font-weight: 600;
-  background: var(--surface);
-  border-color: var(--border);
-  border-bottom-color: var(--surface);
-  margin-bottom: -1px;
 }
 
 /* ---------- Form body ---------- */
