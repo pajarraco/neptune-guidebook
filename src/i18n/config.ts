@@ -18,6 +18,13 @@ i18n
   .init({
     backend: {
       loadPath: `${import.meta.env.BASE_URL}locales/{{lng}}.json`,
+      // The server gates /locales/* behind this header. The code is the
+      // same one the user enters in CodeEntryModal — it lives in the
+      // bundle so a determined attacker can extract it, but this stops
+      // the JSON files from being scraped by bots / random visitors.
+      customHeaders: () => ({
+        "x-access-code": import.meta.env.VITE_CODE || "",
+      }),
     },
     supportedLngs,
     fallbackLng: "en",

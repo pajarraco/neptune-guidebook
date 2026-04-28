@@ -5,9 +5,12 @@
 # container entrypoint (scripts/start.sh) on first boot.
 #
 # Required Coolify env vars:
-#   - VITE_CODE
+#   - VITE_CODE                     access code (baked into the bundle)
 #   - VITE_APARTMENT_NUMBER
 #   - VITE_LANGUAGES                e.g. "en,es,fr,it"
+#   - ACCESS_CODE                   gates /locales/* on the server.
+#                                   Must equal VITE_CODE. (If unset, the
+#                                   server falls back to VITE_CODE.)
 #   - GOOGLE_SHEET_ID
 #   - GOOGLE_SERVICE_ACCOUNT_KEY    (full JSON as a single line)
 #

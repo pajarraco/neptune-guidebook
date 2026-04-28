@@ -30,5 +30,5 @@ else
   echo "[start] Using existing locales in $LOCALES_DIR"
 fi
 
-echo "[start] Serving dist/ on port $PORT"
-exec npx serve -s dist -l "$PORT" --no-clipboard
+echo "[start] Serving dist/ on port $PORT (locales gated by ACCESS_CODE)"
+exec node scripts/server.mjs
