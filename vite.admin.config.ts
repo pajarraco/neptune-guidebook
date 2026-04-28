@@ -21,6 +21,11 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "dist/admin"),
     emptyOutDir: true,
   },
+  // Pre-bundle these on dev startup so the first /admin/ request doesn't
+  // 504 with "Outdated Optimize Dep" while Vite discovers them lazily.
+  optimizeDeps: {
+    include: ["react-hook-form", "@hookform/resolvers/zod", "zod"],
+  },
   server: {
     port: 5174,
     proxy: {
