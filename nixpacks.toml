@@ -4,15 +4,23 @@
 # persistent volume mounted at /app/dist/locales and are populated by the
 # container entrypoint (scripts/start.sh) on first boot.
 #
-# Required Coolify env vars:
+# Required Coolify env vars (Build Time = baked into bundle, Runtime = server):
+#
+# Build:
 #   - VITE_CODE                     access code (baked into the bundle)
 #   - VITE_APARTMENT_NUMBER
 #   - VITE_LANGUAGES                e.g. "en,es,fr,it"
-#   - ACCESS_CODE                   gates /locales/* on the server.
-#                                   Must equal VITE_CODE. (If unset, the
-#                                   server falls back to VITE_CODE.)
+#   - VITE_GOOGLE_OAUTH_CLIENT_ID   Google OAuth client ID for the admin sign-in
+#
+# Runtime:
+#   - ACCESS_CODE                   gates /locales/* (must equal VITE_CODE)
 #   - GOOGLE_SHEET_ID
 #   - GOOGLE_SERVICE_ACCOUNT_KEY    (full JSON as a single line)
+#   - GOOGLE_OAUTH_CLIENT_ID        same value as VITE_GOOGLE_OAUTH_CLIENT_ID;
+#                                   used by the server to verify ID tokens
+#   - ALLOWED_EMAILS                comma-separated list of admin emails
+#   - SESSION_SECRET                random 32+ char string (openssl rand -hex 32)
+#   - LANGUAGES                     comma-separated language codes (admin pull)
 #
 # Required Coolify volume mount:
 #   - /app/dist/locales            (persistent storage)

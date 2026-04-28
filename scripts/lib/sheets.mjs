@@ -1,198 +1,120 @@
+// Google Sheets pull (and future push) helpers.
+//
+// Pull: reads each language sheet (key/value pairs), transforms to the
+// guidebook structure, and writes JSON files to the locales dir.
 import { google } from "googleapis";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import dotenv from "dotenv";
+import fs from "node:fs";
+import path from "node:path";
+import { writeLanguage, getSupportedLanguages } from "./locales.mjs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+function loadCredentials() {
+  const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_PATH;
+  const credentialsJson = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
 
-// Load environment variables from .env.local
-dotenv.config({ path: path.join(__dirname, "../.env.local") });
-
-async function fetchSheetData() {
-  try {
-    // Get service account credentials from environment variable or file
-    const credentials = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-    const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_PATH;
-
-    let credentialsObj;
-
-    // Option 1: Load from file path (recommended for local development)
-    if (credentialsPath) {
-      try {
-        const fullPath = path.isAbsolute(credentialsPath)
-          ? credentialsPath
-          : path.join(__dirname, "..", credentialsPath);
-        const fileContent = fs.readFileSync(fullPath, "utf8");
-        credentialsObj = JSON.parse(fileContent);
-        console.log("✓ Loaded credentials from file");
-      } catch (fileError) {
-        console.error(
-          "Error loading credentials from file:",
-          fileError.message,
-        );
-        process.exit(1);
-      }
-    }
-    // Option 2: Parse from JSON string (for CI/CD)
-    else if (credentials) {
-      try {
-        credentialsObj = JSON.parse(credentials);
-
-        // Replace escaped newlines in private_key with actual newlines
-        if (credentialsObj.private_key) {
-          credentialsObj.private_key = credentialsObj.private_key
-            .replace(/\\\\n/g, "\n")
-            .replace(/\\n/g, "\n");
-        }
-        console.log("✓ Loaded credentials from environment variable");
-      } catch (parseError) {
-        console.error(
-          "Error parsing GOOGLE_SERVICE_ACCOUNT_KEY JSON:",
-          parseError.message,
-        );
-        console.error("Make sure the JSON is valid and properly formatted");
-        process.exit(1);
-      }
-    } else {
-      console.error(
-        "Error: Neither GOOGLE_SERVICE_ACCOUNT_KEY nor GOOGLE_SERVICE_ACCOUNT_PATH is set",
-      );
-      console.error(
-        "Set one of these environment variables in your .env.local file",
-      );
-      process.exit(1);
-    }
-
-    const auth = new google.auth.GoogleAuth({
-      credentials: credentialsObj,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-    });
-
-    const sheets = google.sheets({ version: "v4", auth });
-
-    // Get spreadsheet ID from environment variable
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-
-    if (!spreadsheetId) {
-      console.error("Error: GOOGLE_SHEET_ID environment variable not set");
-      process.exit(1);
-    }
-
-    console.log("Fetching data from Google Sheets...");
-
-    // Get languages from environment variable or default to 'en'
-    const languagesEnv = process.env.LANGUAGES || "en";
-    const languages = languagesEnv.split(",").map((lang) => lang.trim());
-
-    console.log(`Languages to fetch: ${languages.join(", ")}\n`);
-
-    // Output directory. Defaults to `public/locales` so Vite serves the JSON
-    // statically in dev and copies it into `dist/locales` for production.
-    // On Coolify, set LOCALES_DIR=/app/dist/locales (the persistent volume
-    // mount path) so the files live on the volume.
-    const outputDir = process.env.LOCALES_DIR
-      ? path.resolve(process.env.LOCALES_DIR)
-      : path.join(__dirname, "../public/locales");
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    console.log(`Output directory: ${outputDir}`);
-
-    // Fetch and process each language
-    for (const lang of languages) {
-      console.log(`Fetching ${lang}...`);
-
-      // Fetch the language sheet (key-value pairs)
-      const configResponse = await sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range: `${lang}!A1:B1000`,
-      });
-
-      const configData = configResponse.data.values;
-      if (!configData || configData.length < 2) {
-        console.warn(
-          `  ⚠ Warning: ${lang} sheet is empty or has no data, skipping...`,
-        );
-        continue;
-      }
-
-      console.log(`  ✓ Fetched ${lang}: ${configData.length - 1} rows`);
-
-      // Parse config data (skip header row)
-      const config = {};
-      configData.slice(1).forEach((row) => {
-        if (row[0]) {
-          config[row[0]] = row[1] || "";
-        }
-      });
-
-      // Transform the config data into guidebook format
-      const guidebookData = transformToGuidebookFormat(config, lang);
-
-      // Write to the i18n locales folder
-      const outputPath = path.join(outputDir, `${lang}.json`);
-      fs.writeFileSync(outputPath, JSON.stringify(guidebookData, null, 2));
-
-      console.log(`  ✓ Saved: ${outputPath}\n`);
-    }
-
-    console.log("✓ Successfully fetched and saved all language data");
-  } catch (error) {
-    console.error("Error fetching sheet data:", error.message);
-    process.exit(1);
+  if (credentialsPath) {
+    const fullPath = path.isAbsolute(credentialsPath)
+      ? credentialsPath
+      : path.resolve(credentialsPath);
+    return JSON.parse(fs.readFileSync(fullPath, "utf8"));
   }
+  if (credentialsJson) {
+    const obj = JSON.parse(credentialsJson);
+    if (obj.private_key) {
+      obj.private_key = obj.private_key
+        .replace(/\\\\n/g, "\n")
+        .replace(/\\n/g, "\n");
+    }
+    return obj;
+  }
+  throw new Error(
+    "Neither GOOGLE_SERVICE_ACCOUNT_PATH nor GOOGLE_SERVICE_ACCOUNT_KEY is set",
+  );
 }
 
-// Helper function to get numbered items from config
+function getSheetId() {
+  const id = process.env.GOOGLE_SHEET_ID;
+  if (!id) throw new Error("GOOGLE_SHEET_ID env var is not set");
+  return id;
+}
+
+function getSheetsClient(scopes) {
+  const auth = new google.auth.GoogleAuth({
+    credentials: loadCredentials(),
+    scopes,
+  });
+  return google.sheets({ version: "v4", auth });
+}
+
+export async function pullSheetsToLocales({ languages, log = () => {} } = {}) {
+  const langs = languages?.length ? languages : getSupportedLanguages();
+  const sheets = getSheetsClient([
+    "https://www.googleapis.com/auth/spreadsheets.readonly",
+  ]);
+  const spreadsheetId = getSheetId();
+  const results = [];
+
+  for (const lang of langs) {
+    log(`Fetching ${lang}...`);
+    const resp = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${lang}!A1:B1000`,
+    });
+    const rows = resp.data.values;
+    if (!rows || rows.length < 2) {
+      log(`  ⚠ ${lang} empty, skipping`);
+      results.push({ lang, ok: false, reason: "empty" });
+      continue;
+    }
+    const config = {};
+    rows.slice(1).forEach((row) => {
+      if (row[0]) config[row[0]] = row[1] || "";
+    });
+    const guidebook = transformToGuidebookFormat(config, lang);
+    await writeLanguage(lang, guidebook);
+    log(`  ✓ ${lang}: ${rows.length - 1} rows`);
+    results.push({ lang, ok: true, rows: rows.length - 1 });
+  }
+  return results;
+}
+
+// Helper: numbered list of objects (e.g. welcome_feature_1_icon).
 function getNumberedItems(config, prefix, properties) {
   const items = [];
   let i = 1;
-
   while (config[`${prefix}_${i}_${properties[0]}`] !== undefined) {
     const item = {};
     properties.forEach((prop) => {
       const value = config[`${prefix}_${i}_${prop}`];
-      if (value !== undefined && value !== "") {
-        item[prop] = value;
-      }
+      if (value !== undefined && value !== "") item[prop] = value;
     });
     items.push(item);
     i++;
   }
-
   return items;
 }
 
-// Helper function to get numbered simple items (just strings)
 function getNumberedSimpleItems(config, prefix) {
   const items = [];
   let i = 1;
-
   while (config[`${prefix}_${i}`] !== undefined) {
     items.push(config[`${prefix}_${i}`]);
     i++;
   }
-
   return items;
 }
 
-// Transform config data to match guidebook-data.json structure
-function transformToGuidebookFormat(config, language = "en") {
-  // Convert newlines to <br> tags in text values
+export function transformToGuidebookFormat(config, language = "en") {
+  // Convert newlines to <br> in string values.
   Object.keys(config).forEach((key) => {
     if (typeof config[key] === "string") {
-      // Replace both escaped \n and actual newline characters with <br>
       config[key] = config[key].replace(/\\n/g, "<br>").replace(/\n/g, "<br>");
     }
   });
 
-  // For features, only include 'link' property for English
   const featureProperties =
     language === "en" ? ["icon", "text", "link"] : ["icon", "text"];
 
-  const guidebook = {
+  return {
     welcome: {
       introMessages: [
         config.welcome_intro_message_1 || "",
@@ -202,11 +124,7 @@ function transformToGuidebookFormat(config, language = "en") {
         title: config.welcome_features_title || "",
         answer: config.welcome_features_answer || "",
         description: config.welcome_features_description || "",
-        features: getNumberedItems(
-          config,
-          "welcome_feature",
-          featureProperties,
-        ),
+        features: getNumberedItems(config, "welcome_feature", featureProperties),
         note: config.welcome_features_note || "",
       },
       addToPhone: {
@@ -343,15 +261,12 @@ function transformToGuidebookFormat(config, language = "en") {
           name: config[`amenity_${i}_name`],
           description: config[`amenity_${i}_description`] || "",
         };
-        if (config[`amenity_${i}_instructions`]) {
+        if (config[`amenity_${i}_instructions`])
           amenity.instructions = config[`amenity_${i}_instructions`];
-        }
-        if (config[`amenity_${i}_service_info`]) {
+        if (config[`amenity_${i}_service_info`])
           amenity.serviceInfo = config[`amenity_${i}_service_info`];
-        }
-        if (config[`amenity_${i}_items`]) {
+        if (config[`amenity_${i}_items`])
           amenity.items = config[`amenity_${i}_items`].split(" | ");
-        }
         amenities.push(amenity);
         i++;
       }
@@ -452,8 +367,4 @@ function transformToGuidebookFormat(config, language = "en") {
       or: config.common_or || "or",
     },
   };
-
-  return guidebook;
 }
-
-fetchSheetData();

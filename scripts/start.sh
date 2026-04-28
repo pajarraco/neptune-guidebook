@@ -23,7 +23,7 @@ fi
 
 if [ "$needs_fetch" = "1" ]; then
   echo "[start] Populating locales in $LOCALES_DIR ..."
-  LOCALES_DIR="$LOCALES_DIR" node scripts/fetch-sheet-data.js || {
+  LOCALES_DIR="$LOCALES_DIR" node scripts/fetch-sheet-data.mjs || {
     echo "[start] WARNING: fetch-sheet-data.js failed. Continuing with whatever is on the volume."
   }
 else

@@ -8,21 +8,28 @@
   },
   "scripts": {
     "dev": "vite",
-    "fetch-data": "node scripts/fetch-sheet-data.js",
-    "build": "prettier --write . && eslint . && tsc -b && vite build",
+    "dev:admin": "vite --config vite.admin.config.ts",
+    "fetch-data": "node scripts/fetch-sheet-data.mjs",
+    "build:guest": "tsc -b && vite build",
+    "build:admin": "vite build --config vite.admin.config.ts",
+    "build": "prettier --write . && eslint . && npm run build:guest && npm run build:admin",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "sh scripts/start.sh"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
     "dotenv": "^17.3.1",
+    "google-auth-library": "^9.15.0",
     "googleapis": "^144.0.0",
     "i18next": "^25.10.9",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^3.0.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-i18next": "^16.6.6"
+    "react-hook-form": "^7.54.2",
+    "react-i18next": "^16.6.6",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
