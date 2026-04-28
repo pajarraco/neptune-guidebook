@@ -27,10 +27,7 @@ export default function AmenitiesForm() {
         />
 
         <Section title="Help tip" defaultOpen={false}>
-          <TextField
-            name="amenitiesSection.helpTip.title"
-            label="Tip title"
-          />
+          <TextField name="amenitiesSection.helpTip.title" label="Tip title" />
           <Textarea
             name="amenitiesSection.helpTip.message"
             label="Tip message"
@@ -49,10 +46,7 @@ export default function AmenitiesForm() {
         {(i) => (
           <>
             <TextField name={`amenities.${i}.name`} label="Name" />
-            <Textarea
-              name={`amenities.${i}.description`}
-              label="Description"
-            />
+            <Textarea name={`amenities.${i}.description`} label="Description" />
             <Textarea
               name={`amenities.${i}.instructions`}
               label="Instructions (optional)"

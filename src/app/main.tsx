@@ -24,10 +24,7 @@ if (import.meta.env.PROD && "serviceWorker" in navigator) {
         console.log("SW registration failed:", error);
       });
   });
-} else if (
-  import.meta.env.DEV &&
-  "serviceWorker" in navigator
-) {
+} else if (import.meta.env.DEV && "serviceWorker" in navigator) {
   // Defensively unregister any SW left over from a previous prod session.
   navigator.serviceWorker.getRegistrations().then((regs) => {
     regs.forEach((r) => r.unregister());

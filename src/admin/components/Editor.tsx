@@ -83,11 +83,18 @@ export default function Editor({ email, onSignOut }: Props) {
   );
 
   useEffect(() => {
+    // Bootstrap fetch on mount. The "loading" setState inside loadLanguages
+    // is synchronous on purpose so the UI shows a spinner immediately;
+    // react-hooks/set-state-in-effect (when enabled) is overly strict for
+    // data-fetching effects.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadLanguages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    // Same rationale as above.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (activeLang) loadLocale(activeLang);
   }, [activeLang, loadLocale]);
 

@@ -73,10 +73,7 @@ export default function LocalGuideForm() {
 
       <Section title="Packing list" defaultOpen={false}>
         <TextField name="localGuide.packingList.title" label="Title" />
-        <StringArrayField
-          name="localGuide.packingList.items"
-          label="Items"
-        />
+        <StringArrayField name="localGuide.packingList.items" label="Items" />
       </Section>
     </>
   );

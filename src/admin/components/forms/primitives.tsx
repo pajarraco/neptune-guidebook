@@ -53,7 +53,12 @@ export function TextField({ name, label, placeholder, hint }: FieldProps) {
   return (
     <div className="form-field">
       {label && <label htmlFor={name}>{label}</label>}
-      <input id={name} type="text" placeholder={placeholder} {...register(name)} />
+      <input
+        id={name}
+        type="text"
+        placeholder={placeholder}
+        {...register(name)}
+      />
       {hint && <small className="form-hint">{hint}</small>}
     </div>
   );
@@ -74,7 +79,12 @@ export function Textarea({
   return (
     <div className="form-field">
       {label && <label htmlFor={name}>{label}</label>}
-      <textarea id={name} rows={rows} placeholder={placeholder} {...register(name)} />
+      <textarea
+        id={name}
+        rows={rows}
+        placeholder={placeholder}
+        {...register(name)}
+      />
       {hint && <small className="form-hint">{hint}</small>}
     </div>
   );
@@ -117,9 +127,17 @@ export function StringArrayField({
             {itemLabel ? itemLabel(i) : `${label} #${i + 1}`}
           </label>
           {textarea ? (
-            <textarea rows={2} placeholder={placeholder} {...register(`${name}.${i}`)} />
+            <textarea
+              rows={2}
+              placeholder={placeholder}
+              {...register(`${name}.${i}`)}
+            />
           ) : (
-            <input type="text" placeholder={placeholder} {...register(`${name}.${i}`)} />
+            <input
+              type="text"
+              placeholder={placeholder}
+              {...register(`${name}.${i}`)}
+            />
           )}
           <div className="form-array-actions">
             <button
@@ -177,7 +195,11 @@ export function ObjectArrayField({
     <div className="form-array form-array-object">
       <div className="form-array-header">
         <strong>{label}</strong>
-        <button type="button" className="ghost" onClick={() => append(newItem())}>
+        <button
+          type="button"
+          className="ghost"
+          onClick={() => append(newItem())}
+        >
           + Add
         </button>
       </div>

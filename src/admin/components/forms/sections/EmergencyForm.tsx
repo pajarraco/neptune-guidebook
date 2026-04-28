@@ -30,7 +30,10 @@ export default function EmergencyForm() {
 
       <Section title="Alert">
         <TextField name="emergency.alert.title" label="Title" />
-        <Textarea name="emergency.alert.message" label="Message (HTML allowed)" />
+        <Textarea
+          name="emergency.alert.message"
+          label="Message (HTML allowed)"
+        />
       </Section>
 
       <ObjectArrayField
@@ -44,20 +47,11 @@ export default function EmergencyForm() {
         {(i) => (
           <>
             <Row>
-              <TextField
-                name={`emergency.contacts.${i}.type`}
-                label="Type"
-              />
-              <TextField
-                name={`emergency.contacts.${i}.name`}
-                label="Name"
-              />
+              <TextField name={`emergency.contacts.${i}.type`} label="Type" />
+              <TextField name={`emergency.contacts.${i}.name`} label="Name" />
             </Row>
             <Row>
-              <TextField
-                name={`emergency.contacts.${i}.phone`}
-                label="Phone"
-              />
+              <TextField name={`emergency.contacts.${i}.phone`} label="Phone" />
               <TextField
                 name={`emergency.contacts.${i}.hours`}
                 label="Hours (optional)"

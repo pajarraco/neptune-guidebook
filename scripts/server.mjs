@@ -19,11 +19,7 @@ import {
   signSession,
   verifyGoogleIdToken,
 } from "./lib/auth.mjs";
-import {
-  listLanguages,
-  readLanguage,
-  writeLanguage,
-} from "./lib/locales.mjs";
+import { listLanguages, readLanguage, writeLanguage } from "./lib/locales.mjs";
 import { pullSheetsToLocales } from "./lib/sheets.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -137,7 +133,11 @@ async function apiAuthGoogle(req, res) {
   }
   const session = signSession({ email: info.email });
   res.setHeader("Set-Cookie", sessionCookieHeader(session));
-  sendJson(res, 200, { email: info.email, name: info.name, picture: info.picture });
+  sendJson(res, 200, {
+    email: info.email,
+    name: info.name,
+    picture: info.picture,
+  });
 }
 
 function apiAuthLogout(_req, res) {
@@ -205,7 +205,9 @@ async function handleApi(req, res, pathname) {
   if (req.method === "GET" && pathname === "/api/locales")
     return apiListLocales(req, res);
 
-  const localeMatch = pathname.match(/^\/api\/locales\/([a-zA-Z][a-zA-Z0-9_-]*)$/);
+  const localeMatch = pathname.match(
+    /^\/api\/locales\/([a-zA-Z][a-zA-Z0-9_-]*)$/,
+  );
   if (localeMatch) {
     const lang = localeMatch[1];
     if (req.method === "GET") return apiReadLocale(req, res, { lang });

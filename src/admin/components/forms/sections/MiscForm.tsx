@@ -29,10 +29,7 @@ export default function MiscForm() {
           name="common.everythingYouNeed"
           label="Everything-you-need tagline"
         />
-        <TextField
-          name="common.haveQuestions"
-          label="Have-questions prompt"
-        />
+        <TextField name="common.haveQuestions" label="Have-questions prompt" />
         <TextField name="common.or" label='"or" connector' />
       </Section>
     </>

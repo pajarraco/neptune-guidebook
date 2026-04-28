@@ -124,7 +124,11 @@ export function transformToGuidebookFormat(config, language = "en") {
         title: config.welcome_features_title || "",
         answer: config.welcome_features_answer || "",
         description: config.welcome_features_description || "",
-        features: getNumberedItems(config, "welcome_feature", featureProperties),
+        features: getNumberedItems(
+          config,
+          "welcome_feature",
+          featureProperties,
+        ),
         note: config.welcome_features_note || "",
       },
       addToPhone: {

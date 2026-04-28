@@ -108,7 +108,12 @@ export function getSessionFromReq(req) {
 }
 
 export function sessionCookieHeader(value, { clear = false } = {}) {
-  const parts = [`${SESSION_COOKIE}=${value}`, "Path=/", "HttpOnly", "SameSite=Lax"];
+  const parts = [
+    `${SESSION_COOKIE}=${value}`,
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Lax",
+  ];
   if (process.env.NODE_ENV !== "development") parts.push("Secure");
   if (clear) parts.push("Max-Age=0");
   else parts.push(`Max-Age=${SESSION_TTL_SECONDS}`);

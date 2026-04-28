@@ -12,10 +12,7 @@ export default function TransportForm() {
       <TextField name="transport.sectionTitle" label="Section title" />
       <Row>
         <TextField name="transport.faresLabel" label="Fares label" />
-        <TextField
-          name="transport.pleaseNoteLabel"
-          label="Please-note label"
-        />
+        <TextField name="transport.pleaseNoteLabel" label="Please-note label" />
       </Row>
 
       <Section title="Parking" defaultOpen={false}>
