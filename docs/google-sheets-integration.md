@@ -2,7 +2,25 @@
 
 ## Overview
 
-The project uses Google Sheets as a CMS for managing guidebook content across multiple languages. The `fetch-sheet-data.js` script fetches data and generates JSON translation files.
+The project uses Google Sheets as a content source for guidebook locale
+files. The Sheets pull is now factored into:
+
+- `scripts/fetch-sheet-data.mjs` — CLI wrapper (`npm run fetch-data`)
+- `scripts/lib/sheets.mjs` — reusable `pullSheetsToLocales()` function
+  used by both the CLI and the admin's `POST /api/sheets/pull` endpoint
+- `scripts/lib/locales.mjs` — reads/writes JSON files (with atomic
+  temp-file rename)
+
+## Where output JSON lives
+
+| Context                          | Path                            |
+| -------------------------------- | ------------------------------- |
+| Local dev (`npm run fetch-data`) | `public/locales/{lang}.json`    |
+| Production (Coolify volume)      | `/app/dist/locales/{lang}.json` |
+
+The target dir is controlled by the `LOCALES_DIR` env var (defaults to
+`dist/locales`). For local dev, point it at `./public/locales` so Vite
+serves the files during `npm run dev`.
 
 ## Setup
 
@@ -18,7 +36,12 @@ The project uses Google Sheets as a CMS for managing guidebook content across mu
 
 - `GOOGLE_SHEET_ID` - The spreadsheet ID from the URL
 - `GOOGLE_SERVICE_ACCOUNT_KEY` (production) or `GOOGLE_SERVICE_ACCOUNT_PATH` (local)
-- `LANGUAGES` - Comma-separated language codes (e.g., "en,es,fr,it")
+- `LANGUAGES` - Comma-separated language codes (e.g., "en,es,fr,it").
+  Falls back to `VITE_LANGUAGES` if unset.
+
+**Optional:**
+
+- `LOCALES_DIR` - Where output JSON is written (default `dist/locales`)
 
 **Example .env.local:**
 
@@ -26,6 +49,7 @@ The project uses Google Sheets as a CMS for managing guidebook content across mu
 GOOGLE_SHEET_ID=1abc123def456ghi789jkl
 GOOGLE_SERVICE_ACCOUNT_PATH=./credentials/service-account.json
 LANGUAGES=en,es,fr,it
+LOCALES_DIR=./public/locales
 ```
 
 ## Google Sheets Structure
@@ -84,17 +108,21 @@ Use code <strong>1234</strong># to enter
 
 ## Script Functionality
 
-### Main Function: `fetchSheetData()`
+### Main Function: `pullSheetsToLocales()`
+
+Defined in `scripts/lib/sheets.mjs`. Imported by both the CLI and the
+admin server.
 
 **Process:**
 
 1. Authenticates with Google Sheets API
-2. Reads `LANGUAGES` environment variable
+2. Reads supported languages (arg, then `LANGUAGES`, then `VITE_LANGUAGES`)
 3. For each language:
    - Fetches data from corresponding sheet tab
    - Parses key-value pairs
    - Transforms into guidebook JSON structure
-   - Writes to `src/i18n/locales/{lang}.json`
+   - Writes to `${LOCALES_DIR}/{lang}.json` via
+     `writeLanguage()` (atomic temp-file + rename)
 
 ### Transform Function: `transformToGuidebookFormat(config, language)`
 
@@ -168,39 +196,29 @@ getNumberedSimpleItems(config, "welcome_intro_message");
 // Returns: ['Message 1', 'Message 2', ...]
 ```
 
-## Running the Script
+## Running the Pull
 
-### Command
+### Locally
 
 ```bash
 npm run fetch-data
 ```
 
-### What Happens
+Writes to `${LOCALES_DIR}` (default `dist/locales`; set
+`LOCALES_DIR=./public/locales` for dev).
 
-1. Script connects to Google Sheets
-2. Fetches all language tabs specified in `LANGUAGES`
-3. Generates/overwrites JSON files in `src/i18n/locales/`
-4. Outputs success/error messages
+### In production (Coolify)
 
-### Expected Output
+Three options, in order of convenience:
 
-```
-Fetching data from Google Sheets...
-Languages to fetch: en, es, fr, it
-
-Fetching en...
-  ✓ Fetched en: 150 rows
-  ✓ Saved: /path/to/src/i18n/locales/en.json
-
-Fetching es...
-  ✓ Fetched es: 150 rows
-  ✓ Saved: /path/to/src/i18n/locales/es.json
-
-...
-
-✓ Successfully fetched and saved all language data
-```
+1. **Admin panel button**: visit `/admin`, sign in, click
+   "Pull from Google Sheets". Hits `POST /api/sheets/pull`.
+2. **Coolify terminal**:
+   ```bash
+   LOCALES_DIR=/app/dist/locales npm run fetch-data
+   ```
+3. **Restart with `FORCE_FETCH_LOCALES=1`**: `scripts/start.sh` will
+   re-pull on boot.
 
 ## Important Rules for Sheet Editing
 
@@ -271,10 +289,31 @@ Fetching es...
 3. Update TypeScript types if needed
 4. Run `npm run fetch-data`
 
+## Admin REST endpoint
+
+The admin server exposes `POST /api/sheets/pull` (auth-gated by the
+session cookie set after Google sign-in). It calls
+`pullSheetsToLocales()` server-side and reports per-language results:
+
+```json
+{
+  "ok": true,
+  "results": [
+    { "lang": "en", "ok": true, "rows": 294 },
+    { "lang": "es", "ok": true, "rows": 294 }
+  ]
+}
+```
+
+The admin UI calls this from `Editor.tsx` and refreshes the
+currently-loaded language afterwards.
+
 ## Security Notes
 
 - **Never commit** service account credentials to git
 - Use `.gitignore` to exclude credential files
-- Store credentials in GitHub Secrets for CI/CD
+- Store credentials in Coolify env vars (`GOOGLE_SERVICE_ACCOUNT_KEY`)
 - Limit service account permissions to read-only for the specific sheet
 - Regularly rotate service account keys
+- The pull endpoint is gated by the admin session — only users in
+  `ALLOWED_EMAILS` can trigger it

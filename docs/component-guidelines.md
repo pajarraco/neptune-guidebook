@@ -1,5 +1,25 @@
 # Component Development Guidelines
 
+## Project layout
+
+The codebase has two separate React apps that share `types/` and `public/`:
+
+- `src/app/` — the guest guidebook (built into `dist/`)
+- `src/admin/` — the admin panel (built into `dist/admin/`)
+- `types/` — shared TypeScript types and Vite ambient declarations
+- `scripts/` — Node-only code (production server, Sheets sync, helpers)
+
+When creating components for the guest app, place them in
+`src/app/components/`. Admin components live directly in `src/admin/`
+(or create subfolders as the panel grows).
+
+Use the `@/` path alias to import from the project root — most commonly
+for shared types:
+
+```ts
+import type { GuideSection } from "@/types/types";
+```
+
 ## Language Selector Component
 
 ### Purpose
@@ -8,8 +28,8 @@ Provides a dropdown menu for users to switch between available languages.
 
 ### Location & Positioning
 
-- **File**: `src/components/LanguageSelector.tsx`
-- **Styles**: `src/components/LanguageSelector.css`
+- **File**: `src/app/components/LanguageSelector.tsx`
+- **Styles**: `src/app/components/LanguageSelector.css`
 - **Position**: Fixed in top-right corner of the banner
 - **Z-index**: 1000 (stays above all content)
 
@@ -186,6 +206,23 @@ const features = t("welcome.featuresSection.features", {
 - Consistent spacing: 8px base unit
 - Colors: Use existing theme colors
 - Shadows: Subtle for depth (e.g., `0 2px 8px rgba(0, 0, 0, 0.1)`)
+
+## Admin Panel Components
+
+The admin panel (`src/admin/`) is a separate Vite build. Conventions:
+
+- **Single source of truth for content**: locale JSON files served from
+  `/locales/{lng}.json` and persisted on a Coolify volume.
+- **REST API client**: `src/admin/api.ts` wraps `fetch()` with cookie
+  credentials and centralized error handling. Always go through it — do
+  not call `fetch()` directly from components.
+- **Auth boundary**: `src/admin/App.tsx` gates rendering of `Editor` on a
+  successful `api.authMe()` call. Components rendered inside `Editor`
+  may assume the user is authenticated.
+- **No i18n**: the admin panel is intentionally English-only — it edits
+  translations rather than displaying them.
+- **Plain CSS**: `src/admin/styles.css` defines variables (`--bg`,
+  `--surface`, `--primary`, etc.). Reuse them; don't inline colors.
 
 ## Accessibility
 

@@ -2,7 +2,19 @@
 
 ## Overview
 
-This project uses `react-i18next` for multi-language support. Translation files are managed through Google Sheets and generated via the `fetch-sheet-data.js` script.
+The guest app (`src/app/`) uses `react-i18next` with `i18next-http-backend`
+to load translation files at runtime from `/locales/{lng}.json`. The
+admin panel (`src/admin/`) is intentionally **not** internationalized.
+
+Locale JSON files are managed two ways:
+
+1. **Google Sheets** → fetched via `scripts/fetch-sheet-data.mjs`
+2. **Admin panel** at `/admin` → form-based editor that writes to the
+   same JSON files (PUT `/api/locales/:lang`)
+
+In production both write to the persistent volume mounted at
+`/app/dist/locales`. The guest app fetches them with an `x-access-code`
+header (gated by the `ACCESS_CODE` env var on the server).
 
 ## Critical Rules
 
@@ -47,7 +59,7 @@ This project uses `react-i18next` for multi-language support. Translation files 
 
 ### 2. Link Properties Are English-Only
 
-The `fetch-sheet-data.js` script automatically:
+The transform logic in `scripts/lib/sheets.mjs` automatically:
 
 - Includes `link` properties ONLY in `en.json`
 - Excludes `link` properties from `es.json`, `fr.json`, `it.json`
@@ -72,8 +84,8 @@ When manually editing translation files:
 To add a new language:
 
 1. Create a new sheet tab in Google Sheets with the language code (e.g., `de` for German)
-2. Add the language code to the `LANGUAGES` environment variable: `LANGUAGES=en,es,fr,it,de`
-3. Add the language to `src/components/LanguageSelector.tsx`:
+2. Set `VITE_LANGUAGES=en,es,fr,it,de` (build) and `LANGUAGES=en,es,fr,it,de` (runtime)
+3. Add the language to `src/app/components/LanguageSelector.tsx`:
    ```typescript
    const languages = [
      { code: "en", name: "English", flag: "🇬🇧" },
@@ -83,14 +95,15 @@ To add a new language:
      { code: "de", name: "Deutsch", flag: "🇩🇪" },
    ];
    ```
-4. Run `npm run fetch-data` to generate the new translation file
+4. Run `npm run fetch-data` (or click "Pull from Google Sheets" in the
+   admin panel) to generate the new translation file
 
 ## Language Selector Component
 
 ### Location
 
-- **Component**: `src/components/LanguageSelector.tsx`
-- **Styles**: `src/components/LanguageSelector.css`
+- **Component**: `src/app/components/LanguageSelector.tsx`
+- **Styles**: `src/app/components/LanguageSelector.css`
 - **Position**: Fixed in top-right corner of the banner
 
 ### Features
@@ -108,11 +121,32 @@ To add a new language:
 - White background with shadow for visibility
 - Rounded corners (25px for toggle, 12px for dropdown)
 
+## Content management (two paths)
+
+### Path A — Google Sheets fetch
+
+CLI: `scripts/fetch-sheet-data.mjs` (thin wrapper around
+`scripts/lib/sheets.mjs`).
+
+```bash
+npm run fetch-data
+```
+
+In production this can be triggered without shelling in by clicking
+"Pull from Google Sheets" in `/admin` (POST `/api/sheets/pull`).
+
+### Path B — Admin panel edits
+
+Sign-in at `/admin` (Google account in `ALLOWED_EMAILS`), edit a
+language's JSON, click Save. Server writes to the volume atomically
+(temp file + rename). Changes take effect on next page load — no
+rebuild required.
+
 ## Google Sheets Data Fetching
 
 ### Script Location
 
-`scripts/fetch-sheet-data.js`
+`scripts/fetch-sheet-data.mjs` — imports from `scripts/lib/sheets.mjs`
 
 ### Key Functions
 
@@ -158,12 +192,28 @@ npm run fetch-data
 
 ### Issue: New language not appearing
 
-**Cause**: Missing from LanguageSelector component or LANGUAGES env var  
+**Cause**: Missing from LanguageSelector component or env vars  
 **Solution**:
 
-1. Add to `languages` array in `LanguageSelector.tsx`
-2. Add to `LANGUAGES` environment variable
-3. Run `npm run fetch-data`
+1. Add to `languages` array in `src/app/components/LanguageSelector.tsx`
+2. Add to `VITE_LANGUAGES` (build) and `LANGUAGES` (runtime) env vars
+3. Run `npm run fetch-data` or click "Pull from Google Sheets" in `/admin`
+
+### Issue: Locales return 401 in browser console
+
+**Cause**: `i18next-http-backend` is fetching `/locales/*.json` without
+the `x-access-code` header, or the server's `ACCESS_CODE` env var is
+unset / different from `VITE_CODE`.  
+**Solution**: confirm `ACCESS_CODE === VITE_CODE` in Coolify env vars,
+and that `src/app/i18n/config.ts` still includes the `customHeaders`
+block.
+
+### Issue: Locales return HTML (SPA fallback)
+
+**Cause**: The Coolify resource is configured as "Static Site" (Caddy)
+and ignores `scripts/start.sh`, so the volume is empty.  
+**Solution**: recreate as **Application → Nixpacks** with a persistent
+volume mounted at `/app/dist/locales`.
 
 ## Best Practices
 

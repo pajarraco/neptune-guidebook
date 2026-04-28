@@ -298,9 +298,10 @@ npm run fetch-data
 
 Comprehensive documentation is available in the `docs/` folder:
 
-- **[Internationalization Guide](docs/internationalization.md)** - Complete guide to i18n, translation management, and navigation links
-- **[Component Guidelines](docs/component-guidelines.md)** - Component development standards, styling conventions, and best practices
-- **[Google Sheets Integration](docs/google-sheets-integration.md)** - Setup, configuration, and usage of the Google Sheets CMS
+- **[Internationalization Guide](docs/internationalization.md)** - i18n, translation management, navigation links, locale gating
+- **[Component Guidelines](docs/component-guidelines.md)** - Component development standards, project layout, styling conventions
+- **[Google Sheets Integration](docs/google-sheets-integration.md)** - Setup, configuration, CLI + admin pull endpoint
+- **[Admin Panel](docs/admin-panel.md)** - Architecture, REST API, Google sign-in, session model
 - **[Icon Utilities Guide](docs/icon-utilities.md)** - Complete reference for Material Symbols icon utility classes
 - **[Icon Quick Reference](docs/icon-quick-reference.md)** - Cheat sheet with copy-paste ready icon examples
 - **[Icon Inventory](docs/icon-inventory.md)** - Catalog of all icons used in the application
