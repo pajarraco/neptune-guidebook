@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import type { GuideSection } from "./types/types";
+import type { GuideSection } from "@/types/types";
 import Navigation from "./components/Navigation";
 import WelcomeSection from "./components/WelcomeSection";
 import PropertyInfoSection from "./components/PropertyInfoSection";

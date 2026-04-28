@@ -1,8 +1,20 @@
 import { defineConfig } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
+import path from "node:path";
 
-// https://vite.dev/config/
+// Guest app build. Source lives in src/app/, output goes to dist/.
 export default defineConfig({
+  root: "src/app",
+  publicDir: path.resolve(__dirname, "public"),
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname),
+    },
+  },
+  build: {
+    outDir: path.resolve(__dirname, "dist"),
+    emptyOutDir: true,
+  },
 });

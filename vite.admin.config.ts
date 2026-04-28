@@ -6,12 +6,14 @@ import path from "node:path";
 // Dev server proxies /api/* to the production server (run on PORT 3000)
 // so Google sign-in + locale CRUD work locally.
 export default defineConfig({
-  root: "admin",
+  root: "src/admin",
   base: "/admin/",
+  publicDir: false,
   plugins: [react()],
   resolve: {
     alias: {
-      "@admin": path.resolve(__dirname, "admin"),
+      "@": path.resolve(__dirname),
+      "@admin": path.resolve(__dirname, "src/admin"),
     },
   },
   build: {
