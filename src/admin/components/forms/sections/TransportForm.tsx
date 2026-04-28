@@ -9,11 +9,16 @@ import {
 export default function TransportForm() {
   return (
     <>
-      <TextField name="transport.sectionTitle" label="Section title" />
-      <Row>
-        <TextField name="transport.faresLabel" label="Fares label" />
-        <TextField name="transport.pleaseNoteLabel" label="Please-note label" />
-      </Row>
+      <Section title="General">
+        <TextField name="transport.sectionTitle" label="Section title" />
+        <Row>
+          <TextField name="transport.faresLabel" label="Fares label" />
+          <TextField
+            name="transport.pleaseNoteLabel"
+            label="Please-note label"
+          />
+        </Row>
+      </Section>
 
       <Section title="Parking" defaultOpen={false}>
         <TextField name="transport.parking.title" label="Title" />

@@ -25,14 +25,15 @@ export default function LocalGuideForm() {
         <Textarea name="localGuide.tip" label="Tip" />
       </Section>
 
-      <ObjectArrayField
-        name="localGuide.recommendations"
-        label="Recommendations"
-        newItem={() => ({ category: "", name: "", description: "" })}
-        itemLabel={(i, item) =>
-          `${i + 1}. ${(item as { category?: string; name?: string })?.category || "—"} / ${(item as { name?: string })?.name || "—"}`
-        }
-      >
+      <Section title="Recommendations" defaultOpen={false}>
+        <ObjectArrayField
+          name="localGuide.recommendations"
+          label="Recommendations"
+          newItem={() => ({ category: "", name: "", description: "" })}
+          itemLabel={(i, item) =>
+            `${i + 1}. ${(item as { category?: string; name?: string })?.category || "—"} / ${(item as { name?: string })?.name || "—"}`
+          }
+        >
         {(i) => (
           <>
             <Row>
@@ -69,7 +70,8 @@ export default function LocalGuideForm() {
             />
           </>
         )}
-      </ObjectArrayField>
+        </ObjectArrayField>
+      </Section>
 
       <Section title="Packing list" defaultOpen={false}>
         <TextField name="localGuide.packingList.title" label="Title" />

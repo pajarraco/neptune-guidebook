@@ -35,33 +35,38 @@ export default function AmenitiesForm() {
         </Section>
       </Section>
 
-      <ObjectArrayField
-        name="amenities"
-        label="Amenities"
-        newItem={() => ({ name: "", description: "" })}
-        itemLabel={(i, item) =>
-          `${i + 1}. ${(item as { name?: string })?.name || "—"}`
-        }
-      >
-        {(i) => (
-          <>
-            <TextField name={`amenities.${i}.name`} label="Name" />
-            <Textarea name={`amenities.${i}.description`} label="Description" />
-            <Textarea
-              name={`amenities.${i}.instructions`}
-              label="Instructions (optional)"
-            />
-            <Textarea
-              name={`amenities.${i}.serviceInfo`}
-              label="Service info (optional)"
-            />
-            <StringArrayField
-              name={`amenities.${i}.items`}
-              label="Items (optional)"
-            />
-          </>
-        )}
-      </ObjectArrayField>
+      <Section title="Amenities list">
+        <ObjectArrayField
+          name="amenities"
+          label="Amenities"
+          newItem={() => ({ name: "", description: "" })}
+          itemLabel={(i, item) =>
+            `${i + 1}. ${(item as { name?: string })?.name || "—"}`
+          }
+        >
+          {(i) => (
+            <>
+              <TextField name={`amenities.${i}.name`} label="Name" />
+              <Textarea
+                name={`amenities.${i}.description`}
+                label="Description"
+              />
+              <Textarea
+                name={`amenities.${i}.instructions`}
+                label="Instructions (optional)"
+              />
+              <Textarea
+                name={`amenities.${i}.serviceInfo`}
+                label="Service info (optional)"
+              />
+              <StringArrayField
+                name={`amenities.${i}.items`}
+                label="Items (optional)"
+              />
+            </>
+          )}
+        </ObjectArrayField>
+      </Section>
     </>
   );
 }

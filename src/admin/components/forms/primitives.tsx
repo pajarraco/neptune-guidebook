@@ -73,7 +73,7 @@ export function Textarea({
   label,
   placeholder,
   hint,
-  rows = 3,
+  rows = 2,
 }: TextareaProps) {
   const { register } = useFormContext();
   return (
@@ -128,7 +128,7 @@ export function StringArrayField({
           </label>
           {textarea ? (
             <textarea
-              rows={2}
+              rows={3}
               placeholder={placeholder}
               {...register(`${name}.${i}`)}
             />

@@ -36,38 +36,43 @@ export default function EmergencyForm() {
         />
       </Section>
 
-      <ObjectArrayField
-        name="emergency.contacts"
-        label="Contacts"
-        newItem={() => ({ type: "", name: "", phone: "" })}
-        itemLabel={(i, item) =>
-          `${i + 1}. ${(item as { name?: string })?.name || "—"}`
-        }
-      >
-        {(i) => (
-          <>
-            <Row>
-              <TextField name={`emergency.contacts.${i}.type`} label="Type" />
-              <TextField name={`emergency.contacts.${i}.name`} label="Name" />
-            </Row>
-            <Row>
-              <TextField name={`emergency.contacts.${i}.phone`} label="Phone" />
+      <Section title="Contacts">
+        <ObjectArrayField
+          name="emergency.contacts"
+          label="Contacts"
+          newItem={() => ({ type: "", name: "", phone: "" })}
+          itemLabel={(i, item) =>
+            `${i + 1}. ${(item as { name?: string })?.name || "—"}`
+          }
+        >
+          {(i) => (
+            <>
+              <Row>
+                <TextField name={`emergency.contacts.${i}.type`} label="Type" />
+                <TextField name={`emergency.contacts.${i}.name`} label="Name" />
+              </Row>
+              <Row>
+                <TextField
+                  name={`emergency.contacts.${i}.phone`}
+                  label="Phone"
+                />
+                <TextField
+                  name={`emergency.contacts.${i}.hours`}
+                  label="Hours (optional)"
+                />
+              </Row>
               <TextField
-                name={`emergency.contacts.${i}.hours`}
-                label="Hours (optional)"
+                name={`emergency.contacts.${i}.address`}
+                label="Address (optional)"
               />
-            </Row>
-            <TextField
-              name={`emergency.contacts.${i}.address`}
-              label="Address (optional)"
-            />
-            <Textarea
-              name={`emergency.contacts.${i}.note`}
-              label="Note (optional)"
-            />
-          </>
-        )}
-      </ObjectArrayField>
+              <Textarea
+                name={`emergency.contacts.${i}.note`}
+                label="Note (optional)"
+              />
+            </>
+          )}
+        </ObjectArrayField>
+      </Section>
 
       <Section title="Safety info">
         <TextField name="emergency.safetyInfo.title" label="Title" />

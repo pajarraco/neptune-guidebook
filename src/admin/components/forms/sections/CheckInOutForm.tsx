@@ -9,8 +9,10 @@ import {
 export default function CheckInOutForm() {
   return (
     <>
-      <TextField name="checkInOut.sectionTitle" label="Section title" />
-      <Textarea name="checkInOut.tip" label="Tip / closing note" />
+      <Section title="General">
+        <TextField name="checkInOut.sectionTitle" label="Section title" />
+        <Textarea name="checkInOut.tip" label="Tip / closing note" />
+      </Section>
 
       <Section title="Check-in">
         <Row>
