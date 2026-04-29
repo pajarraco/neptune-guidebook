@@ -8,7 +8,7 @@ admin panel (`src/admin/`) is intentionally **not** internationalized.
 
 Locale JSON files are managed two ways:
 
-1. **Google Sheets** → fetched via `scripts/fetch-sheet-data.mjs`
+1. **Google Sheets** → fetched via `src/server/fetch-sheet-data.mjs`
 2. **Admin panel** at `/admin` → form-based editor that writes to the
    same JSON files (PUT `/api/locales/:lang`)
 
@@ -59,7 +59,7 @@ header (gated by the `ACCESS_CODE` env var on the server).
 
 ### 2. Link Properties Are English-Only
 
-The transform logic in `scripts/lib/sheets.mjs` automatically:
+The transform logic in `src/server/lib/sheets.mjs` automatically:
 
 - Includes `link` properties ONLY in `en.json`
 - Excludes `link` properties from `es.json`, `fr.json`, `it.json`
@@ -125,8 +125,8 @@ To add a new language:
 
 ### Path A — Google Sheets fetch
 
-CLI: `scripts/fetch-sheet-data.mjs` (thin wrapper around
-`scripts/lib/sheets.mjs`).
+CLI: `src/server/fetch-sheet-data.mjs` (thin wrapper around
+`src/server/lib/sheets.mjs`).
 
 ```bash
 npm run fetch-data
@@ -146,7 +146,7 @@ rebuild required.
 
 ### Script Location
 
-`scripts/fetch-sheet-data.mjs` — imports from `scripts/lib/sheets.mjs`
+`src/server/fetch-sheet-data.mjs` — imports from `src/server/lib/sheets.mjs`
 
 ### Key Functions
 
@@ -211,7 +211,7 @@ block.
 ### Issue: Locales return HTML (SPA fallback)
 
 **Cause**: The Coolify resource is configured as "Static Site" (Caddy)
-and ignores `scripts/start.sh`, so the volume is empty.  
+and ignores `src/server/start.sh`, so the volume is empty.  
 **Solution**: recreate as **Application → Nixpacks** with a persistent
 volume mounted at `/app/dist/locales`.
 

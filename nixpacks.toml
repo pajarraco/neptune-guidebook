@@ -2,7 +2,7 @@
 #
 # At build time we DO NOT run `fetch-sheet-data.js` — locales live on a
 # persistent volume mounted at /app/dist/locales and are populated by the
-# container entrypoint (scripts/start.sh) on first boot.
+# container entrypoint (src/server/start.sh) on first boot.
 #
 # Required Coolify env vars (Build Time = baked into bundle, Runtime = server):
 #
@@ -45,4 +45,4 @@ cmds = ["npm install --no-audit --no-fund"]
 cmds = ["npm run build"]
 
 [start]
-cmd = "sh scripts/start.sh"
+cmd = "sh src/server/start.sh"

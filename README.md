@@ -81,7 +81,7 @@ npm run fetch-data
 
 ### Running the production server locally
 
-The production server (`scripts/server.mjs`) serves both the guest app and
+The production server (`src/server/server.mjs`) serves both the guest app and
 the admin app, gates `/locales/*`, and exposes the admin REST API. To run
 it locally after a build:
 
@@ -94,7 +94,7 @@ ALLOWED_EMAILS=you@gmail.com \
 SESSION_SECRET=$(openssl rand -hex 32) \
 LOCALES_DIR=./public/locales \
 LANGUAGES=en,es,fr,it \
-node scripts/server.mjs
+node src/server/server.mjs
 
 # Then visit:
 #   http://localhost:3000          → guest app
@@ -187,7 +187,7 @@ they survive rebuilds. The admin panel writes to the same volume.
    **Application → Nixpacks** as the build pack. The included `nixpacks.toml`
    configures build/start commands automatically.
    (Do NOT use Coolify's "Static Site" resource type — it serves with Caddy
-   and ignores `scripts/start.sh`.)
+   and ignores `src/server/start.sh`.)
 2. **Set environment variables** (see the tables above and `.env.local.example`).
    In Coolify, mark `VITE_*` and `NIXPACKS_NODE_VERSION` as **Build Time**.
 3. **Add a persistent volume** mounted at:
@@ -203,8 +203,8 @@ they survive rebuilds. The admin panel writes to the same volume.
 
 ### How the data lifecycle works
 
-- **First boot:** `scripts/start.sh` sees the volume is empty, runs
-  `node scripts/fetch-sheet-data.mjs` which writes the locale JSON files
+- **First boot:** `src/server/start.sh` sees the volume is empty, runs
+  `node src/server/fetch-sheet-data.mjs` which writes the locale JSON files
   directly into `/app/dist/locales` (the volume), then starts the server.
 - **Subsequent boots / rebuilds:** the volume already has data, so the
   entrypoint skips the fetch and just starts the server. Your edits /
@@ -272,7 +272,7 @@ When working with feature links in the Welcome section:
 
 ### Google Sheets Integration
 
-The `scripts/fetch-sheet-data.mjs` script fetches content from Google Sheets and generates translation files:
+The `src/server/fetch-sheet-data.mjs` script fetches content from Google Sheets and generates translation files:
 
 **How it works**:
 
@@ -314,7 +314,7 @@ Comprehensive documentation is available in the `docs/` folder:
 - Google Sheets API (`googleapis`) for content sync
 - Google Identity Services + `google-auth-library` for admin sign-in
 - React Hook Form + Zod for admin forms
-- Custom Node `http` server (`scripts/server.mjs`) — no Express, no `serve`
+- Custom Node `http` server (`src/server/server.mjs`) — no Express, no `serve`
 - Coolify + Nixpacks for hosting
 
 ## Project Structure
@@ -343,7 +343,7 @@ src/
     ├── index.html         # Vite HTML entry
     └── styles.css
 
-scripts/                   # Node-only code
+src/server/                # Node-only code (production server + Sheets sync)
 ├── server.mjs             # Production HTTP server (guest + admin + API)
 ├── start.sh               # Container entrypoint
 ├── fetch-sheet-data.mjs   # CLI wrapper: pulls Sheets → JSON
@@ -351,6 +351,9 @@ scripts/                   # Node-only code
     ├── auth.mjs           # Sessions, cookies, Google ID token verification
     ├── locales.mjs        # Read/write locale JSON files
     └── sheets.mjs         # Google Sheets pull + transform logic
+
+scripts/                   # Legacy utility scripts
+└── json-to-csv.js         # CSV export utility (debug/migration use)
 
 public/                    # Static assets shared with the guest app
 ├── favicon.svg

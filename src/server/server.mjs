@@ -23,7 +23,7 @@ import { listLanguages, readLanguage, writeLanguage } from "./lib/locales.mjs";
 import { pullSheetsToLocales } from "./lib/sheets.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DIST = path.resolve(__dirname, "..", "dist");
+const DIST = path.resolve(__dirname, "..", "..", "dist");
 const ADMIN_DIST = path.resolve(DIST, "admin");
 const PORT = Number(process.env.PORT || 3000);
 const ACCESS_CODE = process.env.ACCESS_CODE || process.env.VITE_CODE || "";

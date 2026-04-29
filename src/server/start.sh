@@ -23,12 +23,12 @@ fi
 
 if [ "$needs_fetch" = "1" ]; then
   echo "[start] Populating locales in $LOCALES_DIR ..."
-  LOCALES_DIR="$LOCALES_DIR" node scripts/fetch-sheet-data.mjs || {
-    echo "[start] WARNING: fetch-sheet-data.js failed. Continuing with whatever is on the volume."
+  LOCALES_DIR="$LOCALES_DIR" node src/server/fetch-sheet-data.mjs || {
+    echo "[start] WARNING: fetch-sheet-data.mjs failed. Continuing with whatever is on the volume."
   }
 else
   echo "[start] Using existing locales in $LOCALES_DIR"
 fi
 
 echo "[start] Serving dist/ on port $PORT (locales gated by ACCESS_CODE)"
-exec node scripts/server.mjs
+exec node src/server/server.mjs

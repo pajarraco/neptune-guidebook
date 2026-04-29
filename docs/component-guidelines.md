@@ -7,7 +7,8 @@ The codebase has two separate React apps that share `types/` and `public/`:
 - `src/app/` — the guest guidebook (built into `dist/`)
 - `src/admin/` — the admin panel (built into `dist/admin/`)
 - `types/` — shared TypeScript types and Vite ambient declarations
-- `scripts/` — Node-only code (production server, Sheets sync, helpers)
+- `src/server/` — Node-only code (production server, Sheets sync, helpers)
+- `scripts/` — legacy utility scripts (json-to-csv.js)
 
 When creating components for the guest app, place them in
 `src/app/components/`. Admin components live directly in `src/admin/`

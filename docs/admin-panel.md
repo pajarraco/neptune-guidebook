@@ -26,7 +26,7 @@ Editor screens
 Volume: /app/dist/locales
 ```
 
-## Server (`scripts/server.mjs` + `scripts/lib/`)
+## Server (`src/server/server.mjs` + `src/server/lib/`)
 
 - `lib/auth.mjs` — session signing, Google ID token verification, email
   allowlist
@@ -69,7 +69,7 @@ verification.
 
 ## Adding a new admin endpoint
 
-1. Add a handler in `scripts/server.mjs` under `handleApi()`.
+1. Add a handler in `src/server/server.mjs` under `handleApi()`.
 2. If it mutates state, require the session (already done by default
    for everything except the auth/\* routes).
 3. Add a method to `src/admin/api.ts` so components don't call `fetch()`

@@ -10,14 +10,14 @@
     "dev": "concurrently --prefix-colors \"blue,magenta,green\" --names \"APP,ADMIN,API\" \"npm:dev:app\" \"npm:dev:admin\" \"npm:dev:server\"",
     "dev:app": "vite",
     "dev:admin": "vite --config vite.admin.config.ts",
-    "dev:server": "NODE_ENV=development LOCALES_DIR=./public/locales node --env-file=.env.local scripts/server.mjs",
-    "fetch-data": "LOCALES_DIR=./public/locales node scripts/fetch-sheet-data.mjs",
+    "dev:server": "NODE_ENV=development LOCALES_DIR=./public/locales node --env-file=.env.local src/server/server.mjs",
+    "fetch-data": "LOCALES_DIR=./public/locales node src/server/fetch-sheet-data.mjs",
     "build:guest": "tsc -b && vite build",
     "build:admin": "vite build --config vite.admin.config.ts",
     "build": "prettier --write . && eslint . && npm run build:guest && npm run build:admin",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "sh scripts/start.sh"
+    "start": "sh src/server/start.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

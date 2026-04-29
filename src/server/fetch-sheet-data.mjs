@@ -1,5 +1,5 @@
 // CLI wrapper around `pullSheetsToLocales`.
-// Usage: node scripts/fetch-sheet-data.mjs
+// Usage: node src/server/fetch-sheet-data.mjs
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
@@ -7,7 +7,7 @@ import { pullSheetsToLocales } from "./lib/sheets.mjs";
 import { getLocalesDir, getSupportedLanguages } from "./lib/locales.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(__dirname, "../.env.local") });
+dotenv.config({ path: path.join(__dirname, "../../.env.local") });
 
 async function main() {
   console.log(`Output directory: ${getLocalesDir()}`);

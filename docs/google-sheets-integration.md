@@ -5,10 +5,10 @@
 The project uses Google Sheets as a content source for guidebook locale
 files. The Sheets pull is now factored into:
 
-- `scripts/fetch-sheet-data.mjs` — CLI wrapper (`npm run fetch-data`)
-- `scripts/lib/sheets.mjs` — reusable `pullSheetsToLocales()` function
+- `src/server/fetch-sheet-data.mjs` — CLI wrapper (`npm run fetch-data`)
+- `src/server/lib/sheets.mjs` — reusable `pullSheetsToLocales()` function
   used by both the CLI and the admin's `POST /api/sheets/pull` endpoint
-- `scripts/lib/locales.mjs` — reads/writes JSON files (with atomic
+- `src/server/lib/locales.mjs` — reads/writes JSON files (with atomic
   temp-file rename)
 
 ## Where output JSON lives
@@ -110,7 +110,7 @@ Use code <strong>1234</strong># to enter
 
 ### Main Function: `pullSheetsToLocales()`
 
-Defined in `scripts/lib/sheets.mjs`. Imported by both the CLI and the
+Defined in `src/server/lib/sheets.mjs`. Imported by both the CLI and the
 admin server.
 
 **Process:**
@@ -217,7 +217,7 @@ Three options, in order of convenience:
    ```bash
    LOCALES_DIR=/app/dist/locales npm run fetch-data
    ```
-3. **Restart with `FORCE_FETCH_LOCALES=1`**: `scripts/start.sh` will
+3. **Restart with `FORCE_FETCH_LOCALES=1`**: `src/server/start.sh` will
    re-pull on boot.
 
 ## Important Rules for Sheet Editing
@@ -284,7 +284,7 @@ Three options, in order of convenience:
 
 ### Adding a New Section
 
-1. Update `transformToGuidebookFormat()` function to handle new keys
+1. Update `transformToGuidebookFormat()` in `src/server/lib/sheets.mjs` to handle new keys
 2. Add keys to all language sheets
 3. Update TypeScript types if needed
 4. Run `npm run fetch-data`
