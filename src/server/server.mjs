@@ -20,7 +20,7 @@ import {
   verifyGoogleIdToken,
 } from "./lib/auth.mjs";
 import { listLanguages, readLanguage, writeLanguage } from "./lib/locales.mjs";
-import { pullSheetsToLocales } from "./lib/sheets.mjs";
+import { pullSheetsToLocales, pushLocalesToSheets } from "./lib/sheets.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, "..", "..", "dist");
@@ -188,6 +188,15 @@ async function apiSheetsPull(_req, res) {
   }
 }
 
+async function apiSheetsPush(_req, res) {
+  try {
+    const results = await pushLocalesToSheets({});
+    sendJson(res, 200, { ok: true, results });
+  } catch (e) {
+    sendJson(res, 500, { error: e.message });
+  }
+}
+
 // ---------- Router ----------
 async function handleApi(req, res, pathname) {
   // Auth endpoints don't require an existing session, except logout/me which return 401.
@@ -217,6 +226,8 @@ async function handleApi(req, res, pathname) {
 
   if (req.method === "POST" && pathname === "/api/sheets/pull")
     return apiSheetsPull(req, res);
+  if (req.method === "POST" && pathname === "/api/sheets/push")
+    return apiSheetsPush(req, res);
 
   return sendJson(res, 404, { error: "Not found" });
 }

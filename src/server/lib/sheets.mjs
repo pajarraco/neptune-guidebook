@@ -5,7 +5,7 @@
 import { google } from "googleapis";
 import fs from "node:fs";
 import path from "node:path";
-import { writeLanguage, getSupportedLanguages } from "./locales.mjs";
+import { writeLanguage, readLanguage, getSupportedLanguages } from "./locales.mjs";
 
 function loadCredentials() {
   const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_PATH;
@@ -371,4 +371,321 @@ export function transformToGuidebookFormat(config, language = "en") {
       or: config.common_or || "or",
     },
   };
+}
+
+// Inverse transform: guidebook format → flat key/value pairs for Google Sheets
+export function transformFromGuidebookFormat(guidebook) {
+  const config = {};
+
+  // Helper to set value if present, converting <br> back to \n
+  const set = (key, value) => {
+    if (value !== undefined && value !== null && value !== "") {
+      config[key] = typeof value === "string"
+        ? value.replace(/<br>/g, "\n")
+        : value;
+    }
+  };
+
+  // Helper for numbered items
+  const setNumbered = (prefix, items, properties) => {
+    items.forEach((item, i) => {
+      const idx = i + 1;
+      properties.forEach((prop) => {
+        set(`${prefix}_${idx}_${prop}`, item[prop]);
+      });
+    });
+  };
+
+  const setNumberedSimple = (prefix, items) => {
+    items.forEach((item, i) => {
+      set(`${prefix}_${i + 1}`, item);
+    });
+  };
+
+  const g = guidebook;
+
+  // Welcome
+  if (g.welcome) {
+    set("welcome_intro_message_1", g.welcome.introMessages?.[0]);
+    set("welcome_intro_message_2", g.welcome.introMessages?.[1]);
+
+    if (g.welcome.featuresSection) {
+      set("welcome_features_title", g.welcome.featuresSection.title);
+      set("welcome_features_answer", g.welcome.featuresSection.answer);
+      set("welcome_features_description", g.welcome.featuresSection.description);
+      setNumbered("welcome_feature", g.welcome.featuresSection.features || [], ["icon", "text", "link"]);
+      set("welcome_features_note", g.welcome.featuresSection.note);
+    }
+
+    if (g.welcome.addToPhone) {
+      set("welcome_add_to_phone_icon", g.welcome.addToPhone.icon);
+      set("welcome_add_to_phone_title", g.welcome.addToPhone.title);
+      set("welcome_add_to_phone_message_1", g.welcome.addToPhone.messages?.[0]);
+      set("welcome_add_to_phone_message_2", g.welcome.addToPhone.messages?.[1]);
+    }
+
+    if (g.welcome.meetYourTeam) {
+      set("welcome_meet_team_title", g.welcome.meetYourTeam.title);
+      set("welcome_meet_team_photo", g.welcome.meetYourTeam.photoPlaceholder);
+
+      if (g.welcome.meetYourTeam.hostWelcome) {
+        set("welcome_host_icon", g.welcome.meetYourTeam.hostWelcome.icon);
+        set("welcome_host_title", g.welcome.meetYourTeam.hostWelcome.title);
+        set("welcome_host_description", g.welcome.meetYourTeam.hostWelcome.description);
+        set("welcome_host_team_intro", g.welcome.meetYourTeam.hostWelcome.teamIntro);
+      }
+
+      if (g.welcome.meetYourTeam.founderNote) {
+        set("welcome_founder_icon", g.welcome.meetYourTeam.founderNote.icon);
+        set("welcome_founder_title", g.welcome.meetYourTeam.founderNote.title);
+        set("welcome_founder_message", g.welcome.meetYourTeam.founderNote.message);
+        set("welcome_founder_mission", g.welcome.meetYourTeam.founderNote.mission);
+        set("welcome_founder_closing", g.welcome.meetYourTeam.founderNote.closing);
+      }
+    }
+  }
+
+  // Property Info
+  if (g.propertyInfo) {
+    set("property_name", g.propertyInfo.name);
+    set("property_address", g.propertyInfo.address);
+    set("property_info_title", g.propertyInfo.info_title);
+    set("property_info_description", g.propertyInfo.info_description);
+
+    if (g.propertyInfo.wifi) {
+      set("property_wifi_network", g.propertyInfo.wifi.network);
+      set("property_wifi_password", g.propertyInfo.wifi.password);
+      set("property_wifi_title", g.propertyInfo.wifi.title);
+      set("property_wifi_network_label", g.propertyInfo.wifi.networkLabel);
+      set("property_wifi_password_label", g.propertyInfo.wifi.passwordLabel);
+    }
+
+    set("property_checkin_time", g.propertyInfo.checkIn);
+    set("property_checkin_label", g.propertyInfo.checkInLabel);
+    set("property_checkout_time", g.propertyInfo.checkOut);
+    set("property_checkout_label", g.propertyInfo.checkOutLabel);
+    set("property_email", g.propertyInfo.email);
+    set("property_phone", g.propertyInfo.phone);
+    set("property_phone_label", g.propertyInfo.phoneLabel);
+  }
+
+  // Check In/Out
+  if (g.checkInOut) {
+    set("checkinout_section_title", g.checkInOut.sectionTitle);
+
+    if (g.checkInOut.checkIn) {
+      set("checkin_title", g.checkInOut.checkIn.title);
+      set("checkin_subheading", g.checkInOut.checkIn.subheading);
+      set("checkin_arriving_early_label", g.checkInOut.checkIn.arrivingEarlyLabel);
+      setNumberedSimple("checkin_step", g.checkInOut.checkIn.steps || []);
+    }
+
+    if (g.checkInOut.checkOut) {
+      set("checkout_title", g.checkInOut.checkOut.title);
+      set("checkout_subheading", g.checkInOut.checkOut.subheading);
+      setNumberedSimple("checkout_step", g.checkInOut.checkOut.steps || []);
+    }
+
+    set("checkinout_tip", g.checkInOut.tip);
+  }
+
+  // Transport
+  if (g.transport) {
+    set("transport_section_title", g.transport.sectionTitle);
+    set("transport_fares_label", g.transport.faresLabel);
+    set("transport_please_note_label", g.transport.pleaseNoteLabel);
+
+    if (g.transport.parking) {
+      set("transport_parking_title", g.transport.parking.title);
+      set("transport_parking_description", g.transport.parking.description);
+    }
+
+    if (g.transport.rideshare) {
+      set("transport_rideshare_title", g.transport.rideshare.title);
+      set("transport_rideshare_description", g.transport.rideshare.description);
+    }
+
+    if (g.transport.publicTransport) {
+      set("transport_public_title", g.transport.publicTransport.title);
+      set("transport_public_description", g.transport.publicTransport.description);
+      set("transport_public_info", g.transport.publicTransport.info);
+      set("transport_public_fares", g.transport.publicTransport.fares);
+      set("transport_public_limitations", g.transport.publicTransport.limitations);
+    }
+
+    if (g.transport.airportTransfers) {
+      set("transport_airport_title", g.transport.airportTransfers.title);
+      set("transport_airport_description", g.transport.airportTransfers.description);
+      setNumbered("transport_airport_option", g.transport.airportTransfers.options || [], ["name", "phone", "type"]);
+      set("transport_airport_note", g.transport.airportTransfers.note);
+    }
+
+    if (g.transport.carRental) {
+      set("transport_car_rental_title", g.transport.carRental.title);
+      set("transport_car_rental_description", g.transport.carRental.description);
+      set("transport_car_rental_note", g.transport.carRental.note);
+    }
+  }
+
+  // House Rules
+  if (g.houseRules) {
+    setNumbered("house_rule", g.houseRules.rules || [], ["icon", "title", "description"]);
+
+    if (g.houseRules.importantNote) {
+      set("house_rules_important_note_title", g.houseRules.importantNote.title);
+      set("house_rules_important_note_message", g.houseRules.importantNote.message);
+    }
+  }
+
+  // Amenities Section
+  if (g.amenitiesSection) {
+    set("amenities_section_title", g.amenitiesSection.sectionTitle);
+    set("amenities_service_info_label", g.amenitiesSection.serviceInfoLabel);
+    set("amenities_how_to_use_label", g.amenitiesSection.howToUseLabel);
+
+    if (g.amenitiesSection.helpTip) {
+      set("amenities_help_tip_title", g.amenitiesSection.helpTip.title);
+      set("amenities_help_tip_message", g.amenitiesSection.helpTip.message);
+    }
+  }
+
+  // Amenities
+  if (g.amenities) {
+    g.amenities.forEach((amenity, i) => {
+      const idx = i + 1;
+      set(`amenity_${idx}_name`, amenity.name);
+      set(`amenity_${idx}_description`, amenity.description);
+      set(`amenity_${idx}_instructions`, amenity.instructions);
+      set(`amenity_${idx}_service_info`, amenity.serviceInfo);
+      if (amenity.items) {
+        set(`amenity_${idx}_items`, amenity.items.join(" | "));
+      }
+    });
+  }
+
+  // Local Guide
+  if (g.localGuide) {
+    set("localguide_section_title", g.localGuide.sectionTitle);
+    set("localguide_view_on_maps_label", g.localGuide.viewOnMapsLabel);
+    set("localguide_packing_list_intro", g.localGuide.packingListIntro);
+
+    if (g.localGuide.recommendations) {
+      g.localGuide.recommendations.forEach((rec, i) => {
+        const idx = i + 1;
+        set(`local_rec_${idx}_category`, rec.category);
+        set(`local_rec_${idx}_name`, rec.name);
+        set(`local_rec_${idx}_description`, rec.description);
+        set(`local_rec_${idx}_address`, rec.address);
+        set(`local_rec_${idx}_distance`, rec.distance);
+        set(`local_rec_${idx}_link`, rec.link);
+        set(`local_rec_${idx}_note`, rec.note);
+      });
+    }
+
+    set("local_guide_tip", g.localGuide.tip);
+
+    if (g.localGuide.packingList) {
+      set("local_guide_packing_list_title", g.localGuide.packingList.title);
+      setNumberedSimple("local_guide_packing_item", g.localGuide.packingList.items || []);
+    }
+  }
+
+  // Emergency
+  if (g.emergency) {
+    set("emergency_section_title", g.emergency.sectionTitle);
+    set("emergency_beaches_label", g.emergency.beachesLabel);
+    set("emergency_freshwater_label", g.emergency.freshwaterLabel);
+    set("emergency_address_note_label", g.emergency.addressNoteLabel);
+
+    if (g.emergency.alert) {
+      set("emergency_alert_title", g.emergency.alert.title);
+      set("emergency_alert_message", g.emergency.alert.message);
+    }
+
+    if (g.emergency.contacts) {
+      g.emergency.contacts.forEach((contact, i) => {
+        const idx = i + 1;
+        set(`emergency_contact_${idx}_type`, contact.type);
+        set(`emergency_contact_${idx}_name`, contact.name);
+        set(`emergency_contact_${idx}_phone`, contact.phone);
+        set(`emergency_contact_${idx}_address`, contact.address);
+        set(`emergency_contact_${idx}_hours`, contact.hours);
+        set(`emergency_contact_${idx}_note`, contact.note);
+      });
+    }
+
+    if (g.emergency.safetyInfo) {
+      set("emergency_safety_info_title", g.emergency.safetyInfo.title);
+      setNumberedSimple("emergency_safety_item", g.emergency.safetyInfo.items || []);
+    }
+
+    set("emergency_address_note", g.emergency.addressNote);
+
+    if (g.emergency.waterSafety) {
+      set("emergency_water_safety_title", g.emergency.waterSafety.title);
+      set("emergency_water_safety_beaches", g.emergency.waterSafety.beaches);
+      set("emergency_water_safety_freshwater", g.emergency.waterSafety.freshwater);
+    }
+  }
+
+  // Sections
+  if (g.sections) {
+    set("section_welcome", g.sections.welcome);
+    set("section_property_info", g.sections.propertyInfo);
+    set("section_check_in_out", g.sections.checkInOut);
+    set("section_transport", g.sections.transport);
+    set("section_house_rules", g.sections.houseRules);
+    set("section_amenities", g.sections.amenities);
+    set("section_local_guide", g.sections.localGuide);
+    set("section_emergency", g.sections.emergency);
+  }
+
+  // Common
+  if (g.common) {
+    set("common_everything_you_need", g.common.everythingYouNeed);
+    set("common_have_questions", g.common.haveQuestions);
+    set("common_or", g.common.or);
+  }
+
+  return config;
+}
+
+// Push locale JSON files to Google Sheets
+export async function pushLocalesToSheets({ languages, log = () => {} } = {}) {
+  // Default to English only for push (English is the source of truth)
+  const langs = languages?.length ? languages : ["en"];
+  const sheets = getSheetsClient([
+    "https://www.googleapis.com/auth/spreadsheets",
+  ]);
+  const spreadsheetId = getSheetId();
+  const results = [];
+
+  for (const lang of langs) {
+    log(`Pushing ${lang}...`);
+    try {
+      const guidebook = await readLanguage(lang);
+      const config = transformFromGuidebookFormat(guidebook);
+
+      // Convert to rows: [['key', 'value'], ...]
+      const rows = Object.entries(config).map(([key, value]) => [key, value || ""]);
+      rows.sort((a, b) => a[0].localeCompare(b[0])); // Sort by key
+
+      // Clear the sheet and write new data
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `${lang}!A1:B`,
+        valueInputOption: "RAW",
+        requestBody: {
+          values: [["key", "value"], ...rows],
+        },
+      });
+
+      log(`  ✓ ${lang}: ${rows.length} rows pushed`);
+      results.push({ lang, ok: true, rows: rows.length });
+    } catch (e) {
+      log(`  ✗ ${lang}: ${e.message}`);
+      results.push({ lang, ok: false, reason: e.message });
+    }
+  }
+  return results;
 }

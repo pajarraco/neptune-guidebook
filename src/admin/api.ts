@@ -57,4 +57,9 @@ export const api = {
       "/api/sheets/pull",
       { method: "POST" },
     ),
+  sheetsPush: () =>
+    request<{ ok: true; results: Array<{ lang: string; ok: boolean }> }>(
+      "/api/sheets/push",
+      { method: "POST" },
+    ),
 };

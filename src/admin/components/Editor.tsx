@@ -162,6 +162,27 @@ export default function Editor({ email, onSignOut }: Props) {
     }
   }, [activeLang, loadLanguages, loadLocale]);
 
+  // ---------- Push to Sheets ----------
+  const onPush = useCallback(async () => {
+    if (
+      !confirm(
+        "Push English to Google Sheets? This will OVERWRITE the 'en' tab with your current en.json file.",
+      )
+    )
+      return;
+    setStatus({ kind: "pulling" });
+    try {
+      const r = await api.sheetsPush();
+      const ok = r.results.filter((x) => x.ok).length;
+      setStatus({
+        kind: "ok",
+        message: `Pushed ${ok}/${r.results.length}`,
+      });
+    } catch (e) {
+      setStatus({ kind: "error", message: errMessage(e) });
+    }
+  }, []);
+
   // ---------- View toggle ----------
   // When switching views, sync the destination from the source so the
   // user doesn't lose unsaved edits.
@@ -257,6 +278,9 @@ export default function Editor({ email, onSignOut }: Props) {
             </div>
             <button className="secondary" onClick={onPull}>
               Pull from Google Sheets
+            </button>
+            <button className="secondary" onClick={onPush}>
+              Push English to Sheets
             </button>
           </div>
         </aside>
