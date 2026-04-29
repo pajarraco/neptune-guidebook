@@ -25,10 +25,7 @@ export default function HouseRulesForm() {
                   name={`houseRules.rules.${i}.icon`}
                   label="Icon (Material Symbol)"
                 />
-                <TextField
-                  name={`houseRules.rules.${i}.title`}
-                  label="Title"
-                />
+                <TextField name={`houseRules.rules.${i}.title`} label="Title" />
               </Row>
               <Textarea
                 name={`houseRules.rules.${i}.description`}

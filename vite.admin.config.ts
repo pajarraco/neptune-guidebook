@@ -33,7 +33,24 @@ export default defineConfig({
   server: {
     port: 5174,
     proxy: {
-      "/api": "http://localhost:3000",
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        configure(proxy) {
+          proxy.on("proxyRes", (proxyRes) => {
+            const setCookie = proxyRes.headers["set-cookie"];
+            if (setCookie) {
+              // Strip Domain= and Secure so the browser stores the cookie
+              // for the Vite dev origin (localhost:5174).
+              proxyRes.headers["set-cookie"] = setCookie.map((c) =>
+                c
+                  .replace(/;\s*Domain=[^;]*/gi, "")
+                  .replace(/;\s*Secure/gi, ""),
+              );
+            }
+          });
+        },
+      },
     },
   },
 });

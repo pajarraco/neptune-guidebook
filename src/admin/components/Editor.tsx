@@ -29,16 +29,17 @@ export default function Editor({ email, onSignOut }: Props) {
     SECTION_REGISTRY[0].id,
   );
 
+  // Manual dirty flag for the form view — RHF's isDirty is unreliable when
+  // useFieldArray is present (arrays re-register on mount and immediately
+  // mark the form dirty even after reset()).
+  const [formDirty, setFormDirty] = useState(false);
+
   // Form state for "Form" view.
   const formMethods = useForm<LocaleData>({
     defaultValues: {},
     shouldUnregister: false,
   });
-  const {
-    reset,
-    getValues,
-    formState: { isDirty: formDirty },
-  } = formMethods;
+  const { reset, getValues } = formMethods;
 
   // Raw JSON state.
   const [rawDraft, setRawDraft] = useState("");
@@ -69,12 +70,14 @@ export default function Editor({ email, onSignOut }: Props) {
         const data = await api.readLocale(lang);
         const text = JSON.stringify(data, null, 2);
         reset(data as LocaleData);
+        setFormDirty(false);
         setRawDraft(text);
         setRawOriginal(text);
         setStatus({ kind: "idle" });
       } catch (e) {
         setStatus({ kind: "error", message: errMessage(e) });
         reset({});
+        setFormDirty(false);
         setRawDraft("");
         setRawOriginal("");
       }
@@ -119,7 +122,8 @@ export default function Editor({ email, onSignOut }: Props) {
     try {
       await api.writeLocale(activeLang, payload);
       // Re-sync both views from the saved payload so isDirty resets.
-      reset(payload);
+      reset(payload as LocaleData);
+      setFormDirty(false);
       const text = JSON.stringify(payload, null, 2);
       setRawDraft(text);
       setRawOriginal(text);
@@ -169,10 +173,11 @@ export default function Editor({ email, onSignOut }: Props) {
         const text = JSON.stringify(getValues(), null, 2);
         setRawDraft(text);
       } else {
-        // raw → form: parse and reset form
+        // raw → form: parse and update baseline so form re-renders cleanly
         try {
           const parsed = JSON.parse(rawDraft);
           reset(parsed);
+          setFormDirty(false);
         } catch {
           // If raw is invalid JSON, just don't import; user keeps form state.
           setStatus({
@@ -208,7 +213,10 @@ export default function Editor({ email, onSignOut }: Props) {
       <div className="layout">
         <aside className="sidebar">
           {view === "form" && (
-            <nav className="sidebar-group sidebar-sections" aria-label="Sections">
+            <nav
+              className="sidebar-group sidebar-sections"
+              aria-label="Sections"
+            >
               <span className="sidebar-label">Sections</span>
               <ul className="section-nav">
                 {SECTION_REGISTRY.map((s) => (
@@ -258,10 +266,7 @@ export default function Editor({ email, onSignOut }: Props) {
             <strong>{activeLang ?? "—"}.json</strong>
             {view === "form" && activeSection && (
               <span className="toolbar-section">
-                ›{" "}
-                {
-                  SECTION_REGISTRY.find((s) => s.id === activeSection)?.label
-                }
+                › {SECTION_REGISTRY.find((s) => s.id === activeSection)?.label}
               </span>
             )}
             <div className="view-toggle" role="tablist">
@@ -297,6 +302,7 @@ export default function Editor({ email, onSignOut }: Props) {
             <FormProvider {...formMethods}>
               <form
                 className="form-body"
+                onChange={() => setFormDirty(true)}
                 onSubmit={(e) => {
                   e.preventDefault();
                   onSave();

@@ -34,42 +34,42 @@ export default function LocalGuideForm() {
             `${i + 1}. ${(item as { category?: string; name?: string })?.category || "—"} / ${(item as { name?: string })?.name || "—"}`
           }
         >
-        {(i) => (
-          <>
-            <Row>
-              <TextField
-                name={`localGuide.recommendations.${i}.category`}
-                label="Category"
+          {(i) => (
+            <>
+              <Row>
+                <TextField
+                  name={`localGuide.recommendations.${i}.category`}
+                  label="Category"
+                />
+                <TextField
+                  name={`localGuide.recommendations.${i}.name`}
+                  label="Name"
+                />
+              </Row>
+              <Textarea
+                name={`localGuide.recommendations.${i}.description`}
+                label="Description"
               />
+              <Row>
+                <TextField
+                  name={`localGuide.recommendations.${i}.address`}
+                  label="Address (optional)"
+                />
+                <TextField
+                  name={`localGuide.recommendations.${i}.distance`}
+                  label="Distance (optional)"
+                />
+              </Row>
               <TextField
-                name={`localGuide.recommendations.${i}.name`}
-                label="Name"
+                name={`localGuide.recommendations.${i}.link`}
+                label="Map link (optional, English only)"
               />
-            </Row>
-            <Textarea
-              name={`localGuide.recommendations.${i}.description`}
-              label="Description"
-            />
-            <Row>
-              <TextField
-                name={`localGuide.recommendations.${i}.address`}
-                label="Address (optional)"
+              <Textarea
+                name={`localGuide.recommendations.${i}.note`}
+                label="Note (optional)"
               />
-              <TextField
-                name={`localGuide.recommendations.${i}.distance`}
-                label="Distance (optional)"
-              />
-            </Row>
-            <TextField
-              name={`localGuide.recommendations.${i}.link`}
-              label="Map link (optional, English only)"
-            />
-            <Textarea
-              name={`localGuide.recommendations.${i}.note`}
-              label="Note (optional)"
-            />
-          </>
-        )}
+            </>
+          )}
         </ObjectArrayField>
       </Section>
 

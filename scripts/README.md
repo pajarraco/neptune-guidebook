@@ -13,14 +13,14 @@ Google Sheets sync logic have been moved to `src/server/`.
 
 These now live in `src/server/`:
 
-| File                              | Purpose                                      |
-| --------------------------------- | -------------------------------------------- |
-| `src/server/server.mjs`           | Production HTTP server                       |
-| `src/server/start.sh`             | Container entrypoint (Coolify / Nixpacks)    |
-| `src/server/fetch-sheet-data.mjs` | CLI wrapper for `npm run fetch-data`         |
-| `src/server/lib/auth.mjs`         | Session signing + Google ID token verify     |
-| `src/server/lib/locales.mjs`      | Read/write locale JSON files                 |
-| `src/server/lib/sheets.mjs`       | Google Sheets pull + transform logic         |
+| File                              | Purpose                                   |
+| --------------------------------- | ----------------------------------------- |
+| `src/server/server.mjs`           | Production HTTP server                    |
+| `src/server/start.sh`             | Container entrypoint (Coolify / Nixpacks) |
+| `src/server/fetch-sheet-data.mjs` | CLI wrapper for `npm run fetch-data`      |
+| `src/server/lib/auth.mjs`         | Session signing + Google ID token verify  |
+| `src/server/lib/locales.mjs`      | Read/write locale JSON files              |
+| `src/server/lib/sheets.mjs`       | Google Sheets pull + transform logic      |
 
 See `docs/google-sheets-integration.md` and `docs/admin-panel.md` for
 full documentation.

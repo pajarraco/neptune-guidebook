@@ -9,6 +9,13 @@
 #   terminal, or set FORCE_FETCH_LOCALES=1.
 set -e
 
+# Load .env.local if present (local development / testing only).
+# In production (Coolify) env vars are injected by the platform.
+if [ -f ".env.local" ]; then
+  # shellcheck disable=SC2046
+  export $(grep -v '^#' .env.local | grep -v '^$' | xargs)
+fi
+
 LOCALES_DIR="${LOCALES_DIR:-/app/dist/locales}"
 PORT="${PORT:-3000}"
 

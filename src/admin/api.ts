@@ -15,20 +15,21 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     },
     ...init,
   });
+  const text = await res.text();
   if (!res.ok) {
     let detail: string;
     try {
-      const body = await res.json();
+      const body = JSON.parse(text);
       detail = body.error || JSON.stringify(body);
     } catch {
-      detail = await res.text();
+      detail = text;
     }
     const err = new Error(`${res.status} ${res.statusText}: ${detail}`);
     (err as Error & { status?: number }).status = res.status;
     throw err;
   }
-  if (res.status === 204) return undefined as T;
-  return res.json();
+  if (res.status === 204 || !text) return undefined as T;
+  return JSON.parse(text);
 }
 
 export const api = {
