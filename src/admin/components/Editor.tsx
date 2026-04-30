@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { api, type LocaleListItem } from "../api";
-import { SECTION_REGISTRY } from "./forms/sections";
+import { SECTION_REGISTRY, SETTINGS_REGISTRY } from "./Router";
 
 interface Props {
   email: string;
@@ -16,15 +16,12 @@ type Status =
   | { kind: "ok"; message: string }
   | { kind: "error"; message: string };
 
-type ViewMode = "form" | "raw";
-
 type LocaleData = Record<string, unknown>;
 
 export default function Editor({ email, onSignOut }: Props) {
   const [languages, setLanguages] = useState<LocaleListItem[]>([]);
   const [activeLang, setActiveLang] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>({ kind: "loading" });
-  const [view, setView] = useState<ViewMode>("form");
   const [activeSection, setActiveSection] = useState<string>(
     SECTION_REGISTRY[0].id,
   );
@@ -41,13 +38,8 @@ export default function Editor({ email, onSignOut }: Props) {
   });
   const { reset, getValues } = formMethods;
 
-  // Raw JSON state.
-  const [rawDraft, setRawDraft] = useState("");
-  const [rawOriginal, setRawOriginal] = useState("");
-  const rawDirty = rawDraft !== rawOriginal;
-
   // Combined dirty flag.
-  const dirty = view === "form" ? formDirty : rawDirty;
+  const dirty = formDirty;
 
   const loadLanguages = useCallback(async () => {
     setStatus({ kind: "loading" });
@@ -67,22 +59,21 @@ export default function Editor({ email, onSignOut }: Props) {
     async (lang: string) => {
       setStatus({ kind: "loading" });
       try {
-        const data = await api.readLocale(lang);
-        const text = JSON.stringify(data, null, 2);
+        // If settings section, load config.json instead of locale
+        const data =
+          activeSection === "settings"
+            ? await api.readSetting("config")
+            : await api.readLocale(lang);
         reset(data as LocaleData);
         setFormDirty(false);
-        setRawDraft(text);
-        setRawOriginal(text);
         setStatus({ kind: "idle" });
       } catch (e) {
         setStatus({ kind: "error", message: errMessage(e) });
         reset({});
         setFormDirty(false);
-        setRawDraft("");
-        setRawOriginal("");
       }
     },
-    [reset],
+    [reset, activeSection],
   );
 
   useEffect(() => {
@@ -97,47 +88,46 @@ export default function Editor({ email, onSignOut }: Props) {
 
   useEffect(() => {
     // Same rationale as above.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (activeLang) loadLocale(activeLang);
-  }, [activeLang, loadLocale]);
+    if (activeSection === "settings") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      loadLocale("en"); // Language doesn't matter for settings
+    } else if (activeLang) {
+      loadLocale(activeLang);
+    }
+  }, [activeSection, activeLang, loadLocale]);
 
   // ---------- Save ----------
   const onSave = useCallback(async () => {
-    if (!activeLang) return;
-    let payload: LocaleData;
-    if (view === "form") {
-      payload = getValues();
-    } else {
-      try {
-        payload = JSON.parse(rawDraft);
-      } catch (e) {
-        setStatus({
-          kind: "error",
-          message: `JSON parse error: ${e instanceof Error ? e.message : String(e)}`,
-        });
-        return;
-      }
-    }
+    if (activeSection !== "settings" && !activeLang) return;
+    const payload = getValues();
     setStatus({ kind: "saving" });
     try {
-      await api.writeLocale(activeLang, payload);
-      // Re-sync both views from the saved payload so isDirty resets.
+      // If settings section, write to config.json instead of locale
+      if (activeSection === "settings") {
+        await api.writeSetting("config", payload);
+        setStatus({ kind: "ok", message: "Saved config.json" });
+      } else {
+        await api.writeLocale(activeLang!, payload);
+        setStatus({ kind: "ok", message: `Saved ${activeLang}.json` });
+      }
+      // Re-sync from the saved payload so isDirty resets.
       reset(payload as LocaleData);
       setFormDirty(false);
-      const text = JSON.stringify(payload, null, 2);
-      setRawDraft(text);
-      setRawOriginal(text);
-      setStatus({ kind: "ok", message: `Saved ${activeLang}.json` });
     } catch (e) {
       setStatus({ kind: "error", message: errMessage(e) });
     }
-  }, [activeLang, view, getValues, rawDraft, reset]);
+  }, [activeLang, getValues, reset, activeSection]);
 
   // ---------- Revert ----------
   const onRevert = useCallback(() => {
+    if (activeSection === "settings") {
+      // Reload config without needing a language
+      loadLocale("en"); // Language doesn't matter for settings
+      return;
+    }
     if (!activeLang) return;
     loadLocale(activeLang);
-  }, [activeLang, loadLocale]);
+  }, [activeSection, activeLang, loadLocale]);
 
   // ---------- Pull from Sheets ----------
   const onPull = useCallback(async () => {
@@ -183,40 +173,11 @@ export default function Editor({ email, onSignOut }: Props) {
     }
   }, []);
 
-  // ---------- View toggle ----------
-  // When switching views, sync the destination from the source so the
-  // user doesn't lose unsaved edits.
-  const onSwitchView = useCallback(
-    (next: ViewMode) => {
-      if (next === view) return;
-      if (next === "raw") {
-        // form → raw: serialize current form values
-        const text = JSON.stringify(getValues(), null, 2);
-        setRawDraft(text);
-      } else {
-        // raw → form: parse and update baseline so form re-renders cleanly
-        try {
-          const parsed = JSON.parse(rawDraft);
-          reset(parsed);
-          setFormDirty(false);
-        } catch {
-          // If raw is invalid JSON, just don't import; user keeps form state.
-          setStatus({
-            kind: "error",
-            message:
-              "Raw JSON is invalid; switched to form view without importing.",
-          });
-        }
-      }
-      setView(next);
-    },
-    [view, getValues, rawDraft, reset],
-  );
-
   // ---------- Active section component ----------
   const ActiveSectionComponent = useMemo(
     () =>
       SECTION_REGISTRY.find((s) => s.id === activeSection)?.Component ??
+      SETTINGS_REGISTRY.find((s) => s.id === activeSection)?.Component ??
       SECTION_REGISTRY[0].Component,
     [activeSection],
   );
@@ -233,80 +194,95 @@ export default function Editor({ email, onSignOut }: Props) {
 
       <div className="layout">
         <aside className="sidebar">
-          {view === "form" && (
-            <nav
-              className="sidebar-group sidebar-sections"
-              aria-label="Sections"
-            >
-              <span className="sidebar-label">Sections</span>
-              <ul className="section-nav">
-                {SECTION_REGISTRY.map((s) => (
-                  <li key={s.id}>
-                    <button
-                      className={s.id === activeSection ? "active" : ""}
-                      onClick={() => setActiveSection(s.id)}
-                    >
-                      {s.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+          <nav className="sidebar-group sidebar-sections" aria-label="Sections">
+            <span className="sidebar-label">Sections</span>
+            <ul className="section-nav">
+              {SECTION_REGISTRY.map((s) => (
+                <li key={s.id}>
+                  <button
+                    className={s.id === activeSection ? "active" : ""}
+                    onClick={() => setActiveSection(s.id)}
+                  >
+                    {s.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <span className="sidebar-label">Settings</span>
+            <ul className="section-nav">
+              {SETTINGS_REGISTRY.map((s) => (
+                <li key={s.id}>
+                  <button
+                    className={s.id === activeSection ? "active" : ""}
+                    onClick={() => setActiveSection(s.id)}
+                  >
+                    {s.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           <div className="sidebar-footer">
             <div className="sidebar-group">
-              <label className="sidebar-label" htmlFor="lang-select">
-                Language
-              </label>
-              <select
-                id="lang-select"
-                className="lang-select"
-                value={activeLang ?? ""}
-                onChange={(e) => setActiveLang(e.target.value || null)}
-                disabled={dirty || languages.length === 0}
-                title={dirty ? "Save or revert your changes first" : ""}
-              >
-                {languages.length === 0 && <option value="">Loading…</option>}
-                {languages.map((l) => (
-                  <option key={l.lang} value={l.lang}>
-                    {l.lang}
-                    {!l.exists ? " (missing)" : ""}
-                  </option>
-                ))}
-              </select>
+              {activeSection !== "settings" && (
+                <>
+                  <label className="sidebar-label" htmlFor="lang-select">
+                    Language
+                  </label>
+                  <select
+                    id="lang-select"
+                    className="lang-select"
+                    value={activeLang ?? ""}
+                    onChange={(e) => setActiveLang(e.target.value || null)}
+                    disabled={
+                      dirty ||
+                      languages.length === 0 ||
+                      activeSection === "settings"
+                    }
+                    title={dirty ? "Save or revert your changes first" : ""}
+                  >
+                    {languages.length === 0 && (
+                      <option value="">Loading…</option>
+                    )}
+                    {languages.map((l) => (
+                      <option key={l.lang} value={l.lang}>
+                        {l.lang}
+                        {!l.exists ? " (missing)" : ""}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
             </div>
-            <button className="secondary" onClick={onPull}>
-              Pull from Google Sheets
-            </button>
-            <button className="secondary" onClick={onPush}>
-              Push English to Sheets
-            </button>
+            {activeSection !== "settings" && (
+              <>
+                <button className="secondary" onClick={onPull}>
+                  Pull from Google Sheets
+                </button>
+                <button className="secondary" onClick={onPush}>
+                  Push English to Sheets
+                </button>
+              </>
+            )}
           </div>
         </aside>
 
         <main className="content">
           <div className="toolbar">
-            <strong>{activeLang ?? "—"}.json</strong>
-            {view === "form" && activeSection && (
+            <strong>
+              {activeSection === "settings"
+                ? "config.json"
+                : `${activeLang ?? "—"}.json`}
+            </strong>
+            {activeSection && (
               <span className="toolbar-section">
-                › {SECTION_REGISTRY.find((s) => s.id === activeSection)?.label}
+                ›
+                {SECTION_REGISTRY.find((s) => s.id === activeSection)?.label ??
+                  SETTINGS_REGISTRY.find((s) => s.id === activeSection)?.label}
               </span>
             )}
-            <div className="view-toggle" role="tablist">
-              <button
-                className={view === "form" ? "active" : ""}
-                onClick={() => onSwitchView("form")}
-              >
-                Form
-              </button>
-              <button
-                className={view === "raw" ? "active" : ""}
-                onClick={() => onSwitchView("raw")}
-              >
-                Raw JSON
-              </button>
-            </div>
             <span className="spacer" />
             <button onClick={onRevert} disabled={!dirty}>
               Revert
@@ -322,30 +298,18 @@ export default function Editor({ email, onSignOut }: Props) {
 
           <StatusBar status={status} />
 
-          {view === "form" ? (
-            <FormProvider {...formMethods}>
-              <form
-                className="form-body"
-                onChange={() => setFormDirty(true)}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  onSave();
-                }}
-              >
-                <ActiveSectionComponent />
-              </form>
-            </FormProvider>
-          ) : (
-            <textarea
-              className="json-editor"
-              value={rawDraft}
-              onChange={(e) => setRawDraft(e.target.value)}
-              spellCheck={false}
-              placeholder={
-                status.kind === "loading" ? "Loading…" : "Select a language"
-              }
-            />
-          )}
+          <FormProvider {...formMethods}>
+            <form
+              className="form-body"
+              onChange={() => setFormDirty(true)}
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSave();
+              }}
+            >
+              <ActiveSectionComponent />
+            </form>
+          </FormProvider>
         </main>
       </div>
     </div>

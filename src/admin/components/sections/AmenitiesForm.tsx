@@ -5,7 +5,7 @@ import {
   StringArrayField,
   TextField,
   Textarea,
-} from "../primitives";
+} from "../forms/primitives";
 
 export default function AmenitiesForm() {
   return (

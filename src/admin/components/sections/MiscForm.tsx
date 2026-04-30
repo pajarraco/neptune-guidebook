@@ -1,4 +1,4 @@
-import { Row, Section, TextField } from "../primitives";
+import { Section, TextField, Row } from "../forms/primitives";
 
 // Combines the small label-only sections: `sections` (nav tab labels)
 // and `common` (shared UI strings).

@@ -2,10 +2,10 @@ import {
   ObjectArrayField,
   Row,
   Section,
-  StringArrayField,
   TextField,
   Textarea,
-} from "../primitives";
+  StringArrayField,
+} from "../forms/primitives";
 
 export default function WelcomeForm() {
   return (

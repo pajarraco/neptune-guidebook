@@ -1,4 +1,4 @@
-import { Row, Section, TextField, Textarea } from "../primitives";
+import { Section, TextField, Textarea, Row } from "../forms/primitives";
 
 export default function PropertyInfoForm() {
   return (
