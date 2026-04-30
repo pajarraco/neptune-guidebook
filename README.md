@@ -302,7 +302,6 @@ Comprehensive documentation is available in the `docs/` folder:
 - **[Internationalization Guide](docs/internationalization.md)** - i18n, translation management, navigation links, locale gating
 - **[Google Sheets Integration](docs/google-sheets-integration.md)** - Setup, configuration, CLI + admin pull endpoint
 - **[Icons Guide](docs/icons.md)** - Material Symbols icon utilities, inventory, and examples
-- **[Icon Inventory](docs/icon-inventory.md)** - Catalog of all icons used in the application
 
 ## Tech Stack
 
