@@ -6,6 +6,12 @@ export type LocaleListItem = {
   mtime: number | null;
 };
 
+export type SettingListItem = {
+  setting: string;
+  exists: boolean;
+  mtime: number | null;
+};
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const res = await fetch(path, {
     credentials: "include",
@@ -62,4 +68,14 @@ export const api = {
       "/api/sheets/push",
       { method: "POST" },
     ),
+
+  listSettings: () =>
+    request<{ settings: SettingListItem[]; dir: string }>("/api/settings"),
+  readSetting: (setting: string) =>
+    request<Record<string, unknown>>(`/api/settings/${setting}`),
+  writeSetting: (setting: string, data: unknown) =>
+    request<{ ok: true; setting: string }>(`/api/settings/${setting}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
 };

@@ -16,6 +16,36 @@ In production both write to the persistent volume mounted at
 `/app/dist/locales`. The guest app fetches them with an `x-access-code`
 header (gated by the `ACCESS_CODE` env var on the server).
 
+## Settings and Configuration
+
+Static configuration files (e.g., icon lists, feature flags) are stored in
+`public/settings/{name}.json` and served at `/settings/{name}.json` using the
+same access code gating pattern as locales.
+
+### Settings API Pattern
+
+- **Server endpoint**: `/settings/{name}.json` (gated by `ACCESS_CODE`)
+- **Guest app client**: `src/app/api.ts` provides a centralized wrapper
+- **Admin panel**: Can manage settings via `/api/settings/*` endpoints
+  (requires session authentication)
+
+### Adding a New Setting
+
+1. Create the JSON file in `public/settings/{name}.json`
+2. Add a read method to `src/app/api.ts` if the guest app needs it
+3. Add admin endpoints to `src/admin/api.ts` if the admin needs to edit it
+4. The server already serves `/settings/*` with access code gating
+
+Example:
+
+```typescript
+// src/app/api.ts
+export const api = {
+  readConfig: () =>
+    request<{ amenityIcons?: string[] }>("/settings/config.json"),
+};
+```
+
 ## Critical Rules
 
 ### 1. Navigation Links Must Be Language-Agnostic

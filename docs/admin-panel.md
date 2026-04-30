@@ -21,9 +21,12 @@ Editor screens
   │  GET  /api/locales            list languages
   │  GET  /api/locales/:lang      read JSON
   │  PUT  /api/locales/:lang      write JSON (atomic)
+  │  GET  /api/settings           list settings
+  │  GET  /api/settings/:setting  read setting JSON
+  │  PUT  /api/settings/:setting  write setting JSON (atomic)
   │  POST /api/sheets/pull        run pullSheetsToLocales()
   ▼
-Volume: /app/dist/locales
+Volume: /app/dist/locales, /app/dist/settings
 ```
 
 ## Server (`src/server/server.mjs` + `src/server/lib/`)
@@ -42,6 +45,7 @@ Volume: /app/dist/locales
 | `/api/auth/google`, `/api/auth/logout`, `/api/auth/me` | Open (set/clear/read session)                          |
 | `/api/*` (everything else)                             | Requires valid session cookie                          |
 | `/locales/*`                                           | Requires `x-access-code` header == `ACCESS_CODE`       |
+| `/settings/*`                                          | Requires `x-access-code` header == `ACCESS_CODE`       |
 | `/admin/*`                                             | Open static files (the SPA itself doesn't reveal data) |
 | Everything else                                        | Open static files (the guest SPA)                      |
 

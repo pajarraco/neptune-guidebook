@@ -1,1 +1,11 @@
-{}
+{
+  "amenityIcons": [
+    "oven_gen",
+    "laundry",
+    "tv",
+    "ac_unit",
+    "balcony",
+    "garage",
+    "pool"
+  ]
+}

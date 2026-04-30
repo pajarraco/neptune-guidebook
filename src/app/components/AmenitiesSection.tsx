@@ -1,4 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { api } from "../api";
 
 export default function AmenitiesSection() {
   const { t } = useTranslation();
@@ -7,15 +9,18 @@ export default function AmenitiesSection() {
     description: string;
     instructions?: string;
   }>;
-  const amenityIcons = [
-    "oven_gen",
-    "laundry",
-    "tv",
-    "ac_unit",
-    "balcony",
-    "garage",
-    "pool",
-  ];
+  const [amenityIcons, setAmenityIcons] = useState<string[]>([]);
+
+  useEffect(() => {
+    api
+      .readConfig()
+      .then((data) => setAmenityIcons(data.amenityIcons || []))
+      .catch((err) => console.error("Failed to load config:", err));
+  }, []);
+
+  if (amenityIcons.length === 0) {
+    return null; // Don't render until config is loaded
+  }
 
   return (
     <div className="section-content">

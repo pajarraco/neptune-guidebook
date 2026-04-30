@@ -43,9 +43,7 @@ export default defineConfig({
               // Strip Domain= and Secure so the browser stores the cookie
               // for the Vite dev origin (localhost:5174).
               proxyRes.headers["set-cookie"] = setCookie.map((c) =>
-                c
-                  .replace(/;\s*Domain=[^;]*/gi, "")
-                  .replace(/;\s*Secure/gi, ""),
+                c.replace(/;\s*Domain=[^;]*/gi, "").replace(/;\s*Secure/gi, ""),
               );
             }
           });

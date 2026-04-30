@@ -5,7 +5,11 @@
 import { google } from "googleapis";
 import fs from "node:fs";
 import path from "node:path";
-import { writeLanguage, readLanguage, getSupportedLanguages } from "./locales.mjs";
+import {
+  writeLanguage,
+  readLanguage,
+  getSupportedLanguages,
+} from "./locales.mjs";
 
 function loadCredentials() {
   const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_PATH;
@@ -380,9 +384,8 @@ export function transformFromGuidebookFormat(guidebook) {
   // Helper to set value if present, converting <br> back to \n
   const set = (key, value) => {
     if (value !== undefined && value !== null && value !== "") {
-      config[key] = typeof value === "string"
-        ? value.replace(/<br>/g, "\n")
-        : value;
+      config[key] =
+        typeof value === "string" ? value.replace(/<br>/g, "\n") : value;
     }
   };
 
@@ -412,8 +415,15 @@ export function transformFromGuidebookFormat(guidebook) {
     if (g.welcome.featuresSection) {
       set("welcome_features_title", g.welcome.featuresSection.title);
       set("welcome_features_answer", g.welcome.featuresSection.answer);
-      set("welcome_features_description", g.welcome.featuresSection.description);
-      setNumbered("welcome_feature", g.welcome.featuresSection.features || [], ["icon", "text", "link"]);
+      set(
+        "welcome_features_description",
+        g.welcome.featuresSection.description,
+      );
+      setNumbered("welcome_feature", g.welcome.featuresSection.features || [], [
+        "icon",
+        "text",
+        "link",
+      ]);
       set("welcome_features_note", g.welcome.featuresSection.note);
     }
 
@@ -431,16 +441,31 @@ export function transformFromGuidebookFormat(guidebook) {
       if (g.welcome.meetYourTeam.hostWelcome) {
         set("welcome_host_icon", g.welcome.meetYourTeam.hostWelcome.icon);
         set("welcome_host_title", g.welcome.meetYourTeam.hostWelcome.title);
-        set("welcome_host_description", g.welcome.meetYourTeam.hostWelcome.description);
-        set("welcome_host_team_intro", g.welcome.meetYourTeam.hostWelcome.teamIntro);
+        set(
+          "welcome_host_description",
+          g.welcome.meetYourTeam.hostWelcome.description,
+        );
+        set(
+          "welcome_host_team_intro",
+          g.welcome.meetYourTeam.hostWelcome.teamIntro,
+        );
       }
 
       if (g.welcome.meetYourTeam.founderNote) {
         set("welcome_founder_icon", g.welcome.meetYourTeam.founderNote.icon);
         set("welcome_founder_title", g.welcome.meetYourTeam.founderNote.title);
-        set("welcome_founder_message", g.welcome.meetYourTeam.founderNote.message);
-        set("welcome_founder_mission", g.welcome.meetYourTeam.founderNote.mission);
-        set("welcome_founder_closing", g.welcome.meetYourTeam.founderNote.closing);
+        set(
+          "welcome_founder_message",
+          g.welcome.meetYourTeam.founderNote.message,
+        );
+        set(
+          "welcome_founder_mission",
+          g.welcome.meetYourTeam.founderNote.mission,
+        );
+        set(
+          "welcome_founder_closing",
+          g.welcome.meetYourTeam.founderNote.closing,
+        );
       }
     }
   }
@@ -476,7 +501,10 @@ export function transformFromGuidebookFormat(guidebook) {
     if (g.checkInOut.checkIn) {
       set("checkin_title", g.checkInOut.checkIn.title);
       set("checkin_subheading", g.checkInOut.checkIn.subheading);
-      set("checkin_arriving_early_label", g.checkInOut.checkIn.arrivingEarlyLabel);
+      set(
+        "checkin_arriving_early_label",
+        g.checkInOut.checkIn.arrivingEarlyLabel,
+      );
       setNumberedSimple("checkin_step", g.checkInOut.checkIn.steps || []);
     }
 
@@ -507,33 +535,56 @@ export function transformFromGuidebookFormat(guidebook) {
 
     if (g.transport.publicTransport) {
       set("transport_public_title", g.transport.publicTransport.title);
-      set("transport_public_description", g.transport.publicTransport.description);
+      set(
+        "transport_public_description",
+        g.transport.publicTransport.description,
+      );
       set("transport_public_info", g.transport.publicTransport.info);
       set("transport_public_fares", g.transport.publicTransport.fares);
-      set("transport_public_limitations", g.transport.publicTransport.limitations);
+      set(
+        "transport_public_limitations",
+        g.transport.publicTransport.limitations,
+      );
     }
 
     if (g.transport.airportTransfers) {
       set("transport_airport_title", g.transport.airportTransfers.title);
-      set("transport_airport_description", g.transport.airportTransfers.description);
-      setNumbered("transport_airport_option", g.transport.airportTransfers.options || [], ["name", "phone", "type"]);
+      set(
+        "transport_airport_description",
+        g.transport.airportTransfers.description,
+      );
+      setNumbered(
+        "transport_airport_option",
+        g.transport.airportTransfers.options || [],
+        ["name", "phone", "type"],
+      );
       set("transport_airport_note", g.transport.airportTransfers.note);
     }
 
     if (g.transport.carRental) {
       set("transport_car_rental_title", g.transport.carRental.title);
-      set("transport_car_rental_description", g.transport.carRental.description);
+      set(
+        "transport_car_rental_description",
+        g.transport.carRental.description,
+      );
       set("transport_car_rental_note", g.transport.carRental.note);
     }
   }
 
   // House Rules
   if (g.houseRules) {
-    setNumbered("house_rule", g.houseRules.rules || [], ["icon", "title", "description"]);
+    setNumbered("house_rule", g.houseRules.rules || [], [
+      "icon",
+      "title",
+      "description",
+    ]);
 
     if (g.houseRules.importantNote) {
       set("house_rules_important_note_title", g.houseRules.importantNote.title);
-      set("house_rules_important_note_message", g.houseRules.importantNote.message);
+      set(
+        "house_rules_important_note_message",
+        g.houseRules.importantNote.message,
+      );
     }
   }
 
@@ -586,7 +637,10 @@ export function transformFromGuidebookFormat(guidebook) {
 
     if (g.localGuide.packingList) {
       set("local_guide_packing_list_title", g.localGuide.packingList.title);
-      setNumberedSimple("local_guide_packing_item", g.localGuide.packingList.items || []);
+      setNumberedSimple(
+        "local_guide_packing_item",
+        g.localGuide.packingList.items || [],
+      );
     }
   }
 
@@ -616,7 +670,10 @@ export function transformFromGuidebookFormat(guidebook) {
 
     if (g.emergency.safetyInfo) {
       set("emergency_safety_info_title", g.emergency.safetyInfo.title);
-      setNumberedSimple("emergency_safety_item", g.emergency.safetyInfo.items || []);
+      setNumberedSimple(
+        "emergency_safety_item",
+        g.emergency.safetyInfo.items || [],
+      );
     }
 
     set("emergency_address_note", g.emergency.addressNote);
@@ -624,7 +681,10 @@ export function transformFromGuidebookFormat(guidebook) {
     if (g.emergency.waterSafety) {
       set("emergency_water_safety_title", g.emergency.waterSafety.title);
       set("emergency_water_safety_beaches", g.emergency.waterSafety.beaches);
-      set("emergency_water_safety_freshwater", g.emergency.waterSafety.freshwater);
+      set(
+        "emergency_water_safety_freshwater",
+        g.emergency.waterSafety.freshwater,
+      );
     }
   }
 
@@ -667,7 +727,10 @@ export async function pushLocalesToSheets({ languages, log = () => {} } = {}) {
       const config = transformFromGuidebookFormat(guidebook);
 
       // Convert to rows: [['key', 'value'], ...]
-      const rows = Object.entries(config).map(([key, value]) => [key, value || ""]);
+      const rows = Object.entries(config).map(([key, value]) => [
+        key,
+        value || "",
+      ]);
       rows.sort((a, b) => a[0].localeCompare(b[0])); // Sort by key
 
       // Clear the sheet and write new data

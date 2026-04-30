@@ -308,6 +308,20 @@ const server = http.createServer(async (req, res) => {
     return serveFile(res, filePath, { noCache: true });
   }
 
+  // /settings/* — gated guest content (config files).
+  if (pathname.startsWith("/settings/")) {
+    const provided =
+      req.headers["x-access-code"] || url.searchParams.get("code");
+    if (!ACCESS_CODE || provided !== ACCESS_CODE) {
+      return send(res, 401, "Unauthorized");
+    }
+    const filePath = path.join(DIST, pathname);
+    if (!isInside(filePath, path.join(DIST, "settings"))) {
+      return send(res, 403, "Forbidden");
+    }
+    return serveFile(res, filePath, { noCache: true });
+  }
+
   // /admin/* — admin SPA static + fallback.
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     const rel = pathname.replace(/^\/admin/, "") || "/";

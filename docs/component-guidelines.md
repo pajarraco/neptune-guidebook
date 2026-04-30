@@ -225,6 +225,27 @@ The admin panel (`src/admin/`) is a separate Vite build. Conventions:
 - **Plain CSS**: `src/admin/styles.css` defines variables (`--bg`,
   `--surface`, `--primary`, etc.). Reuse them; don't inline colors.
 
+## Guest App API
+
+The guest app (`src/app/`) uses a centralized API wrapper similar to the admin panel:
+
+- **REST API client**: `src/app/api.ts` wraps `fetch()` with access code
+  authentication and centralized error handling. Always go through it — do
+  not call `fetch()` directly from components.
+- **Access code authentication**: API calls automatically include the
+  `VITE_CODE` as a query parameter for gated endpoints.
+- **Config files**: Static configuration (e.g., icon lists) should be stored
+  in `public/settings/{name}.json` and fetched via the API at runtime,
+  not imported at build time.
+
+Example usage:
+
+```typescript
+import { api } from "../api";
+
+const config = await api.readConfig();
+```
+
 ## Accessibility
 
 ### ARIA Labels
