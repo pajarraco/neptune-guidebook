@@ -17,9 +17,11 @@ if [ -f ".env.local" ]; then
 fi
 
 LOCALES_DIR="${LOCALES_DIR:-/app/dist/locales}"
+SETTINGS_DIR="${SETTINGS_DIR:-/app/dist/settings}"
 PORT="${PORT:-3000}"
 
 mkdir -p "$LOCALES_DIR"
+mkdir -p "$SETTINGS_DIR"
 
 needs_fetch=0
 if [ "${FORCE_FETCH_LOCALES:-0}" = "1" ]; then
@@ -35,6 +37,14 @@ if [ "$needs_fetch" = "1" ]; then
   }
 else
   echo "[start] Using existing locales in $LOCALES_DIR"
+fi
+
+# Initialize config.json if it doesn't exist
+if [ ! -f "$SETTINGS_DIR/config.json" ]; then
+  echo "[start] Initializing empty config.json in $SETTINGS_DIR ..."
+  echo '{}' > "$SETTINGS_DIR/config.json"
+else
+  echo "[start] Using existing config.json"
 fi
 
 echo "[start] Serving dist/ on port $PORT (locales gated by ACCESS_CODE)"

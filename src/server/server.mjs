@@ -20,6 +20,7 @@ import {
   verifyGoogleIdToken,
 } from "./lib/auth.mjs";
 import { listLanguages, readLanguage, writeLanguage } from "./lib/locales.mjs";
+import { listSettings, readSetting, writeSetting } from "./lib/settings.mjs";
 import { pullSheetsToLocales, pushLocalesToSheets } from "./lib/sheets.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -179,6 +180,34 @@ async function apiWriteLocale(req, res, { lang }) {
   sendJson(res, 200, { ok: true, lang });
 }
 
+async function apiListSettings(_req, res) {
+  const data = await listSettings();
+  sendJson(res, 200, data);
+}
+
+async function apiReadSetting(_req, res, { setting }) {
+  try {
+    const data = await readSetting(setting);
+    sendJson(res, 200, data);
+  } catch (e) {
+    sendJson(res, 404, { error: `Setting ${setting} not found: ${e.message}` });
+  }
+}
+
+async function apiWriteSetting(req, res, { setting }) {
+  let body;
+  try {
+    body = await readJsonBody(req, { limit: 5 * 1024 * 1024 });
+  } catch {
+    return sendJson(res, 400, { error: "Invalid JSON body" });
+  }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return sendJson(res, 400, { error: "Body must be a JSON object" });
+  }
+  await writeSetting(setting, body);
+  sendJson(res, 200, { ok: true, setting });
+}
+
 async function apiSheetsPull(_req, res) {
   try {
     const results = await pullSheetsToLocales({});
@@ -221,6 +250,19 @@ async function handleApi(req, res, pathname) {
     const lang = localeMatch[1];
     if (req.method === "GET") return apiReadLocale(req, res, { lang });
     if (req.method === "PUT") return apiWriteLocale(req, res, { lang });
+    return sendJson(res, 405, { error: "Method not allowed" });
+  }
+
+  if (req.method === "GET" && pathname === "/api/settings")
+    return apiListSettings(req, res);
+
+  const settingMatch = pathname.match(
+    /^\/api\/settings\/([a-zA-Z][a-zA-Z0-9_-]*)$/,
+  );
+  if (settingMatch) {
+    const setting = settingMatch[1];
+    if (req.method === "GET") return apiReadSetting(req, res, { setting });
+    if (req.method === "PUT") return apiWriteSetting(req, res, { setting });
     return sendJson(res, 405, { error: "Method not allowed" });
   }
 

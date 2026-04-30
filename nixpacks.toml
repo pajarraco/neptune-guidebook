@@ -21,9 +21,11 @@
 #   - ALLOWED_EMAILS                comma-separated list of admin emails
 #   - SESSION_SECRET                random 32+ char string (openssl rand -hex 32)
 #   - LANGUAGES                     comma-separated language codes (admin pull)
+#   - SETTINGS                     comma-separated setting names (e.g. "config")
 #
-# Required Coolify volume mount:
-#   - /app/dist/locales            (persistent storage)
+# Required Coolify volume mounts:
+#   - /app/dist/locales            (persistent storage for locale JSON files)
+#   - /app/dist/settings           (persistent storage for settings JSON files)
 
 [variables]
 # Vite 8 / rolldown require Node >= 22.12. Pin to 24 to avoid the
