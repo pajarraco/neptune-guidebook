@@ -1,6 +1,6 @@
 // Registry of section forms. The Editor uses this to render tabs and
 // the active form component. Order here determines the tab order.
-import type { ComponentType } from "react";
+import type { SectionDef, SettingsDef } from "../../../types/admin";
 import WelcomeForm from "./sections/WelcomeForm";
 import PropertyInfoForm from "./sections/PropertyInfoForm";
 import CheckInOutForm from "./sections/CheckInOutForm";
@@ -11,18 +11,6 @@ import LocalGuideForm from "./sections/LocalGuideForm";
 import EmergencyForm from "./sections/EmergencyForm";
 import MiscForm from "./sections/MiscForm";
 import SettingsForm from "./settings/SettingsForm";
-
-export interface SectionDef {
-  id: string;
-  label: string;
-  Component: ComponentType;
-}
-
-export interface SettingsDef {
-  id: string;
-  label: string;
-  Component: ComponentType;
-}
 
 export const SECTION_REGISTRY: SectionDef[] = [
   { id: "welcome", label: "Welcome", Component: WelcomeForm },

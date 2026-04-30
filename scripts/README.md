@@ -22,5 +22,5 @@ These now live in `src/server/`:
 | `src/server/lib/locales.mjs`      | Read/write locale JSON files              |
 | `src/server/lib/sheets.mjs`       | Google Sheets pull + transform logic      |
 
-See `docs/google-sheets-integration.md` and `docs/admin-panel.md` for
+See `docs/google-sheets-integration.md` and `docs/guidelines.md` for
 full documentation.

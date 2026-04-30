@@ -1,1 +1,0 @@
-../../docs/component-guidelines.md

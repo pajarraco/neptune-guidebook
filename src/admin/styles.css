@@ -1,3 +1,7 @@
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
+
 :root {
   /* Surfaces */
   --bg: #f8fafc;
@@ -56,6 +60,10 @@
   --fs-xl: 1.5rem; /*   24px sign-in heading */
 }
 
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+
 *,
 *::before,
 *::after {
@@ -88,6 +96,10 @@ body {
   outline-offset: 2px;
   border-radius: var(--r-sm);
 }
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
 
 button {
   font: inherit;
@@ -157,6 +169,10 @@ button.secondary {
   color: var(--danger);
 }
 
+/* ============================================
+   LAYOUT COMPONENTS
+   ============================================ */
+
 .admin-shell {
   display: flex;
   flex-direction: column;
@@ -195,6 +211,10 @@ button.secondary {
   flex: 1;
   min-height: 0;
 }
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
 
 .sidebar {
   display: flex;
@@ -330,6 +350,10 @@ button.secondary {
   flex: 1;
 }
 
+/* ============================================
+   STATUS MESSAGES
+   ============================================ */
+
 .status {
   padding: 0.5rem 0.75rem;
   border-radius: var(--r-sm);
@@ -429,7 +453,10 @@ hr {
   padding-right: 0.25rem;
 }
 
-/* ---------- Form sections (collapsible cards) ---------- */
+/* ============================================
+   FORM STYLES
+   ============================================ */
+
 .form-section {
   background: var(--surface);
   border: 1px solid var(--border);

@@ -7,14 +7,15 @@
 // consuming forms still get full type safety from their own schemas.
 import { type ReactNode, useState } from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
+import type {
+  FieldProps,
+  ObjectArrayProps,
+  SectionProps,
+  StringArrayProps,
+  TextareaProps,
+} from "../../../../types/forms";
 
 // ---------- Section card ----------
-interface SectionProps {
-  title: string;
-  description?: string;
-  defaultOpen?: boolean;
-  children: ReactNode;
-}
 export function Section({
   title,
   description,
@@ -41,13 +42,6 @@ export function Section({
 }
 
 // ---------- TextField ----------
-interface FieldProps {
-  name: string;
-  label?: string;
-  placeholder?: string;
-  hint?: string;
-}
-
 export function TextField({ name, label, placeholder, hint }: FieldProps) {
   const { register } = useFormContext();
   return (
@@ -65,9 +59,6 @@ export function TextField({ name, label, placeholder, hint }: FieldProps) {
 }
 
 // ---------- Textarea ----------
-interface TextareaProps extends FieldProps {
-  rows?: number;
-}
 export function Textarea({
   name,
   label,
@@ -96,13 +87,6 @@ export function Row({ children }: { children: ReactNode }) {
 }
 
 // ---------- StringArrayField ----------
-interface StringArrayProps {
-  name: string;
-  label: string;
-  itemLabel?: (index: number) => string;
-  textarea?: boolean;
-  placeholder?: string;
-}
 export function StringArrayField({
   name,
   label,
@@ -174,20 +158,13 @@ export function StringArrayField({
 }
 
 // ---------- ObjectArrayField ----------
-interface ObjectArrayProps {
-  name: string;
-  label: string;
-  newItem: () => Record<string, unknown>;
-  itemLabel?: (index: number, item: unknown) => string;
-  children: (index: number) => ReactNode;
-}
-export function ObjectArrayField({
+export function ObjectArrayField<T = Record<string, unknown>>({
   name,
   label,
   newItem,
   itemLabel,
   children,
-}: ObjectArrayProps) {
+}: ObjectArrayProps<T>) {
   const { control, watch } = useFormContext();
   const { fields, append, remove, move } = useFieldArray({ control, name });
   const items = watch(name) as unknown[] | undefined;
@@ -208,7 +185,7 @@ export function ObjectArrayField({
         <div className="form-array-card" key={field.id}>
           <div className="form-array-card-header">
             <strong>
-              {itemLabel ? itemLabel(i, items?.[i]) : `${label} #${i + 1}`}
+              {itemLabel ? itemLabel(i, items?.[i] as T) : `${label} #${i + 1}`}
             </strong>
             <div className="form-array-actions">
               <button

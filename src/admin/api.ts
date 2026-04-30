@@ -3,13 +3,11 @@
 export type LocaleListItem = {
   lang: string;
   exists: boolean;
-  mtime: number | null;
 };
 
 export type SettingListItem = {
-  setting: string;
+  id: string;
   exists: boolean;
-  mtime: number | null;
 };
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {

@@ -21,11 +21,11 @@ declare global {
   }
 }
 
-interface Props {
+interface SignInProps {
   onSignedIn: (email: string) => void;
 }
 
-export default function SignIn({ onSignedIn }: Props) {
+export default function SignIn({ onSignedIn }: SignInProps) {
   const buttonRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

@@ -1,24 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { api, type LocaleListItem } from "../api";
 import { SECTION_REGISTRY, SETTINGS_REGISTRY } from "./Router";
+import type { EditorProps, LocaleData, Status } from "../../../types/admin";
+import TopBanner from "./editor/TopBanner";
+import SidebarMenu from "./editor/SidebarMenu";
+import SidebarFooter from "./editor/SidebarFooter";
+import ContentForm from "./editor/ContentForm";
 
-interface Props {
-  email: string;
-  onSignOut: () => void;
-}
-
-type Status =
-  | { kind: "idle" }
-  | { kind: "loading" }
-  | { kind: "saving" }
-  | { kind: "pulling" }
-  | { kind: "ok"; message: string }
-  | { kind: "error"; message: string };
-
-type LocaleData = Record<string, unknown>;
-
-export default function Editor({ email, onSignOut }: Props) {
+export default function Editor({ email, onSignOut }: EditorProps) {
   const [languages, setLanguages] = useState<LocaleListItem[]>([]);
   const [activeLang, setActiveLang] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>({ kind: "loading" });
@@ -184,153 +174,39 @@ export default function Editor({ email, onSignOut }: Props) {
 
   return (
     <div className="admin-shell">
-      <header className="topbar">
-        <h1>Guidebook Admin</h1>
-        <div className="topbar-right">
-          <span className="email">{email}</span>
-          <button onClick={onSignOut}>Sign out</button>
-        </div>
-      </header>
+      <TopBanner email={email} onSignOut={onSignOut} />
 
       <div className="layout">
         <aside className="sidebar">
-          <nav className="sidebar-group sidebar-sections" aria-label="Sections">
-            <span className="sidebar-label">Sections</span>
-            <ul className="section-nav">
-              {SECTION_REGISTRY.map((s) => (
-                <li key={s.id}>
-                  <button
-                    className={s.id === activeSection ? "active" : ""}
-                    onClick={() => setActiveSection(s.id)}
-                  >
-                    {s.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            <span className="sidebar-label">Settings</span>
-            <ul className="section-nav">
-              {SETTINGS_REGISTRY.map((s) => (
-                <li key={s.id}>
-                  <button
-                    className={s.id === activeSection ? "active" : ""}
-                    onClick={() => setActiveSection(s.id)}
-                  >
-                    {s.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="sidebar-footer">
-            <div className="sidebar-group">
-              {activeSection !== "settings" && (
-                <>
-                  <label className="sidebar-label" htmlFor="lang-select">
-                    Language
-                  </label>
-                  <select
-                    id="lang-select"
-                    className="lang-select"
-                    value={activeLang ?? ""}
-                    onChange={(e) => setActiveLang(e.target.value || null)}
-                    disabled={
-                      dirty ||
-                      languages.length === 0 ||
-                      activeSection === "settings"
-                    }
-                    title={dirty ? "Save or revert your changes first" : ""}
-                  >
-                    {languages.length === 0 && (
-                      <option value="">Loading…</option>
-                    )}
-                    {languages.map((l) => (
-                      <option key={l.lang} value={l.lang}>
-                        {l.lang}
-                        {!l.exists ? " (missing)" : ""}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              )}
-            </div>
-            {activeSection !== "settings" && (
-              <>
-                <button className="secondary" onClick={onPull}>
-                  Pull from Google Sheets
-                </button>
-                <button className="secondary" onClick={onPush}>
-                  Push English to Sheets
-                </button>
-              </>
-            )}
-          </div>
+          <SidebarMenu
+            activeSection={activeSection}
+            onSetActiveSection={setActiveSection}
+          />
+          <SidebarFooter
+            activeSection={activeSection}
+            activeLang={activeLang}
+            languages={languages}
+            dirty={dirty}
+            onSetActiveLang={setActiveLang}
+            onPull={onPull}
+            onPush={onPush}
+          />
         </aside>
 
-        <main className="content">
-          <div className="toolbar">
-            <strong>
-              {activeSection === "settings"
-                ? "config.json"
-                : `${activeLang ?? "—"}.json`}
-            </strong>
-            {activeSection && (
-              <span className="toolbar-section">
-                ›
-                {SECTION_REGISTRY.find((s) => s.id === activeSection)?.label ??
-                  SETTINGS_REGISTRY.find((s) => s.id === activeSection)?.label}
-              </span>
-            )}
-            <span className="spacer" />
-            <button onClick={onRevert} disabled={!dirty}>
-              Revert
-            </button>
-            <button
-              className="primary"
-              onClick={onSave}
-              disabled={!dirty || status.kind === "saving"}
-            >
-              {status.kind === "saving" ? "Saving…" : "Save"}
-            </button>
-          </div>
-
-          <StatusBar status={status} />
-
-          <FormProvider {...formMethods}>
-            <form
-              className="form-body"
-              onChange={() => setFormDirty(true)}
-              onSubmit={(e) => {
-                e.preventDefault();
-                onSave();
-              }}
-            >
-              <ActiveSectionComponent />
-            </form>
-          </FormProvider>
-        </main>
+        <ContentForm
+          activeSection={activeSection}
+          activeLang={activeLang}
+          status={status}
+          formMethods={formMethods}
+          ActiveSectionComponent={ActiveSectionComponent}
+          onSave={onSave}
+          onRevert={onRevert}
+          onFormChange={() => setFormDirty(true)}
+          dirty={dirty}
+        />
       </div>
     </div>
   );
-}
-
-function StatusBar({ status }: { status: Status }) {
-  if (status.kind === "idle" || status.kind === "loading") return null;
-  const cls =
-    status.kind === "error"
-      ? "status error"
-      : status.kind === "ok"
-        ? "status ok"
-        : "status";
-  const text =
-    status.kind === "saving"
-      ? "Saving…"
-      : status.kind === "pulling"
-        ? "Pulling from Sheets…"
-        : status.message;
-  return <div className={cls}>{text}</div>;
 }
 
 function errMessage(e: unknown): string {
